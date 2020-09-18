@@ -19,9 +19,17 @@ def handle_events():
 def move_character():
     global x, y, speed
     global move_list, move_count
+    global animation_index
 
     if move_count < len(move_list):
         delta = helper.delta((x, y), move_list[move_count][0:2], move_list[move_count][2])
+
+        if move_count != 0:
+            if delta[0] >= 0:
+                animation_index = 1
+            else:
+                animation_index = 0
+
         (x, y), done = helper.move_toward((x, y), delta, move_list[move_count][0:2])
 
         if done:
@@ -29,11 +37,15 @@ def move_character():
     else:
         move_list.append((x, y, 0))
         move_count += 1
+        if animation_index == 0:
+            animation_index = 2
+        elif animation_index == 1:
+            animation_index = 3
 
 open_canvas()
 
 grass = load_image('Image/grass.png')
-character = load_image('Image/run_animation.png')
+character = load_image('Image/animation_sheet.png')
 
 running = True
 x, y = 400, 85
@@ -41,10 +53,12 @@ move_list = [(400, 85, 0)]
 move_count = 0
 
 frame_index = 0
+animation_index = 3
+
 while running:
     clear_canvas()
     grass.draw(400, 30)
-    character.clip_draw(frame_index*100, 0, 100, 100, x, y)
+    character.clip_draw(frame_index*100, animation_index*100, 100, 100, x, y)
     update_canvas()
 
     handle_events()
