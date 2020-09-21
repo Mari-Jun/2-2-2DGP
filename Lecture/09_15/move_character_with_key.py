@@ -23,8 +23,8 @@ def handle_events():
 
 open_canvas()
 
-grass = load_image('Image/grass.png')
-character = load_image('Image/run_animation.png')
+grass = load_image('../Image/grass.png')
+character = load_image('../Image/run_animation.png')
 
 running = True
 x = 400

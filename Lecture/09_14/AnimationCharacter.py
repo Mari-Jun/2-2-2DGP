@@ -2,8 +2,8 @@ from pico2d import *
 
 open_canvas()
 
-grass = load_image('Image/grass.png')
-character = load_image('Image/character.png')
+grass = load_image('../Image/grass.png')
+character = load_image('../Image/character.png')
 
 x = 0
 while x < 800:

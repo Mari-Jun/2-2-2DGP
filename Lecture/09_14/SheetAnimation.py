@@ -2,8 +2,8 @@ from pico2d import *
 
 open_canvas()
 
-grass = load_image('Image/grass.png')
-character = load_image('Image/run_animation.png')
+grass = load_image('../Image/grass.png')
+character = load_image('../Image/run_animation.png')
 
 x = 0
 frame_index = 0
