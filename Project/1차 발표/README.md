@@ -60,3 +60,4 @@ Stage : 게임
 ![Volume](https://user-images.githubusercontent.com/34498116/95093414-b84ad200-0763-11eb-8b6a-7d585f2d6c3f.PNG)
 
 ## Develope Schedule
+![Schedule](https://user-images.githubusercontent.com/34498116/95096984-e92d0600-0767-11eb-95e3-ba752f43d3c4.PNG)
