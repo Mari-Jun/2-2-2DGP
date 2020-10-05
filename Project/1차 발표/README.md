@@ -57,5 +57,6 @@ Stage : 게임
 
 
 ## Game Volume
+![Volume](https://user-images.githubusercontent.com/34498116/95093414-b84ad200-0763-11eb-8b6a-7d585f2d6c3f.PNG)
 
 ## Develope Schedule
