@@ -41,15 +41,20 @@ Stage : 게임
 
 ## Game Flow
 ![111](https://user-images.githubusercontent.com/34498116/95089343-01e4ee00-075f-11eb-899d-701e8725da22.jpg)
-### 적을 버블로 가둔다.
+### 적을 버블로 가둔다.     
+
 ![222](https://user-images.githubusercontent.com/34498116/95089346-027d8480-075f-11eb-962e-3c7cb9974cf3.jpg)
-### 적이 있는 버블을 터트려서 점수를 획득하고, 적을 죽인다.
+### 적이 있는 버블을 터트려서 점수를 획득하고, 적을 죽인다.       
+
 ![333](https://user-images.githubusercontent.com/34498116/95089350-027d8480-075f-11eb-92f9-71739b840a6a.jpg)
-### 아이템을 먹어 점수를 획득하는 상황.
+### 아이템을 먹어 점수를 획득하는 상황.     
+
 ![444](https://user-images.githubusercontent.com/34498116/95089332-ff829400-075e-11eb-9eb1-b2d2f3d82d2c.jpg)
-### 적을 모두 처치하여 다음 스테이지로 넘어감.
+### 적을 모두 처치하여 다음 스테이지로 넘어감.      
+
 ![555](https://user-images.githubusercontent.com/34498116/95089340-014c5780-075f-11eb-86f1-32b907c84e91.jpg)
-### 목숨이 모두 사라져서 사망하게 됨
+### 목숨이 모두 사라져서 사망하게 됨     
+
 
 ## Game Volume
 
