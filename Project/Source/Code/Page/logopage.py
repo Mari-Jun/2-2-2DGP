@@ -1,6 +1,6 @@
 from pico2d import *
-import titlepage
-
+from Code import gameframework
+from Code.Page import titlepage
 
 class LogoPage:
     def __init__(self, game):
@@ -11,7 +11,9 @@ class LogoPage:
         del self.image
 
     def initialize(self):
-        self.image = self.mGame.imageLoader.load('../Asset/Image/kpu_credit.png')
+        print(os.getcwd())
+        print(os.path.abspath(__file__))
+        self.image = self.mGame.imageLoader.load(self.mGame.imageDir + 'kpu_credit.png')
 
     def update(self):
         self.mChangeTime += self.mGame.deltaTime
@@ -27,3 +29,5 @@ class LogoPage:
         elif (key.type, key.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
             self.mGame.quit()
 
+if __name__ == '__main__':
+    gameframework.run_main()

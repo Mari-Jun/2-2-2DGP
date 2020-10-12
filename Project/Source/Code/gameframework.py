@@ -1,7 +1,6 @@
 import time
 from pico2d import *
-
-import imageloader
+from Code.Helper import imageloader
 
 class Game:
     def __init__(self):
@@ -9,6 +8,7 @@ class Game:
         self.pageStack = None
         self.frameInterval = 0.01
         self.deltaTime = 0.0
+        self.imageDir = '../Asset/Image/'
         self.imageLoader = imageloader.ImageLoader()
 
     def quit(self):
@@ -66,4 +66,8 @@ class Game:
             quit()
         elif len(self.pageStack) > 1:
             del self.pageStack[-1]
-            self.pageStack.pop()
+
+def run_main():
+    import sys
+    main_module = sys.modules['__main__']
+    print(main_module);

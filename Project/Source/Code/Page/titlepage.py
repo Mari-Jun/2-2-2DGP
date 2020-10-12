@@ -1,4 +1,5 @@
 from pico2d import *
+from Code.Page import gamepage
 
 class TitlePage:
     def __init__(self, game):
@@ -8,7 +9,7 @@ class TitlePage:
         del self.mImage
 
     def initialize(self):
-        self.mImage = self.mGame.imageLoader.load('../Asset/Image/title.png')
+        self.mImage = self.mGame.imageLoader.load(self.mGame.imageDir + 'title.png')
 
     def update(self):
         pass
@@ -21,4 +22,6 @@ class TitlePage:
             self.mGame.quit()
         elif (key.type, key.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
             self.mGame.quit()
+        elif (key.type, key.key) == (SDL_KEYDOWN, SDLK_SPACE):
+            self.mGame.pushPage(gamepage.GamePage(self.mGame))
 
