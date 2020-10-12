@@ -1,26 +1,21 @@
 from pico2d import *
-import titlepage
+import gamepage
 
-class LogoPage:
+class TitlePage:
     def __init__(self, game):
         self.mGame = game
-        self.mChangeTime = 0.0
 
     def __del__(self):
-        del self.image
+        del self.mImage
 
     def initialize(self):
-        print(self.mGame)
-        self.image = self.mGame.imageLoader.load('res/kpu_credit.png')
+        self.mImage = self.mGame.imageLoader.load('res/title.png')
 
     def update(self):
-        self.mChangeTime += self.mGame.deltaTime
-        print(self.mChangeTime)
-        if self.mChangeTime > 1.0:
-            exit()
+        pass
 
     def draw(self):
-        self.image.draw(400, 300)
+        self.mImage.draw(400, 300)
 
     def processInput(self, key):
         if key.type == SDL_QUIT:

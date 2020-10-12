@@ -20,7 +20,6 @@ class Game:
 
         open_canvas()
 
-        print(self)
         page.initialize()
 
         beforeTime = time.time()
@@ -54,11 +53,12 @@ class Game:
     def changePage(self, page):
         if len(self.pageStack) > 0:
             del self.pageStack[-1]
-            self.pageStack.pop()
         self.pageStack.append(page)
+        page.initialize()
 
     def pushPage(self, page):
         self.pageStack.append(page)
+        page.initialize()
 
     def popPage(self):
         if len(self.pageStack) == 1:
