@@ -1,5 +1,4 @@
 from pico2d import *
-import gamepage
 
 class TitlePage:
     def __init__(self, game):
@@ -9,7 +8,7 @@ class TitlePage:
         del self.mImage
 
     def initialize(self):
-        self.mImage = self.mGame.imageLoader.load('res/title.png')
+        self.mImage = self.mGame.imageLoader.load('../Asset/Image/title.png')
 
     def update(self):
         pass

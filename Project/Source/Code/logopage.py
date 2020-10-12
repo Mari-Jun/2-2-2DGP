@@ -1,6 +1,7 @@
 from pico2d import *
 import titlepage
 
+
 class LogoPage:
     def __init__(self, game):
         self.mGame = game
@@ -10,7 +11,7 @@ class LogoPage:
         del self.image
 
     def initialize(self):
-        self.image = self.mGame.imageLoader.load('res/kpu_credit.png')
+        self.image = self.mGame.imageLoader.load('../Asset/Image/kpu_credit.png')
 
     def update(self):
         self.mChangeTime += self.mGame.deltaTime

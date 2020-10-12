@@ -1,6 +1,7 @@
 import time
-import imageloader
 from pico2d import *
+
+import imageloader
 
 class Game:
     def __init__(self):
