@@ -10,6 +10,7 @@ class TitlePage:
 
     def __del__(self):
         del self.mBKImage
+        del self.mSelecter
 
     def initialize(self):
         self.load()
@@ -28,10 +29,11 @@ class TitlePage:
     def processInput(self, key):
         if key.type == SDL_QUIT:
             self.mGame.quit()
-        elif (key.type, key.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
-            self.mGame.quit()
         elif (key.type, key.key) == (SDL_KEYDOWN, SDLK_SPACE):
-            self.mGame.pushPage(gamepage.GamePage(self.mGame))
+            if self.mSelecter.mSelect == 0:
+                self.mGame.pushPage(gamepage.GamePage(self.mGame))
+            elif self.mSelecter.mSelect == 3:
+                self.mGame.quit()
 
         self.mSelecter.processInput(key)
 

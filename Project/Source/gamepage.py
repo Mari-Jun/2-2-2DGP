@@ -7,7 +7,7 @@ class GamePage:
         self.mGame = game
 
     def __del__(self):
-        pass
+        del self.mBoyActor
 
     def initialize(self):
         self.load()

@@ -4,14 +4,14 @@ class Selecter:
 
     def __init__(self, game):
         self.mGame = game
-        self.load()
+        self.mImage = self.mGame.imageLoader.load(self.mGame.imageDir + 'titleselecter.png')
         self.mSelect = 0
 
     def __del__(self):
         del self.mImage
 
     def load(self):
-        self.mImage = self.mGame.imageLoader.load(self.mGame.imageDir + 'titleselecter.png')
+        pass
 
     def update(self):
         pass

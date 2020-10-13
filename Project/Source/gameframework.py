@@ -23,7 +23,7 @@ class Game:
 
         self.pageStack = [page]
 
-        open_canvas(canvasWidth,canvasHeight)
+        open_canvas(canvasWidth, canvasHeight)
 
         page.initialize()
 
