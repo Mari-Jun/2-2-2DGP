@@ -10,6 +10,7 @@ class Game:
         self.deltaTime = 0.0
         self.imageDir = '../Asset/Image/'
         self.imageLoader = imageloader.ImageLoader()
+        self.mActors = []
 
     def quit(self):
         self.running = False
@@ -32,17 +33,13 @@ class Game:
             beforeTime = nowTime;
 
             # Game input (event handling)
-            input = get_events()
-            for key in input:
-                self.pageStack[-1].processInput(key)
+            self.processInput()
 
             # Game update (logic)
-            self.pageStack[-1].update()
+            self.update()
 
             # Game draw (rendering)
-            clear_canvas()
-            self.pageStack[-1].draw()
-            update_canvas()
+            self.draw()
 
             delay(self.frameInterval)
 
@@ -50,6 +47,22 @@ class Game:
             del self.pageStack[-1]
 
         close_canvas()
+
+    def processInput(self):
+        input = get_events()
+        for key in input:
+            self.pageStack[-1].processInput(key)
+
+    def update(self):
+        self.pageStack[-1].update()
+
+    def draw(self):
+        clear_canvas()
+        self.pageStack[-1].draw()
+        for actor in self.mActors:
+            actor.draw()
+
+        update_canvas()
 
     def changePage(self, page):
         if len(self.pageStack) > 0:
