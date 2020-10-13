@@ -1,6 +1,6 @@
 from pico2d import *
-from Code import gameframework
-from Code.Actor import BoyActor
+import gameframework
+import boyactor
 
 class GamePage:
     def __init__(self, game):
@@ -13,7 +13,7 @@ class GamePage:
         self.load()
 
     def load(self):
-        self.mBoyActor = BoyActor(self.mGame)
+        self.mBoyActor = boyactor.BoyActor(self.mGame)
 
     def update(self):
         pass

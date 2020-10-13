@@ -1,6 +1,9 @@
 import time
 from pico2d import *
-from Code.Helper import imageloader
+import imageloader
+
+canvasWidth = 800
+canvasHeight = 700
 
 class Game:
     def __init__(self):
@@ -8,7 +11,7 @@ class Game:
         self.pageStack = None
         self.frameInterval = 0.01
         self.deltaTime = 0.0
-        self.imageDir = '../Asset/Image/'
+        self.imageDir = 'Asset/Image/'
         self.imageLoader = imageloader.ImageLoader()
         self.mActors = []
 
@@ -20,7 +23,7 @@ class Game:
 
         self.pageStack = [page]
 
-        open_canvas()
+        open_canvas(canvasWidth,canvasHeight)
 
         page.initialize()
 

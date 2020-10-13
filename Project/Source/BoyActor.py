@@ -1,7 +1,7 @@
 #임시 실험용 파일
 
 from pico2d import *
-from Code.Actor import Actor
+from actor import Actor
 
 class BoyActor(Actor):
 

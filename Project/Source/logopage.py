@@ -1,5 +1,8 @@
+#로고 페이지이며 로딩 페이지
+
 from pico2d import *
-from Code import gameframework, titlepage
+import gameframework
+import titlepage
 
 
 class LogoPage:
@@ -11,9 +14,7 @@ class LogoPage:
         del self.image
 
     def initialize(self):
-        print(os.getcwd())
-        print(os.path.abspath(__file__))
-        self.image = self.mGame.imageLoader.load(self.mGame.imageDir + 'kpu_credit.png')
+        self.image = self.mGame.imageLoader.load(self.mGame.imageDir + 'loading.png')
 
     def update(self):
         self.mChangeTime += self.mGame.deltaTime
@@ -21,7 +22,7 @@ class LogoPage:
             self.mGame.changePage(titlepage.TitlePage(self.mGame))
 
     def draw(self):
-        self.image.draw(400, 300)
+        self.image.draw(400, 350)
 
     def processInput(self, key):
         if key.type == SDL_QUIT:

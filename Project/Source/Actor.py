@@ -5,7 +5,7 @@ class Actor:
 
     def __init__(self, game):
         Actor.mGame = game
-        game.mActors.apeends(self)
+        game.mActors.append(self)
 
     def __del__(self):
         pass

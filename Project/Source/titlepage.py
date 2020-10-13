@@ -1,5 +1,7 @@
 from pico2d import *
-from Code import gameframework, gamepage
+import gameframework
+import gamepage
+import selecter
 
 
 class TitlePage:
@@ -7,16 +9,21 @@ class TitlePage:
         self.mGame = game
 
     def __del__(self):
-        del self.mImage
+        del self.mBKImage
 
     def initialize(self):
-        self.mImage = self.mGame.imageLoader.load(self.mGame.imageDir + 'title.png')
+        self.load()
+
+    def load(self):
+        self.mBKImage = self.mGame.imageLoader.load(self.mGame.imageDir + 'title.png')
+        self.mSelecter = selecter.Selecter(self.mGame)
 
     def update(self):
         pass
 
     def draw(self):
-        self.mImage.draw(400, 300)
+        self.mBKImage.draw(400, 350)
+        self.mSelecter.draw()
 
     def processInput(self, key):
         if key.type == SDL_QUIT:
@@ -25,6 +32,8 @@ class TitlePage:
             self.mGame.quit()
         elif (key.type, key.key) == (SDL_KEYDOWN, SDLK_SPACE):
             self.mGame.pushPage(gamepage.GamePage(self.mGame))
+
+        self.mSelecter.processInput(key)
 
 def create(game):
     page = TitlePage(game)
