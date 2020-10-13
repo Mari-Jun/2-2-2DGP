@@ -70,4 +70,6 @@ class Game:
 def run_main():
     import sys
     main_module = sys.modules['__main__']
-    print(main_module);
+    game = Game()
+    page = main_module.create(game)
+    game.run(page)

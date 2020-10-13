@@ -1,5 +1,4 @@
-from Code import gameframework
-from Code.Page import logopage
+from Code import gameframework, logopage
 
 game = gameframework.Game()
 page = logopage.LogoPage(game)
