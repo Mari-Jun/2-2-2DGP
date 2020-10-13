@@ -7,13 +7,14 @@ class GamePage:
         self.mGame = game
 
     def __del__(self):
-        del self.mBoyActor
+        self.mGame.clearActor()
 
     def initialize(self):
         self.load()
 
     def load(self):
-        self.mBoyActor = boyactor.BoyActor(self.mGame)
+        boyActor = boyactor.BoyActor(self.mGame)
+        self.mGame.addActor(boyActor)
 
     def update(self):
         pass

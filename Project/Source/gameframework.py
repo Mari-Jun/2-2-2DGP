@@ -14,6 +14,7 @@ class Game:
         self.imageDir = 'Asset/Image/'
         self.imageLoader = imageloader.ImageLoader()
         self.mActors = []
+        self.mDeadActors = []
 
     def quit(self):
         self.running = False
@@ -82,6 +83,25 @@ class Game:
             quit()
         elif len(self.pageStack) > 1:
             del self.pageStack[-1]
+
+    def addActor(self, actor):
+        self.mActors.append(actor)
+
+    def removeActor(self, actor):
+        self.mDeadActors.append(actor)
+
+    def clearActor(self):
+        for actor in self.mActors:
+            del actor
+        self.mActors.clear()
+
+    def clearDeadActor(self):
+        for actor in self.mDeadActors:
+            try:
+                self.mActors.remove(actor)
+            except ValueError:
+                pass
+        self.mDeadActors.clear()
 
 def run_main():
     import sys

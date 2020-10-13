@@ -6,14 +6,18 @@ from actor import Actor
 class BoyActor(Actor):
 
     def __init__(self, game):
-        super(BoyActor, self).__init__(game)
+        self.mGame = game;
         self.mImage = game.imageLoader.load(game.imageDir + 'character.png')
 
     def __del__(self):
-        pass
+        print("안녕2")
+        super(BoyActor, self).__del__()
 
     def initialize(self):
         pass
+
+    def unLoad(self):
+        self.mGame.removeActor(self)
 
     def update(self):
         pass

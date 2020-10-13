@@ -5,10 +5,10 @@ class Actor:
 
     def __init__(self, game):
         Actor.mGame = game
-        game.mActors.append(self)
 
     def __del__(self):
-        pass
+        print("안녕3")
+        self.mGame.removeActor(self)
 
     def initialize(self):
         pass
