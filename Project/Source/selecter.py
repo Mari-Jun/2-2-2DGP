@@ -17,7 +17,7 @@ class Selecter:
         pass
 
     def draw(self):
-        self.mImage.draw(235, 350 + self.mSelect*90)
+        self.mImage.draw(210, 335 - self.mSelect*88)
         pass
 
     def processInput(self, key):
