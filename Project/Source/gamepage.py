@@ -1,6 +1,7 @@
 from pico2d import *
 import gameframework
 import player
+import pausepage
 
 class GamePage:
     def __init__(self, game):
@@ -26,7 +27,8 @@ class GamePage:
         if key.type == SDL_QUIT:
             self.mGame.quit()
         elif (key.type, key.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
-            self.mGame.popPage()
+            self.mGame.pushPage(pausepage.PausePage(self.mGame))
+            self.mGame.isPause = True
 
 def create(game):
     page = GamePage(game)

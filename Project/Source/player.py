@@ -13,7 +13,6 @@ class Player:
 
     game = None
     actions = ['Stop', 'Move', 'Jump', 'Attack', 'Die']
-    imageSize = {'Stop': 30, 'Move': 27, 'Jump': 28, 'Attack': 29, 'Die': 29}
     imageIndex = {'Stop': 3, 'Move': 5, 'Jump': 8, 'Attack': 8, 'Die': 2}
     images = { }
 
@@ -86,9 +85,9 @@ class Player:
 
     def draw(self):
         image = self.images[self.action]
-        startX = Player.imageSize[self.action] * self.imageIndex
-        image.clip_composite_draw(startX, 0, Player.imageSize[self.action], 30, 0, self.flip,
-                                  self.xPos, self.yPos, Player.imageSize[self.action], 30)
+        startX = image.w // Player.imageIndex[self.action] * self.imageIndex
+        image.clip_composite_draw(startX, 0, image.w // Player.imageIndex[self.action], image.h, 0, self.flip,
+                                  self.xPos, self.yPos, image.w // Player.imageIndex[self.action], image.h)
         pass
 
     def processInput(self, key):

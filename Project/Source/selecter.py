@@ -2,10 +2,12 @@ from pico2d import *
 
 class Selecter:
 
-    def __init__(self, game):
+    def __init__(self, game, max, yPos):
         self.mGame = game
         self.mImage = self.mGame.imageLoader.load(self.mGame.imageDir + 'titleselecter.png')
         self.mSelect = 0
+        self.maxSelect = max
+        self.yPos = yPos
 
     def __del__(self):
         del self.mImage
@@ -17,7 +19,7 @@ class Selecter:
         pass
 
     def draw(self):
-        self.mImage.draw(210, 335 - self.mSelect*88)
+        self.mImage.draw(210, self.yPos - self.mSelect*88)
         pass
 
     def processInput(self, key):
@@ -25,5 +27,5 @@ class Selecter:
             if self.mSelect > 0:
                 self.mSelect -= 1
         elif (key.type, key.key) == (SDL_KEYDOWN, SDLK_DOWN):
-            if self.mSelect < 3:
+            if self.mSelect < self.maxSelect:
                 self.mSelect += 1

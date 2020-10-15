@@ -1,6 +1,7 @@
 import time
 from pico2d import *
 import imageloader
+import gamepage
 
 canvasWidth = 800
 canvasHeight = 700
@@ -8,6 +9,7 @@ canvasHeight = 700
 class Game:
     def __init__(self):
         self.running = False
+        self.isPause = False
         self.pageStack = None
         self.frameInterval = 0.01
         self.deltaTime = 0.0
@@ -56,19 +58,22 @@ class Game:
         input = get_events()
         for key in input:
             self.pageStack[-1].processInput(key)
-            for actor in self.mActors:
-                actor.processInput(key)
+            if not self.isPause:
+                for actor in self.mActors:
+                    actor.processInput(key)
 
     def update(self):
         self.pageStack[-1].update()
-        for actor in self.mActors:
-            actor.update()
+        if not self.isPause:
+            for actor in self.mActors:
+                actor.update()
 
     def draw(self):
         clear_canvas()
         self.pageStack[-1].draw()
-        for actor in self.mActors:
-            actor.draw()
+        if not self.isPause:
+            for actor in self.mActors:
+                actor.draw()
 
         update_canvas()
 

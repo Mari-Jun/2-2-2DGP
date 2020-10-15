@@ -17,7 +17,7 @@ class TitlePage:
 
     def load(self):
         self.mBKImage = self.mGame.imageLoader.load(self.mGame.imageDir + 'title.png')
-        self.mSelecter = selecter.Selecter(self.mGame)
+        self.mSelecter = selecter.Selecter(self.mGame, 3, 335)
 
     def update(self):
         pass
