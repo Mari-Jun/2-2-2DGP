@@ -26,6 +26,7 @@ class Player:
         self.xDelta = 0
         self.yPos = 100
         self.yDelta = 0
+        self.flip = ''
         self.speed = 200
         self.time = 0
         self.imageIndex = 0
@@ -86,8 +87,7 @@ class Player:
     def draw(self):
         image = self.images[self.action]
         startX = Player.imageSize[self.action] * self.imageIndex
-        filp = 'h' if self.xDelta < 0 else ''
-        image.clip_composite_draw(startX, 0, Player.imageSize[self.action], 30, 0, filp,
+        image.clip_composite_draw(startX, 0, Player.imageSize[self.action], 30, 0, self.flip,
                                   self.xPos, self.yPos, Player.imageSize[self.action], 30)
         pass
 
@@ -96,4 +96,8 @@ class Player:
         if pair in Player.keyMap:
             self.xDelta += Player.keyMap[pair][0]
             self.yDelta += Player.keyMap[pair][1]
+            if self.xDelta < 0:
+                self.flip = 'h'
+            elif self.xDelta > 0:
+                self.flip = ''
 
