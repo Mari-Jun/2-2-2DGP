@@ -8,12 +8,13 @@ class Player:
         (SDL_KEYDOWN, SDLK_UP): (0, 1),
         (SDL_KEYUP, SDLK_LEFT): (1, 0),
         (SDL_KEYUP, SDLK_RIGHT): (-1, 0),
-        (SDL_KEYUP, SDLK_UP): (0, -1),
     }
+    KEYDOWN_JUMP = (SDL_KEYDOWN, SDLK_UP)
+    KEYDOWN_ATTACK = (SDL_KEYDOWN, SDLK_SPACE)
 
     game = None
     actions = ['Stop', 'Move', 'Jump', 'Attack', 'Die']
-    imageIndex = {'Stop': 3, 'Move': 5, 'Jump': 8, 'Attack': 8, 'Die': 2}
+    imageIndex = {'Stop': 3, 'Move': 5, 'Jump': 8, 'Attack': 4, 'Die': 2}
     images = { }
 
     def __init__(self, game):
@@ -75,12 +76,18 @@ class Player:
         self.xPos += self.xDelta * self.speed * Player.game.deltaTime
         self.yPos += self.yDelta * self.speed * Player.game.deltaTime
 
-        print('%d, %d' % (self.xPos, self.yPos))
+        # 액션 설정
+        if not self.action == 'Attack':
+            self.action = 'Stop' if self.xDelta == 0 else 'Move'
 
         #이미지 변환
         self.time += Player.game.deltaTime
-        frame = self.time * 5
-        self.imageIndex = int(frame) % 5
+        self.imageIndex = int(self.time * 5)
+
+        #액션 재설정
+        if self.action == 'Attack' and self.imageIndex > Player.imageIndex['Attack']:
+            self.action = 'Stop' if self.xDelta == 0 else 'Move'
+
         self.imageIndex %= Player.imageIndex[self.action]
 
     def draw(self):
@@ -88,7 +95,7 @@ class Player:
         startX = image.w // Player.imageIndex[self.action] * self.imageIndex
         image.clip_composite_draw(startX, 0, image.w // Player.imageIndex[self.action], image.h, 0, self.flip,
                                   self.xPos, self.yPos, image.w // Player.imageIndex[self.action], image.h)
-        pass
+        print('%d %d, %d' % (startX, image.w // Player.imageIndex[self.action], image.h))
 
     def processInput(self, key):
         pair = (key.type, key.key)
@@ -99,4 +106,12 @@ class Player:
                 self.flip = 'h'
             elif self.xDelta > 0:
                 self.flip = ''
+        elif pair == Player.KEYDOWN_ATTACK:
+            self.attack()
+
+    def attack(self):
+        if not self.action == 'Attack':
+            self.time = 0
+            self.imageIndex = 0
+            self.action = 'Attack'
 
