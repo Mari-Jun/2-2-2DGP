@@ -56,9 +56,13 @@ class Game:
         input = get_events()
         for key in input:
             self.pageStack[-1].processInput(key)
+            for actor in self.mActors:
+                actor.processInput(key)
 
     def update(self):
         self.pageStack[-1].update()
+        for actor in self.mActors:
+            actor.update()
 
     def draw(self):
         clear_canvas()
