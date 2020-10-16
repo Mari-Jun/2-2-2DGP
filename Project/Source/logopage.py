@@ -22,7 +22,7 @@ class LogoPage:
             self.mGame.changePage(titlepage.TitlePage(self.mGame))
 
     def draw(self):
-        self.image.draw(400, 350)
+        self.image.draw(gameframework.canvasWidth / 2, gameframework.canvasHeight / 2)
 
     def processInput(self, key):
         if key.type == SDL_QUIT:

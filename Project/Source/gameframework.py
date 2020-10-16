@@ -4,7 +4,7 @@ import imageloader
 import gamepage
 
 canvasWidth = 800
-canvasHeight = 700
+canvasHeight = 650
 
 class Game:
     def __init__(self):

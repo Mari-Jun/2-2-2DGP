@@ -16,13 +16,13 @@ class PausePage:
 
     def load(self):
         self.mBKImage = self.mGame.imageLoader.load(self.mGame.imageDir + 'pause.png')
-        self.mSelecter = selecter.Selecter(self.mGame, 1, 375)
+        self.mSelecter = selecter.Selecter(self.mGame, 1, 325)
 
     def update(self):
         pass
 
     def draw(self):
-        self.mBKImage.draw(400, 350)
+        self.mBKImage.draw(gameframework.canvasWidth / 2, gameframework.canvasHeight / 2)
         self.mSelecter.draw()
 
     def processInput(self, key):
