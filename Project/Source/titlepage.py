@@ -23,7 +23,7 @@ class TitlePage:
         pass
 
     def draw(self):
-        self.mBKImage.draw(400, 350)
+        self.mBKImage.draw(gameframework.canvasWidth / 2, gameframework.canvasHeight / 2)
         self.mSelecter.draw()
 
     def processInput(self, key):

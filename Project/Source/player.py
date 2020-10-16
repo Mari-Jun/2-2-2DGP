@@ -61,8 +61,8 @@ class Player:
                 action_image = Player.game.imageLoader.load(fn)
             else:
                 break
-
             images[action] = action_image
+
         Player.images[char] = images
 
         print('player %s load complete' % char)
@@ -82,7 +82,7 @@ class Player:
 
         #이미지 변환
         self.time += Player.game.deltaTime
-        self.imageIndex = int(self.time * 5)
+        self.imageIndex = int(self.time * 10)
 
         #액션 재설정
         if self.action == 'Attack' and self.imageIndex > Player.imageIndex['Attack']:
@@ -95,7 +95,7 @@ class Player:
         startX = image.w // Player.imageIndex[self.action] * self.imageIndex
         image.clip_composite_draw(startX, 0, image.w // Player.imageIndex[self.action], image.h, 0, self.flip,
                                   self.xPos, self.yPos, image.w // Player.imageIndex[self.action], image.h)
-        print('%d %d, %d' % (startX, image.w // Player.imageIndex[self.action], image.h))
+        #print('%d %d, %d' % (startX, image.w // Player.imageIndex[self.action], image.h))
 
     def processInput(self, key):
         pair = (key.type, key.key)
