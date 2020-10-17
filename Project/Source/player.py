@@ -72,7 +72,7 @@ class Player:
         return images
 
     def unLoad(self):
-        self.mGame.removeActor(self)
+        self.removeActor(self)
 
     def update(self):
         # 이동
@@ -117,4 +117,9 @@ class Player:
             self.time = 0
             self.imageIndex = 0
             self.action = 'Attack'
+
+    def getBB(self):
+        hw = self.images[self.action].w // Player.imageIndex[self.action] / 2
+        hh = self.images[self.action].h / 2 - 10
+        return self.xPos - hw, self.yPos - hh, self.xPos + hw, self.yPos + hh
 

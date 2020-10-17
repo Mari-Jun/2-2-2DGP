@@ -52,3 +52,9 @@ class Map:
         image.draw(image.w / 2 + Map.ldPos[0], image.h / 2 + Map.ldPos[1])
         image = Map.images['front'][Map.stage - 1]
         image.draw(image.w / 2 + Map.ldPos[0], image.h / 2 + Map.ldPos[1])
+
+        #충돌 박스 그리기
+        for block in Map.blocks:
+            draw_rectangle(*block)
+
+
