@@ -6,12 +6,10 @@ class Player:
     keyMap = {
         (SDL_KEYDOWN, SDLK_LEFT):  (-1,  0),
         (SDL_KEYDOWN, SDLK_RIGHT): ( 1,  0),
-        (SDL_KEYDOWN, SDLK_DOWN):  ( 0, -1),
-        (SDL_KEYDOWN, SDLK_UP):    ( 0,  1),
+        (SDL_KEYDOWN, SDLK_UP):    ( 0,  10),
         (SDL_KEYUP, SDLK_LEFT):    ( 1,  0),
         (SDL_KEYUP, SDLK_RIGHT):   (-1,  0),
-        (SDL_KEYUP, SDLK_DOWN):    ( 0,  1),
-        (SDL_KEYUP, SDLK_UP):      ( 0, -1),
+        (SDL_KEYUP, SDLK_UP):      ( 0, -10),
     }
     KEYDOWN_JUMP = (SDL_KEYDOWN, SDLK_UP)
     KEYDOWN_ATTACK = (SDL_KEYDOWN, SDLK_SPACE)
@@ -28,8 +26,8 @@ class Player:
         self.images = Player.load_image('green')
         self.xPos = 100
         self.xDelta = 0
-        self.yPos = 100
-        self.yDelta = 0
+        self.yPos = 110
+        self.yDelta = -5
         self.flip = ''
         self.speed = 200
         self.time = 0
@@ -78,16 +76,20 @@ class Player:
     def update(self):
         # 이동
         xMove = self.xDelta * self.speed * Player.page.mGame.deltaTime
-        yMove = self.yDelta * self.speed * Player.page.mGame.deltaTime
+        yMove = self.yDelta * self.speed / 2 * Player.page.mGame.deltaTime
 
+        print(self.yDelta)
         #충돌 검사
         self.xPos += xMove
-        self.yPos += yMove
         for block in Player.page.map.blocks:
             if physics.collidesBlock(self, block):
                 self.xPos -= xMove
+                break
+        self.yPos += yMove
+        for block in Player.page.map.blocks:
+            if physics.collidesBlock(self, block):
                 self.yPos -= yMove
-                break;
+                break
 
 
         # 액션 설정
@@ -109,7 +111,6 @@ class Player:
         startX = image.w // Player.imageIndex[self.action] * self.imageIndex
         image.clip_composite_draw(startX, 0, image.w // Player.imageIndex[self.action], image.h, 0, self.flip,
                                   self.xPos, self.yPos, image.w // Player.imageIndex[self.action], image.h)
-        #print('%d %d, %d' % (startX, image.w // Player.imageIndex[self.action], image.h))
 
     def processInput(self, key):
         pair = (key.type, key.key)
@@ -129,8 +130,11 @@ class Player:
             self.imageIndex = 0
             self.action = 'Attack'
 
+    def jump(self):
+        pass
+
     def getBB(self):
-        hw = self.images[self.action].w // Player.imageIndex[self.action] / 2 - 10
-        hh = self.images[self.action].h / 2 - 10
+        hw = self.images['Stop'].w // Player.imageIndex['Stop'] / 2 - 10
+        hh = self.images['Stop'].h / 2 - 10
         return self.xPos - hw, self.yPos - hh, self.xPos + hw, self.yPos + hh
 
