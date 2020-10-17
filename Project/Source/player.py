@@ -1,4 +1,5 @@
 from pico2d import *
+import physics
 
 class Player:
 
@@ -15,13 +16,13 @@ class Player:
     KEYDOWN_JUMP = (SDL_KEYDOWN, SDLK_UP)
     KEYDOWN_ATTACK = (SDL_KEYDOWN, SDLK_SPACE)
 
-    game = None
+    page = None
     actions = ['Stop', 'Move', 'Jump', 'Attack', 'Die']
     imageIndex = {'Stop': 3, 'Move': 5, 'Jump': 8, 'Attack': 4, 'Die': 2}
     images = { }
 
-    def __init__(self, game):
-        Player.game = game
+    def __init__(self, page):
+        Player.page = page
         self.load()
 
         self.images = Player.load_image('green')
@@ -59,9 +60,9 @@ class Player:
         fileName = '%s/dragon/%s/player_%s.png'
 
         for action in Player.actions:
-            fn = fileName % (Player.game.imageDir, char, action)
+            fn = fileName % (Player.page.mGame.imageDir, char, action)
             if os.path.isfile(fn):
-                action_image = Player.game.imageLoader.load(fn)
+                action_image = Player.page.mGame.imageLoader.load(fn)
             else:
                 break
             images[action] = action_image
@@ -76,15 +77,25 @@ class Player:
 
     def update(self):
         # 이동
-        self.xPos += self.xDelta * self.speed * Player.game.deltaTime
-        self.yPos += self.yDelta * self.speed * Player.game.deltaTime
+        xMove = self.xDelta * self.speed * Player.page.mGame.deltaTime
+        yMove = self.yDelta * self.speed * Player.page.mGame.deltaTime
+
+        #충돌 검사
+        self.xPos += xMove
+        self.yPos += yMove
+        for block in Player.page.map.blocks:
+            if physics.collidesBlock(self, block):
+                self.xPos -= xMove
+                self.yPos -= yMove
+                break;
+
 
         # 액션 설정
         if not self.action == 'Attack':
             self.action = 'Stop' if self.xDelta == 0 else 'Move'
 
         #이미지 변환
-        self.time += Player.game.deltaTime
+        self.time += Player.page.mGame.deltaTime
         self.imageIndex = int(self.time * 10)
 
         #액션 재설정

@@ -13,14 +13,14 @@ class GamePage:
         self.map = None
 
     def __del__(self):
-        self.mGame.clearActor()
+        self.clearActor()
 
     def initialize(self):
         self.load()
 
     def load(self):
         self.map = map.Map(self.mGame)
-        dragon = player.Player(self.mGame)
+        dragon = player.Player(self)
         self.addActor(dragon)
 
     def update(self):
