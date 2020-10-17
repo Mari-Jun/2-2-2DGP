@@ -96,7 +96,7 @@ class Player:
             self.mAction = 'Attack'
 
     def jump(self):
-        if not self.mAction == 'Jump':
+        if self.mAction != 'Jump' and self.mYDelta == 0:
             self.mTime = 0
             self.mImageIndex = 0
             self.mAction = 'Jump'

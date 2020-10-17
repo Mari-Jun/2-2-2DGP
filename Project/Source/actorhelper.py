@@ -28,7 +28,8 @@ def commomUpdate(actor):
         if physics.collidesBlock(actor, block) and actor.mYDelta < 0:
             actor.mYPos -= yMove
             actor.mYDelta = 0
-            actor.mAction = 'Stop' if actor.mXDelta == 0 else 'Move'
+            if actor.mAction != 'Attack':
+                actor.mAction = 'Stop' if actor.mXDelta == 0 else 'Move'
             break
 
     # 액션 설정
