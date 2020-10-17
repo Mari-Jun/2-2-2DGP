@@ -1,8 +1,9 @@
 import json
+import map
 
 mapdatas = {}
 
-def load(file):
+def load(file, ldPos):
     global mapdatas
     if file in mapdatas:
         return mapdatas[file]
@@ -13,7 +14,8 @@ def load(file):
     blocks = []
 
     for data in dataList:
-        blocks.append((data['ldx'], data['ldy'], data['rux'], data['ruy']))
+        blocks.append((data['ldx'] + ldPos[0], data['ldy'] + ldPos[1],
+                       data['rux'] + ldPos[0], data['ruy'] + ldPos[1]))
 
     mapdatas[file] = blocks
     return blocks

@@ -42,7 +42,7 @@ class Map:
     def loadMapData(stage):
         fileName = '%s/map/stagedata%s.json'
         fn = fileName % (Map.game.imageDir, stage)
-        Map.blocks = mapdata.load(fn)
+        Map.blocks = mapdata.load(fn, Map.ldPos)
 
     def update(self):
         pass

@@ -130,7 +130,7 @@ class Player:
             self.action = 'Attack'
 
     def getBB(self):
-        hw = self.images[self.action].w // Player.imageIndex[self.action] / 2
+        hw = self.images[self.action].w // Player.imageIndex[self.action] / 2 - 10
         hh = self.images[self.action].h / 2 - 10
         return self.xPos - hw, self.yPos - hh, self.xPos + hw, self.yPos + hh
 
