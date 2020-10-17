@@ -6,10 +6,8 @@ class Player:
     keyMap = {
         (SDL_KEYDOWN, SDLK_LEFT):  (-1,  0),
         (SDL_KEYDOWN, SDLK_RIGHT): ( 1,  0),
-        (SDL_KEYDOWN, SDLK_UP):    ( 0,  10),
         (SDL_KEYUP, SDLK_LEFT):    ( 1,  0),
         (SDL_KEYUP, SDLK_RIGHT):   (-1,  0),
-        (SDL_KEYUP, SDLK_UP):      ( 0, -10),
     }
     KEYDOWN_JUMP = (SDL_KEYDOWN, SDLK_UP)
     KEYDOWN_ATTACK = (SDL_KEYDOWN, SDLK_SPACE)
@@ -74,26 +72,37 @@ class Player:
         self.removeActor(self)
 
     def update(self):
+        #중력 설정
+        if self.yDelta > -5:
+            self.yDelta -= 0.125
+
         # 이동
         xMove = self.xDelta * self.speed * Player.page.mGame.deltaTime
         yMove = self.yDelta * self.speed / 2 * Player.page.mGame.deltaTime
 
-        print(self.yDelta)
         #충돌 검사
         self.xPos += xMove
-        for block in Player.page.map.blocks:
+        for block in Player.page.map.sideBlocks:
             if physics.collidesBlock(self, block):
                 self.xPos -= xMove
                 break
+
+        if self.action != 'Jump':
+            for block in Player.page.map.blocks:
+                if physics.collidesBlock(self, block):
+                    self.xPos -= xMove
+                    break
+
         self.yPos += yMove
         for block in Player.page.map.blocks:
-            if physics.collidesBlock(self, block):
+            if physics.collidesBlock(self, block) and self.yDelta < 0:
                 self.yPos -= yMove
+                self.yDelta = 0
+                self.action = 'Stop' if self.xDelta == 0 else 'Move'
                 break
 
-
         # 액션 설정
-        if not self.action == 'Attack':
+        if self.action != 'Attack' and self.action != 'Jump':
             self.action = 'Stop' if self.xDelta == 0 else 'Move'
 
         #이미지 변환
@@ -104,9 +113,11 @@ class Player:
         if self.action == 'Attack' and self.imageIndex > Player.imageIndex['Attack']:
             self.action = 'Stop' if self.xDelta == 0 else 'Move'
 
+
         self.imageIndex %= Player.imageIndex[self.action]
 
     def draw(self):
+        print(self.action)
         image = self.images[self.action]
         startX = image.w // Player.imageIndex[self.action] * self.imageIndex
         image.clip_composite_draw(startX, 0, image.w // Player.imageIndex[self.action], image.h, 0, self.flip,
@@ -116,13 +127,15 @@ class Player:
         pair = (key.type, key.key)
         if pair in Player.keyMap:
             self.xDelta += Player.keyMap[pair][0]
-            self.yDelta += Player.keyMap[pair][1]
             if self.xDelta < 0:
                 self.flip = 'h'
             elif self.xDelta > 0:
                 self.flip = ''
         elif pair == Player.KEYDOWN_ATTACK:
             self.attack()
+        elif pair == Player.KEYDOWN_JUMP:
+            self.jump()
+
 
     def attack(self):
         if not self.action == 'Attack':
@@ -131,7 +144,11 @@ class Player:
             self.action = 'Attack'
 
     def jump(self):
-        pass
+        if not self.action == 'Jump':
+            self.time = 0
+            self.imageIndex = 0
+            self.action = 'Jump'
+            self.yDelta = 5
 
     def getBB(self):
         hw = self.images['Stop'].w // Player.imageIndex['Stop'] / 2 - 10

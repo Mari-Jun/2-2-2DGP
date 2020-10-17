@@ -10,6 +10,7 @@ class Map:
     images = {}
     blocks = []
     ldPos = (0, 50)
+    sideBlocks = [(0, 0, 40, 700), (760, 0, 800, 700)]
 
     def __init__(self, game):
         Map.game = game

@@ -8,6 +8,9 @@ def isCollide(a, b):
 	return True
 
 def collidesBlock(actor, block):
+	a = actor.getBB()
+	if a[1] < block[1]:
+		return False
 	return isCollide(actor.getBB(), block)
 
 
