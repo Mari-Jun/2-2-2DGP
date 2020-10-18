@@ -46,9 +46,11 @@ def commomUpdate(actor):
 
     actor.mYPos += yMove
     for block in actor.page.map.datas['block']:
-        if physics.collidesBlock(actor, block) and actor.mYDelta < 0:
+        if physics.collidesBlock(actor, block, True) and actor.mYDelta < 0:
             actor.mYPos -= yMove
             actor.mYDelta = 0
+            if physics.collidesBlock(actor, block):
+                actor.mXPos -= xMove
             if actor.mAction != 'Attack':
                 actor.mAction = 'Stop' if actor.mXDelta == 0 and 'Stop' in actor.actions else 'Move'
             break
@@ -68,6 +70,10 @@ def commomUpdate(actor):
     actor.mImageIndex %= actor.imageIndexs[actor.mAction]
 
 def commomDraw(actor):
+    if actor.mXDelta < 0:
+        actor.mFlip = 'h'
+    elif actor.mXDelta > 0:
+        actor.mFlip = ''
     image = actor.mImages[actor.mAction]
     startX = image.w // actor.imageIndexs[actor.mAction] * actor.mImageIndex
     image.clip_composite_draw(startX, 0, image.w // actor.imageIndexs[actor.mAction], image.h, 0, actor.mFlip,

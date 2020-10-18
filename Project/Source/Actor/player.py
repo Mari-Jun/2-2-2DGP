@@ -53,10 +53,6 @@ class Player:
         pair = (key.type, key.key)
         if pair in Player.keyMap:
             self.mXDelta += Player.keyMap[pair][0]
-            if self.mXDelta < 0:
-                self.mFlip = 'h'
-            elif self.mXDelta > 0:
-                self.mFlip = ''
         elif pair == Player.KEYDOWN_ATTACK:
             actorhelper.attack(self)
         elif pair == Player.KEYDOWN_JUMP:

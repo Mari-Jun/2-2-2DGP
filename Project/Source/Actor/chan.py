@@ -4,7 +4,7 @@ import actorhelper
 class Chan:
     page = None
     actions = ['Move', 'Jump', 'Die']
-    imageIndexs = {'Move': 4, 'Jump': 8, 'Die': 2}
+    imageIndexs = {'Move': 4, 'Jump': 8, 'Die': 4}
     images = { }
 
     def __init__(self, page, xPos, yPos):

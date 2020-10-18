@@ -54,6 +54,9 @@ class Map:
         if enemy[0] == 'chan':
             chan = Actor.chan.Chan(Map.page, enemy[1], enemy[2])
             Map.page.addActor(chan)
+        elif enemy[0] == 'monsta':
+            monsta = Actor.monsta.Monsta(Map.page, enemy[1], enemy[2])
+            Map.page.addActor(monsta)
 
     def update(self):
         pass

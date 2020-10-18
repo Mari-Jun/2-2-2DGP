@@ -20,12 +20,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1856b15a-4400-451a-96b7-0a97d5d4d067" name="디폴트 변경 목록" comment="">
+      <change afterPath="$PROJECT_DIR$/Source/Actor/monsta.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Actor/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Actor/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Actor/chan.py" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Actor/chan.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Actor/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Actor/player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Asset/Image/actor/chan/stop.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/Asset/Image/map/stage1block.json" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Asset/Image/map/stage1block.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/Asset/Image/map/stage1enemy.json" beforeDir="false" afterPath="$PROJECT_DIR$/Source/Asset/Image/map/stage1enemy.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/gamepage.py" beforeDir="false" afterPath="$PROJECT_DIR$/Source/gamepage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/actorhelper.py" beforeDir="false" afterPath="$PROJECT_DIR$/Source/actorhelper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/map.py" beforeDir="false" afterPath="$PROJECT_DIR$/Source/map.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/mapdata.py" beforeDir="false" afterPath="$PROJECT_DIR$/Source/mapdata.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/physics.py" beforeDir="false" afterPath="$PROJECT_DIR$/Source/physics.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,6 +129,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="physics" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Source" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Source/physics.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="player (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -145,34 +171,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="player" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Project" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Source" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="C:\Jun_Programming\Jun_VS\Jun_VS_Project\2-2-2DGP\Project\Source\Actor\player.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.gamepage" />
+        <item itemvalue="Python.actorhelper" />
+        <item itemvalue="Python.physics" />
         <item itemvalue="Python.player (1)" />
         <item itemvalue="Python.gameframework" />
-        <item itemvalue="Python.player" />
-        <item itemvalue="Python.actorhelper" />
       </list>
     </recent_temporary>
   </component>
@@ -209,26 +214,34 @@
     </state>
     <state x="592" y="218" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1602548047837" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1602507758867" />
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1603022453291">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1603030685684">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603022453291" />
-    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1603022453291">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603030685684" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1603030685684">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603022453291" />
-    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1603022453291">
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603030685684" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1603030685684">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603022453291" />
-    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1603022453291">
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603030685684" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1603030685684">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603022453291" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603030685684" />
     <state x="461" y="164" key="SettingsEditor" timestamp="1602923830115">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="164" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1602923830115" />
+    <state x="776" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603029564732">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="776" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603029564732" />
+    <state x="649" y="74" width="621" height="891" key="find.popup" timestamp="1603029393327">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="649" y="74" width="621" height="891" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1603029393327" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1602948395584">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
