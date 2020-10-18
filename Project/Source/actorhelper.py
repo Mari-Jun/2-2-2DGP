@@ -46,7 +46,7 @@ def commomUpdate(actor):
 
     actor.mYPos += yMove
     for block in actor.page.map.datas['block']:
-        if physics.collidesBlock(actor, block, True) and actor.mYDelta < 0:
+        if physics.collidesBlock(actor, block) and actor.mYDelta < 0:
             actor.mYPos -= yMove
             actor.mYDelta = 0
             if physics.collidesBlock(actor, block):
