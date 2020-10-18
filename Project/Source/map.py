@@ -1,20 +1,20 @@
 from pico2d import *
 import mapdata
+import Actor
 
 class Map:
 
-    game = None
+    page = None
     stage = 1
     maxStage = 1
     imageName = ['front', 'back']
     images = {}
     datas = {}
-    blocks = []
     ldPos = (0, 50)
     sideBlocks = [(0, 0, 40, 700), (760, 0, 800, 700)]
 
-    def __init__(self, game):
-        Map.game = game
+    def __init__(self, page):
+        Map.page = page
         self.load()
 
     def load(self):
@@ -22,8 +22,11 @@ class Map:
         Map.loadImage('back')
 
         #blocks는 벽돌들로 스테이지 넘어갈때 로딩하게 구현원함
+        Map.datas.clear()
         Map.datas['block'] = Map.loadMapData(Map.stage, 'block')
-        Map.datas['enemy'] =Map.loadMapData(Map.stage, 'enemy')
+        Map.datas['enemy'] = Map.loadMapData(Map.stage, 'enemy')
+        for enemy in Map.datas['enemy']:
+            self.loadEnemy(enemy)
 
     @staticmethod
     def loadImage(char):
@@ -32,9 +35,9 @@ class Map:
         images = []
 
         for stage in range(0, Map.maxStage):
-            fn = fileName % (Map.game.imageDir, stage + 1, char)
+            fn = fileName % (Map.page.mGame.imageDir, stage + 1, char)
             if os.path.isfile(fn):
-                images.append(Map.game.imageLoader.load(fn))
+                images.append(Map.page.mGame.imageLoader.load(fn))
                 print('Map %s load complete' % stage)
             else:
                 break
@@ -44,8 +47,13 @@ class Map:
     @staticmethod
     def loadMapData(stage, data):
         fileName = '%s/map/stage%s%s.json'
-        fn = fileName % (Map.game.imageDir, stage, data)
-        return mapdata.load(fn, Map.ldPos)
+        fn = fileName % (Map.page.mGame.imageDir, stage, data)
+        return mapdata.load(fn, data, Map.ldPos)
+
+    def loadEnemy(self, enemy):
+        if enemy[0] == 'chan':
+            chan = Actor.chan.Chan(Map.page, enemy[1], enemy[2])
+            Map.page.addActor(chan)
 
     def update(self):
         pass

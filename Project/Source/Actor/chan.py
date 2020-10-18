@@ -7,13 +7,13 @@ class Chan:
     imageIndexs = {'Move': 4, 'Jump': 8, 'Die': 2}
     images = { }
 
-    def __init__(self, page):
+    def __init__(self, page, xPos, yPos):
         Chan.page = page
         self.load()
         self.mImages = actorhelper.load_image(self, 'chan')
-        self.mXPos = 500
+        self.mXPos = xPos
         self.mXDelta = 0
-        self.mYPos = 500
+        self.mYPos = yPos
         self.mYDelta = -5
         self.mFlip = ''
         self.mSpeed = 200

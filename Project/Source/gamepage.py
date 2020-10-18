@@ -19,11 +19,9 @@ class GamePage:
         self.load()
 
     def load(self):
-        self.map = map.Map(self.mGame)
+        self.map = map.Map(self)
         dragon = Actor.player.Player(self)
         self.addActor(dragon)
-        chan = Actor.chan.Chan(self)
-        self.addActor(chan)
 
     def update(self):
         self.map.update()

@@ -3,7 +3,7 @@ import map
 
 mapdatas = {}
 
-def load(file, ldPos):
+def load(file, data, ldPos):
     global mapdatas
     if file in mapdatas:
         return mapdatas[file]
@@ -11,6 +11,12 @@ def load(file, ldPos):
     with open(file, 'r') as f:
         dataList = json.load(f)
 
+    if data == 'block':
+        return loadBlock(dataList, file, ldPos)
+    elif data == 'enemy':
+        return loadEnemy(dataList, file, ldPos)
+
+def loadBlock(dataList, file, ldPos):
     blocks = []
 
     for data in dataList:
@@ -19,6 +25,15 @@ def load(file, ldPos):
 
     mapdatas[file] = blocks
     return blocks
+
+def loadEnemy(dataList, file, ldPos):
+    enemys = []
+
+    for data in dataList:
+        enemys.append((data['name'], data['x'] + ldPos[0], data['y'] + ldPos[1]))
+
+    mapdatas[file] = enemys
+    return enemys
 
 def unload(file):
     global mapdatas
