@@ -62,7 +62,12 @@ class Banebou:
         for block in self.page.map.datas['block']:
             if physics.collidesBlock(self, block):
                 self.mYPos -= yMove
-                self.mYDelta = 0 if self.mYDelta > 0 else 3
+                if self.mYDelta > 0:
+                    self.mYDelta = 0
+                else:
+                    self.mYDelta = 3
+                    self.mTime = 0
+                    self.mImageIndex = 0
                 break
 
         # 이미지 변환

@@ -63,7 +63,7 @@ class Monsta:
 
         # 이미지 변환
         self.mTime += self.page.mGame.deltaTime
-        self.mImageIndex = int(self.mTime * 10)
+        self.mImageIndex = int(self.mTime * 5)
         self.mImageIndex %= self.imageIndexs[self.mAction]
 
     def draw(self):
