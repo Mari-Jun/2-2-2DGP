@@ -2,16 +2,16 @@ from pico2d import *
 import actorhelper
 import physics
 
-class Monsta:
+class Banebou:
     page = None
     actions = ['Move', 'Die']
-    imageIndexs = {'Move': 2, 'Die': 4}
+    imageIndexs = {'Move': 6, 'Die': 4}
     images = { }
 
     def __init__(self, page, xPos, yPos):
-        Monsta.page = page
+        Banebou.page = page
         self.load()
-        self.mImages = actorhelper.load_image(self, 'monsta')
+        self.mImages = actorhelper.load_image(self, 'banebou')
         self.mXPos = xPos
         self.mXDelta = -1
         self.mYPos = yPos
@@ -29,13 +29,17 @@ class Monsta:
         pass
 
     def load(self):
-        if len(Monsta.images) == 0:
-            actorhelper.load_image(self, 'monsta')
+        if len(Banebou.images) == 0:
+            actorhelper.load_image(self, 'banebou')
 
     def unLoad(self):
         self.removeActor(self)
 
     def update(self):
+        # 중력 설정
+        if self.mYDelta > -3:
+            self.mYDelta -= 0.125
+
         # 이동
         xMove = self.mXDelta * self.mSpeed * self.page.mGame.deltaTime
         yMove = self.mYDelta * self.mSpeed * self.page.mGame.deltaTime
@@ -58,7 +62,7 @@ class Monsta:
         for block in self.page.map.datas['block']:
             if physics.collidesBlock(self, block):
                 self.mYPos -= yMove
-                self.mYDelta *= -1
+                self.mYDelta = 0 if self.mYDelta > 0 else 3
                 break
 
         # 이미지 변환
@@ -73,6 +77,6 @@ class Monsta:
         pass
 
     def getBB(self):
-        hw = self.mImages['Move'].w // Monsta.imageIndexs['Move'] / 2 - 15
+        hw = self.mImages['Move'].w // Banebou.imageIndexs['Move'] / 2 - 15
         hh = self.mImages['Move'].h / 2 - 10
         return self.mXPos - hw, self.mYPos - hh, self.mXPos + hw, self.mYPos + hh

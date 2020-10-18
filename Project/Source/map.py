@@ -57,6 +57,9 @@ class Map:
         elif enemy[0] == 'monsta':
             monsta = Actor.monsta.Monsta(Map.page, enemy[1], enemy[2])
             Map.page.addActor(monsta)
+        elif enemy[0] == 'banebou':
+            banebou = Actor.banebou.Banebou(Map.page, enemy[1], enemy[2])
+            Map.page.addActor(banebou)
 
     def update(self):
         pass
