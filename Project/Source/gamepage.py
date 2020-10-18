@@ -1,6 +1,6 @@
 from pico2d import *
 import gameframework
-import player
+import Actor
 import map
 import pausepage
 import physics
@@ -20,8 +20,10 @@ class GamePage:
 
     def load(self):
         self.map = map.Map(self.mGame)
-        dragon = player.Player(self)
+        dragon = Actor.player.Player(self)
         self.addActor(dragon)
+        chan = Actor.chan.Chan(self)
+        self.addActor(chan)
 
     def update(self):
         self.map.update()

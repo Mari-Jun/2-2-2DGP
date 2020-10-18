@@ -8,6 +8,7 @@ class Map:
     maxStage = 1
     imageName = ['front', 'back']
     images = {}
+    datas = {}
     blocks = []
     ldPos = (0, 50)
     sideBlocks = [(0, 0, 40, 700), (760, 0, 800, 700)]
@@ -21,7 +22,8 @@ class Map:
         Map.loadImage('back')
 
         #blocks는 벽돌들로 스테이지 넘어갈때 로딩하게 구현원함
-        Map.loadMapData(Map.stage)
+        Map.datas['block'] = Map.loadMapData(Map.stage, 'block')
+        Map.datas['enemy'] =Map.loadMapData(Map.stage, 'enemy')
 
     @staticmethod
     def loadImage(char):
@@ -40,10 +42,10 @@ class Map:
         Map.images[char] = images
 
     @staticmethod
-    def loadMapData(stage):
-        fileName = '%s/map/stagedata%s.json'
-        fn = fileName % (Map.game.imageDir, stage)
-        Map.blocks = mapdata.load(fn, Map.ldPos)
+    def loadMapData(stage, data):
+        fileName = '%s/map/stage%s%s.json'
+        fn = fileName % (Map.game.imageDir, stage, data)
+        return mapdata.load(fn, Map.ldPos)
 
     def update(self):
         pass
@@ -55,7 +57,7 @@ class Map:
         image.draw(image.w / 2 + Map.ldPos[0], image.h / 2 + Map.ldPos[1])
 
         #충돌 박스 그리기
-        for block in Map.blocks:
+        for block in Map.datas['block']:
             draw_rectangle(*block)
 
 

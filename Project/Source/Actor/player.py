@@ -1,5 +1,4 @@
 from pico2d import *
-import physics
 import actorhelper
 
 class Player:
@@ -20,7 +19,7 @@ class Player:
     def __init__(self, page):
         Player.page = page
         self.load()
-        self.mImages = Player.load_image('green')
+        self.mImages = actorhelper.load_image(self, 'green')
         self.mXPos = 100
         self.mXDelta = 0
         self.mYPos = 110
@@ -39,33 +38,7 @@ class Player:
 
     def load(self):
         if len(Player.images) == 0:
-            Player.load_all_images()
-
-    @staticmethod
-    def load_all_images():
-        Player.load_image('green')
-
-    @staticmethod
-    def load_image(char):
-        if char in Player.images:
-            return Player.images[char]
-
-        images = {}
-
-        fileName = '%s/dragon/%s/player_%s.png'
-
-        for action in Player.actions:
-            fn = fileName % (Player.page.mGame.imageDir, char, action)
-            if os.path.isfile(fn):
-                action_image = Player.page.mGame.imageLoader.load(fn)
-            else:
-                break
-            images[action] = action_image
-
-        Player.images[char] = images
-
-        print('player %s load complete' % char)
-        return images
+            actorhelper.load_image(self, 'green')
 
     def unLoad(self):
         self.removeActor(self)
@@ -85,22 +58,9 @@ class Player:
             elif self.mXDelta > 0:
                 self.mFlip = ''
         elif pair == Player.KEYDOWN_ATTACK:
-            self.attack()
+            actorhelper.attack(self)
         elif pair == Player.KEYDOWN_JUMP:
-            self.jump()
-
-    def attack(self):
-        if not self.mAction == 'Attack':
-            self.mTime = 0
-            self.mImageIndex = 0
-            self.mAction = 'Attack'
-
-    def jump(self):
-        if self.mAction != 'Jump' and self.mYDelta == 0:
-            self.mTime = 0
-            self.mImageIndex = 0
-            self.mAction = 'Jump'
-            self.mYDelta = 5
+            actorhelper.jump(self)
 
     def getBB(self):
         hw = self.mImages['Stop'].w // Player.imageIndexs['Stop'] / 2 - 10
