@@ -53,13 +53,13 @@ class Map:
     def loadEnemy(self, enemy):
         if enemy[0] == 'chan':
             chan = Actor.chan.Chan(Map.page, enemy[1], enemy[2])
-            Map.page.addActor(chan)
+            Map.page.addActor('enemy', chan)
         elif enemy[0] == 'monsta':
             monsta = Actor.monsta.Monsta(Map.page, enemy[1], enemy[2])
-            Map.page.addActor(monsta)
+            Map.page.addActor('enemy', monsta)
         elif enemy[0] == 'banebou':
             banebou = Actor.banebou.Banebou(Map.page, enemy[1], enemy[2])
-            Map.page.addActor(banebou)
+            Map.page.addActor('enemy', banebou)
 
     def update(self):
         pass

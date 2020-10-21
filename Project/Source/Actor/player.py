@@ -51,6 +51,8 @@ class Player:
 
         # 이동
         xMove = self.mXDelta * self.mSpeed * Player.page.mGame.deltaTime
+        if self.mYDelta == -5:
+            xMove /= 5
         yMove = self.mYDelta * self.mSpeed / 2 * Player.page.mGame.deltaTime
 
         # 충돌 검사

@@ -1,5 +1,6 @@
 from pico2d import *
 import actorhelper
+import physics
 
 class Chan:
     page = None
@@ -35,7 +36,51 @@ class Chan:
         self.removeActor(self)
 
     def update(self):
-        actorhelper.commomUpdate(self)
+        # 중력 설정
+        if self.mYDelta > -5:
+            self.mYDelta -= 0.125
+
+        #AI 설정
+
+
+        # 이동
+        xMove = self.mXDelta * self.mSpeed * Chan.page.mGame.deltaTime
+        if self.mAction == 'Jump':
+            xMove = 0.0
+        yMove = self.mYDelta * self.mSpeed / 2 * Chan.page.mGame.deltaTime
+
+        # 충돌 검사
+        self.mXPos += xMove
+        for block in Chan.page.map.sideBlocks:
+            if physics.collidesBlock(self, block):
+                self.mXPos -= xMove
+                break
+
+        if self.mAction != 'Jump':
+            for block in Chan.page.map.datas['block']:
+                if physics.collidesBlock(self, block):
+                    self.mXPos -= xMove
+                    break
+
+        self.mYPos += yMove
+        for block in Chan.page.map.datas['block']:
+            if physics.collidesBlockJump(self, block) and self.mYDelta < 0:
+                self.mYPos -= yMove
+                self.mYDelta = 0
+                if physics.collidesBlock(self, block):
+                    self.mXPos -= xMove
+                self.mAction = 'Move'
+                break
+
+        # 액션 설정
+        if self.mAction != 'Jump':
+            self.mAction = 'Move'
+
+        # 이미지 변환
+        self.mTime += self.page.mGame.deltaTime
+        self.mImageIndex = int(self.mTime * 10)
+
+        self.mImageIndex %= Chan.imageIndexs[self.mAction]
 
     def draw(self):
         actorhelper.commomDraw(self)

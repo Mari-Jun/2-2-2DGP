@@ -8,7 +8,8 @@ import physics
 class GamePage:
     def __init__(self, game):
         self.mGame = game
-        self.mActors = []
+        self.mActorName = ['item', 'enemy', 'bubble', 'player', 'ui']
+        self.mActors = {}
         self.mDeadActors = []
         self.map = None
 
@@ -16,23 +17,27 @@ class GamePage:
         self.clearActor()
 
     def initialize(self):
+        for name in self.mActorName:
+            self.mActors[name] = []
         self.load()
 
     def load(self):
         self.map = map.Map(self)
         dragon = Actor.player.Player(self)
-        self.addActor(dragon)
+        self.addActor('player', dragon)
 
     def update(self):
         self.map.update()
-        for actor in self.mActors:
-            actor.update()
+        for name in self.mActorName:
+            for actor in self.mActors[name]:
+                actor.update()
 
     def draw(self):
         self.map.draw()
-        for actor in self.mActors:
-            physics.drawCollisionBox(actor)
-            actor.draw()
+        for name in self.mActorName:
+            for actor in self.mActors[name]:
+                physics.drawCollisionBox(actor)
+                actor.draw()
 
     def processInput(self, key):
         if key.type == SDL_QUIT:
@@ -41,18 +46,20 @@ class GamePage:
             self.mGame.pushPage(pausepage.PausePage(self.mGame))
             self.mGame.isPause = True
 
-        for actor in self.mActors:
-            actor.processInput(key)
+        for name in self.mActorName:
+            for actor in self.mActors[name]:
+                actor.processInput(key)
 
-    def addActor(self, actor):
-        self.mActors.append(actor)
+    def addActor(self, name, actor):
+        self.mActors[name].append(actor)
 
     def removeActor(self, actor):
         self.mDeadActors.append(actor)
 
     def clearActor(self):
-        for actor in self.mActors:
-            del actor
+        for name in self.mActorName:
+            for actor in self.mActors[name]:
+                del actor
         self.mActors.clear()
 
     def clearDeadActor(self):
