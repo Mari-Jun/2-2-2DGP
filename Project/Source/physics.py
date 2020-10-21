@@ -7,11 +7,18 @@ def isCollide(a, b):
 	if a[3] < b[1]: return False
 	return True
 
+def isCollideJump(a, b):
+	if a[0] > b[2]: return False
+	if a[2] < b[0]: return False
+	if a[1] > b[3]: return False
+	if a[3] < b[3]: return False
+	return True
+
 def collidesBlock(actor, block):
-	a = actor.getBB()
-	if actor.mAction == 'Jump' and a[1] < block[1]:
-		return False
 	return isCollide(actor.getBB(), block)
+
+def collidesBlockJump(actor, block):
+	return isCollideJump(actor.getBB(), block)
 
 
 def collidesBox(a, b):
