@@ -26,6 +26,7 @@ class Chan:
         self.mImageIndex = 0
         self.mAction = 'Move'
         self.mJumpDelay = 0
+        self.mSemiJump = False
 
     def __del__(self):
         pass
@@ -64,6 +65,8 @@ class Chan:
 
         # 점프 딜레이 설정
         self.mJumpDelay = max(0, self.mJumpDelay - Chan.page.mGame.deltaTime)
+        if abs(self.mXPos - Chan.player.mXPos) < 10:
+            self.mJumpDelay = min(0.1, self.mJumpDelay - Chan.page.mGame.deltaTime)
 
         xMove = self.mXDelta * self.mSpeed * Chan.page.mGame.deltaTime
         yMove = self.mYDelta * self.mSpeed / 2 * Chan.page.mGame.deltaTime
@@ -91,6 +94,14 @@ class Chan:
                 if self.mXDelta == 0:
                     self.mXDelta = self.mOXDelta
                 collide = True
+
+                if ((self.mXDelta > 0 and self.mXPos + 20 > block[2]) or \
+                    (self.mXDelta < 0 and self.mXPos - 20 < block[0])) and \
+                    abs(self.mYPos - Chan.player.mYPos) <= 10:
+                    self.mAction = "Jump"
+                    self.mYDelta = 3
+                    self.mSemiJump = True
+                    return BehaviorTree.FAIL
                 break
         
         #그냥 떨어지는 경우
@@ -106,6 +117,10 @@ class Chan:
         if self.mAction != 'Jump':
             return BehaviorTree.FAIL
 
+        if self.mSemiJump:
+            xMove = self.mXDelta * self.mSpeed * Chan.page.mGame.deltaTime
+            self.mXPos += xMove
+
         yMove = self.mYDelta * self.mSpeed / 2 * Chan.page.mGame.deltaTime
 
         # 충돌 검사
@@ -114,6 +129,7 @@ class Chan:
             if physics.collidesBlockJump(self, block) and self.mYDelta < 0:
                 self.mYPos -= yMove
                 self.mYDelta = 0
+                self.mSemiJump = False
 
                 # 점프 후 땅에 충돌할 때 AI 재정의
                 if self.mXPos < Chan.player.mXPos:
