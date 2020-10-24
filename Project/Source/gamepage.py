@@ -22,9 +22,9 @@ class GamePage:
         self.load()
 
     def load(self):
-        self.map = map.Map(self)
         dragon = Actor.player.Player(self)
         self.addActor('player', dragon)
+        self.map = map.Map(self)
 
     def update(self):
         self.map.update()

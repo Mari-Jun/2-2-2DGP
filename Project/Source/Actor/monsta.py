@@ -42,12 +42,6 @@ class Monsta:
 
         # 충돌 검사
         self.mXPos += xMove
-        for block in self.page.map.sideBlocks:
-            if physics.collidesBlock(self, block):
-                self.mXPos -= xMove
-                self.mXDelta *= -1
-                break
-
         for block in self.page.map.datas['block']:
             if physics.collidesBlock(self, block):
                 self.mXPos -= xMove
