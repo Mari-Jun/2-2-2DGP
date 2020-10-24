@@ -1,7 +1,5 @@
 [
   {"name": "chan", "x": 500, "y":  450},
-  {"name": "chan", "x": 400, "y":  450},
-  {"name": "chan", "x": 300, "y":  450},
   {"name": "monsta", "x": 200, "y": 450},
   {"name": "banebou", "x": 200, "y": 450}
 

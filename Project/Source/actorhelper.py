@@ -35,6 +35,12 @@ def commomDraw(actor):
     image.clip_composite_draw(startX, 0, image.w // actor.imageIndexs[actor.mAction], image.h, 0, actor.mFlip,
                               actor.mXPos, actor.mYPos, image.w // actor.imageIndexs[actor.mAction], image.h)
 
+    # 이미지 변환
+    actor.mTime += actor.page.mGame.deltaTime
+    actor.mImageIndex = int(actor.mTime * 10)
+
+    actor.mImageIndex %= actor.imageIndexs[actor.mAction]
+
 def attack(actor):
     if not actor.mAction == 'Attack':
         actor.mTime = 0

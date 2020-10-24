@@ -20,7 +20,6 @@ def collidesBlock(actor, block):
 def collidesBlockJump(actor, block):
 	return isCollideJump(actor.getBB(), block)
 
-
 def collidesBox(a, b):
 	return isCollide(a.getBB(), b.getBB())
 
