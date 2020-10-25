@@ -47,14 +47,14 @@ class Banebou:
         # 충돌 검사
         self.mXPos += xMove
         for block in self.page.map.datas['block']:
-            if physics.collidesBlock(self, block):
+            if physics.collides(self, block):
                 self.mXPos -= xMove
                 self.mXDelta *= -1
                 break
 
         self.mYPos += yMove
         for block in self.page.map.datas['block']:
-            if physics.collidesBlock(self, block):
+            if physics.collides(self, block):
                 self.mYPos -= yMove
                 if self.mYDelta > 0:
                     self.mYDelta = 0

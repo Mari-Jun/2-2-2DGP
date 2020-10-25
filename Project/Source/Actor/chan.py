@@ -71,16 +71,9 @@ class Chan:
         xMove = self.mXDelta * self.mSpeed * Chan.page.mGame.deltaTime
         yMove = self.mYDelta * self.mSpeed / 2 * Chan.page.mGame.deltaTime
 
-        #어떤 조건을 만족하게 되면
-        if self.mYPos < Chan.player.mYPos - 80 and self.mAction != 'Jump' \
-                and self.mJumpDelay == 0:
-            self.mAction = "Jump"
-            self.mYDelta = 5
-            return BehaviorTree.FAIL
-
         self.mXPos += xMove
         for block in Chan.page.map.datas['block']:
-            if physics.collidesBlock(self, block):
+            if physics.collides(self, block):
                 self.mXPos -= xMove
                 self.mXDelta *= -1
                 break
@@ -88,16 +81,27 @@ class Chan:
         self.mYPos += yMove
         collide = False
         for block in Chan.page.map.datas['block']:
-            if physics.collidesBlockJump(self, block) and self.mYDelta < 0:
+            if physics.collidesBlock(self.getBB(), block) and self.mYDelta < 0:
                 self.mYPos -= yMove
                 self.mYDelta = 0
                 if self.mXDelta == 0:
                     self.mXDelta = self.mOXDelta
                 collide = True
 
+                # 어떤 조건을 만족하게 되면
+                if self.mYPos < Chan.player.mYPos - 80 and self.mJumpDelay == 0:
+                    jumpSize = self.getBB()
+                    upSize = jumpSize[-1] + 80
+                    jumpSize = jumpSize[0], jumpSize[1], jumpSize[2], upSize;
+                    for b in Chan.page.map.datas['block']:
+                        if block != b and physics.collidesBlock(jumpSize, b):
+                            self.mAction = "Jump"
+                            self.mYDelta = 5
+                            return BehaviorTree.FAIL
+
                 if ((self.mXDelta > 0 and self.mXPos + 20 > block[2]) or \
                     (self.mXDelta < 0 and self.mXPos - 20 < block[0])) and \
-                    abs(self.mYPos - Chan.player.mYPos) <= 10:
+                    self.mYPos <= Chan.player.mYPos:
                     self.mAction = "Jump"
                     self.mYDelta = 3
                     self.mSemiJump = True
@@ -126,18 +130,16 @@ class Chan:
         # 충돌 검사
         self.mYPos += yMove
         for block in Chan.page.map.datas['block']:
-            if physics.collidesBlockJump(self, block) and self.mYDelta < 0:
+            if physics.collidesBlock(self.getBB(), block) and self.mYDelta < 0:
                 self.mYPos -= yMove
                 self.mYDelta = 0
-                self.mSemiJump = False
-
                 # 점프 후 땅에 충돌할 때 AI 재정의
                 if self.mXPos < Chan.player.mXPos:
                     self.mXDelta = 1
                 else:
                     self.mXDelta = -1
-                self.mJumpDelay = 0.5
-
+                self.mJumpDelay = 0.0 if self.mSemiJump else 0.5
+                self.mSemiJump = False
                 self.mAction = 'Move'
                 break
 

@@ -58,22 +58,22 @@ class Player:
         # 충돌 검사
         self.mXPos += xMove
         for block in Player.page.map.sideBlocks:
-            if physics.collidesBlock(self, block):
+            if physics.collides(self, block):
                 self.mXPos -= xMove
                 break
 
         if self.mAction != 'Jump':
             for block in Player.page.map.datas['block']:
-                if physics.collidesBlock(self, block):
+                if physics.collidesBlock(self.getBB(), block):
                     self.mXPos -= xMove
                     break
 
         self.mYPos += yMove
         for block in Player.page.map.datas['block']:
-            if physics.collidesBlockJump(self, block) and self.mYDelta < 0:
+            if physics.collidesBlock(self.getBB(), block) and self.mYDelta < 0:
                 self.mYPos -= yMove
                 self.mYDelta = 0
-                if physics.collidesBlock(self, block):
+                if physics.collidesBlock(self.getBB(), block):
                     self.mXPos -= xMove
                 if self.mAction != 'Attack':
                     self.mAction = 'Stop' if self.mXDelta == 0 and 'Stop' in Player.actions else 'Move'
