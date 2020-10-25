@@ -1,14 +1,16 @@
 from pico2d import *
+import random
 import actorhelper
 import physics
 from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
+
 
 class Chan:
     page = None
     player = None
     actions = ['Move', 'Jump', 'Die']
     imageIndexs = {'Move': 4, 'Jump': 8, 'Die': 4}
-    images = { }
+    images = {}
 
     def __init__(self, page, xPos, yPos):
         Chan.page = page
@@ -88,27 +90,11 @@ class Chan:
                     self.mXDelta = self.mOXDelta
                 collide = True
 
-                # 어떤 조건을 만족하게 되면
-                if self.mYPos < Chan.player.mYPos - 80 and self.mJumpDelay == 0:
-                    jumpSize = self.getBB()
-                    upSize = jumpSize[-1] + 80
-                    jumpSize = jumpSize[0], jumpSize[1], jumpSize[2], upSize;
-                    for b in Chan.page.map.datas['block']:
-                        if block != b and physics.collidesBlock(jumpSize, b):
-                            self.mAction = "Jump"
-                            self.mYDelta = 5
-                            return BehaviorTree.FAIL
-
-                if ((self.mXDelta > 0 and self.mXPos + 20 > block[2]) or \
-                    (self.mXDelta < 0 and self.mXPos - 20 < block[0])) and \
-                    self.mYPos <= Chan.player.mYPos:
-                    self.mAction = "Jump"
-                    self.mYDelta = 3
-                    self.mSemiJump = True
-                    return BehaviorTree.FAIL
+                self.checkJump(block)
+                self.checkSemiJump(block)
                 break
-        
-        #그냥 떨어지는 경우
+
+        # 그냥 떨어지는 경우
         if not collide:
             if self.mXDelta != 0:
                 self.mOXDelta = self.mXDelta
@@ -116,6 +102,29 @@ class Chan:
             self.mJumpDelay = 0.5
 
         return BehaviorTree.SUCCESS
+
+    def checkJump(self, block):
+        if self.mYPos < Chan.player.mYPos - 80 and self.mJumpDelay == 0:
+            jumpSize = self.getBB()
+            upSize = jumpSize[-1] + 80
+            jumpSize = jumpSize[0], jumpSize[1], jumpSize[2], upSize;
+            for b in Chan.page.map.datas['block']:
+                if block != b and physics.collidesBlock(jumpSize, b):
+                    self.mAction = "Jump"
+                    self.mYDelta = 5
+                    return BehaviorTree.FAIL
+
+    def checkSemiJump(self, block):
+        # 세미 점프. 살짝 뛰는 방식이다.
+        if ((self.mXDelta > 0 and self.mXPos + 20 > block[2]) or \
+            (self.mXDelta < 0 and self.mXPos - 20 < block[0])) and \
+                self.mYPos <= Chan.player.mYPos + 10:
+            #여기에 점프 조건 추가
+            self.mAction = "Jump"
+            self.mYDelta = 3
+            self.mSemiJump = True
+            return BehaviorTree.FAIL
+
 
     def doJump(self):
         if self.mAction != 'Jump':
@@ -133,12 +142,16 @@ class Chan:
             if physics.collidesBlock(self.getBB(), block) and self.mYDelta < 0:
                 self.mYPos -= yMove
                 self.mYDelta = 0
+
                 # 점프 후 땅에 충돌할 때 AI 재정의
-                if self.mXPos < Chan.player.mXPos:
-                    self.mXDelta = 1
-                else:
-                    self.mXDelta = -1
-                self.mJumpDelay = 0.0 if self.mSemiJump else 0.5
+                if self.mYPos <= Chan.player.mYPos + 10 and not self.mSemiJump:
+                    if self.mXPos < Chan.player.mXPos:
+                        self.mXDelta = 1
+                    else:
+                        self.mXDelta = -1
+
+                r = random.randint(5, 15)
+                self.mJumpDelay = r / 10
                 self.mSemiJump = False
                 self.mAction = 'Move'
                 break
