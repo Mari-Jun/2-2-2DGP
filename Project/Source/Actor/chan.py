@@ -116,15 +116,21 @@ class Chan:
 
     def checkSemiJump(self, block):
         # 세미 점프. 살짝 뛰는 방식이다.
-        if ((self.mXDelta > 0 and self.mXPos + 20 > block[2]) or \
-            (self.mXDelta < 0 and self.mXPos - 20 < block[0])) and \
+        if ((self.mXDelta > 0 and block[2] - 20 < self.mXPos < block[2] - 10) or \
+            (self.mXDelta < 0 and block[0] + 10 < self.mXPos < block[0] + 20)) and \
                 self.mYPos <= Chan.player.mYPos + 10:
-            #여기에 점프 조건 추가
-            self.mAction = "Jump"
-            self.mYDelta = 3
-            self.mSemiJump = True
-            return BehaviorTree.FAIL
-
+            #바라보는 경우
+            if (Chan.player.mXPos - self.mXPos) * self.mXDelta > 0:
+                print("바라본다")
+                r = 0
+            #바라보지 않는 경우
+            else:
+                r = random.randint(0, 4)
+            if r == 0:
+                self.mAction = "Jump"
+                self.mYDelta = 3
+                self.mSemiJump = True
+                return BehaviorTree.FAIL
 
     def doJump(self):
         if self.mAction != 'Jump':
