@@ -1,6 +1,6 @@
 from pico2d import *
 import random
-import actorhelper
+from Actor import actorhelper
 import physics
 from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
@@ -121,7 +121,6 @@ class Chan:
                 self.mYPos <= Chan.player.mYPos + 10:
             #바라보는 경우
             if (Chan.player.mXPos - self.mXPos) * self.mXDelta > 0:
-                print("바라본다")
                 r = 0
             #바라보지 않는 경우
             else:

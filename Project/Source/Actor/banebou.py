@@ -1,5 +1,5 @@
 from pico2d import *
-import actorhelper
+from Actor import actorhelper
 import physics
 
 class Banebou:

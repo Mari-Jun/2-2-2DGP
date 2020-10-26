@@ -1,5 +1,5 @@
 from pico2d import *
-import actorhelper
+from Actor import actorhelper, bubble
 import physics
 
 class Player:
@@ -27,6 +27,7 @@ class Player:
         self.mYDelta = -5
         self.mFlip = ''
         self.mSpeed = 200
+        self.mAttackDelay = 0
         self.mTime = 0
         self.mImageIndex = 0
         self.mAction = 'Stop'
@@ -47,11 +48,11 @@ class Player:
     def update(self):
         # 중력 설정
         if self.mYDelta > -5:
-            self.mYDelta -= 0.125
+            self.mYDelta -= 10 * Player.page.mGame.deltaTime
 
         # 이동
         xMove = self.mXDelta * self.mSpeed * Player.page.mGame.deltaTime
-        if self.mYDelta == -5:
+        if self.mYDelta <= -5:
             xMove /= 5
         yMove = self.mYDelta * self.mSpeed / 2 * Player.page.mGame.deltaTime
 
@@ -62,7 +63,7 @@ class Player:
                 self.mXPos -= xMove
                 break
 
-        if self.mAction != 'Jump':
+        if self.mYDelta <= 0:
             for block in Player.page.map.datas['block']:
                 if physics.collidesBlock(self.getBB(), block):
                     self.mXPos -= xMove
@@ -79,20 +80,6 @@ class Player:
                     self.mAction = 'Stop' if self.mXDelta == 0 and 'Stop' in Player.actions else 'Move'
                 break
 
-        # 액션 설정
-        if self.mAction != 'Attack' and self.mAction != 'Jump':
-            self.mAction = 'Stop' if self.mXDelta == 0 and 'Stop' in Player.actions else 'Move'
-
-        # 이미지 변환
-        self.mTime += self.page.mGame.deltaTime
-        self.mImageIndex = int(self.mTime * 10)
-
-        # 액션 재설정
-        if self.mAction == 'Attack' and self.mImageIndex > Player.imageIndexs['Attack']:
-            self.mAction = 'Stop' if self.mXDelta == 0 else 'Move'
-
-        self.mImageIndex %= Player.imageIndexs[self.mAction]
-
     def draw(self):
         actorhelper.commomDraw(self)
 
@@ -101,9 +88,25 @@ class Player:
         if pair in Player.keyMap:
             self.mXDelta += Player.keyMap[pair][0]
         elif pair == Player.KEYDOWN_ATTACK:
-            actorhelper.attack(self)
+            self.attack()
         elif pair == Player.KEYDOWN_JUMP:
-            actorhelper.jump(self)
+            self.jump()
+
+    def attack(self):
+        if self.mAttackDelay == 0:
+            self.mAttackDelay = 2
+            self.mTime = 0
+            self.mImageIndex = 0
+            self.mAction = 'Attack'
+            b = bubble.Bubble(Player.page)
+            Player.page.addActor('bubble', b)
+
+    def jump(self):
+        if self.mAction != 'Jump' and self.mYDelta == 0:
+            self.mTime = 0
+            self.mImageIndex = 0
+            self.mAction = 'Jump'
+            self.mYDelta = 5
 
     def getBB(self):
         hw = self.mImages['Stop'].w // Player.imageIndexs['Stop'] / 2 - 10
