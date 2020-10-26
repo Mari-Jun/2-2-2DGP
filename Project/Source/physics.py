@@ -14,8 +14,8 @@ def isCollideBlock(a, b):
 	if a[3] < b[3]: return False
 	return True
 
-def collides(actor, block):
-	return isCollide(actor.getBB(), block)
+def collides(actor, bb):
+	return isCollide(actor.getBB(), bb)
 
 def collidesBlock(bb, block):
 	return isCollideBlock(bb, block)

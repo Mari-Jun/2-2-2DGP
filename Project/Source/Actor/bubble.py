@@ -12,17 +12,21 @@ class Bubble:
         Bubble.page = page
         self.load()
         self.mImages = actorhelper.load_image(self, 'bubble')
-        self.mXPos = page.mActors['player'][0].mXPos
-        self.mXDelta = -1 if page.mActors['player'][0].mFlip == 'h' else 1
-        self.mYPos = page.mActors['player'][0].mYPos
+        self.mBB = self.mImages['Move'].w // Bubble.imageIndexs['Move'] / 2 - 13, self.mImages['Move'].h / 2 - 13
+        player = page.mActors['player'][0]
+        self.mXDelta = -1 if player.mFlip == 'h' else 1
         self.mYDelta = 0
+        self.mXPos = player.mXPos + self.mXDelta * (player.mBB[0] + self.mBB[0])
+        self.mYPos = player.mYPos
         self.mSpeed = 350
+        self.mLength = 300
         self.mTime = 0
         self.mImageIndex = 0
-        self.mAction = 'Move'
 
-    def __del__(self):
-        pass
+        #생성 위치가 충돌 위치라면
+        for block in Bubble.page.map.datas['block']:
+            if physics.collides(self, block):
+                self.unLoad()
 
     def initialize(self):
         pass
@@ -32,7 +36,7 @@ class Bubble:
             actorhelper.load_image(self, 'bubble')
 
     def unLoad(self):
-        self.removeActor(self)
+        Bubble.page.removeActor(self)
 
     def update(self):
         # 이동
@@ -41,19 +45,16 @@ class Bubble:
             xMove /= 5
         yMove = self.mYDelta * self.mSpeed / 2 * Bubble.page.mGame.deltaTime
 
-        # # 충돌 검사
-        self.mXPos += xMove
-        # for block in Player.page.map.sideBlocks:
-        #     if physics.collides(self, block):
-        #         self.mXPos -= xMove
-        #         break
-        #
-        # if self.mAction != 'Jump':
-        #     for block in Player.page.map.datas['block']:
-        #         if physics.collidesBlock(self.getBB(), block):
-        #             self.mXPos -= xMove
-        #             break
-        #
+        self.mLength -= abs(xMove)
+        if self.mLength > 0:
+            self.mXPos += xMove
+
+        # 충돌 검사
+        for block in Bubble.page.map.datas['block']:
+            if physics.collides(self, block):
+                self.mXPos -= xMove
+                break
+
         # self.mYPos += yMove
         # for block in Player.page.map.datas['block']:
         #     if physics.collidesBlock(self.getBB(), block) and self.mYDelta < 0:
@@ -66,10 +67,10 @@ class Bubble:
         #         break
 
     def draw(self):
-        image = self.mImages[self.mAction]
-        startX = image.w // self.imageIndexs[self.mAction] * self.mImageIndex
-        image.clip_draw(startX, 0, image.w // self.imageIndexs[self.mAction], image.h,
-                                  self.mXPos, self.mYPos, image.w //self.imageIndexs[self.mAction], image.h)
+        image = self.mImages['Move']
+        startX = image.w // self.imageIndexs['Move'] * self.mImageIndex
+        image.clip_draw(startX, 0, image.w // self.imageIndexs['Move'], image.h,
+                                  self.mXPos, self.mYPos, image.w //self.imageIndexs['Move'], image.h)
 
         # 이미지 변환
         if self.mImageIndex < Bubble.imageIndexs['Move'] - 1:
@@ -80,6 +81,4 @@ class Bubble:
         pass
 
     def getBB(self):
-        hw = self.mImages['Move'].w // Bubble.imageIndexs['Move'] / 2 - 13
-        hh = self.mImages['Move'].h / 2 - 13
-        return self.mXPos - hw, self.mYPos - hh, self.mXPos + hw, self.mYPos + hh
+        return self.mXPos - self.mBB[0], self.mYPos - self.mBB[1], self.mXPos + self.mBB[0], self.mYPos + self.mBB[1]

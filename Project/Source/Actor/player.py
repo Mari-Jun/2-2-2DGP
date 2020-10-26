@@ -21,6 +21,7 @@ class Player:
         Player.page = page
         self.load()
         self.mImages = actorhelper.load_image(self, 'green')
+        self.mBB = self.mImages['Stop'].w // Player.imageIndexs['Stop'] / 2 - 10, self.mImages['Stop'].h / 2 - 10
         self.mXPos = 100
         self.mXDelta = 0
         self.mYPos = 110
@@ -35,9 +36,6 @@ class Player:
     def __del__(self):
         pass
 
-    def initialize(self):
-        pass
-
     def load(self):
         if len(Player.images) == 0:
             actorhelper.load_image(self, 'green')
@@ -50,6 +48,10 @@ class Player:
         if self.mYDelta > -5:
             self.mYDelta -= 10 * Player.page.mGame.deltaTime
 
+        # 공격 딜레이 감소
+        if self.mAttackDelay > 0:
+            self.mAttackDelay = max(0, self.mAttackDelay - Player.page.mGame.deltaTime)
+
         # 이동
         xMove = self.mXDelta * self.mSpeed * Player.page.mGame.deltaTime
         if self.mYDelta <= -5:
@@ -57,6 +59,10 @@ class Player:
         yMove = self.mYDelta * self.mSpeed / 2 * Player.page.mGame.deltaTime
 
         # 충돌 검사
+        self.collideBlock(xMove, yMove)
+        self.collideBubble()
+
+    def collideBlock(self, xMove, yMove):
         self.mXPos += xMove
         for block in Player.page.map.sideBlocks:
             if physics.collides(self, block):
@@ -80,6 +86,12 @@ class Player:
                     self.mAction = 'Stop' if self.mXDelta == 0 and 'Stop' in Player.actions else 'Move'
                 break
 
+    def collideBubble(self):
+        for bubble in Player.page.mActors['bubble']:
+            if physics.collides(self, bubble.getBB()):
+                bubble.unLoad()
+
+
     def draw(self):
         actorhelper.commomDraw(self)
 
@@ -94,7 +106,7 @@ class Player:
 
     def attack(self):
         if self.mAttackDelay == 0:
-            self.mAttackDelay = 2
+            self.mAttackDelay = 0.5
             self.mTime = 0
             self.mImageIndex = 0
             self.mAction = 'Attack'
@@ -105,10 +117,9 @@ class Player:
         if self.mAction != 'Jump' and self.mYDelta == 0:
             self.mTime = 0
             self.mImageIndex = 0
-            self.mAction = 'Jump'
+            if self.mAction != 'Attack':
+                self.mAction = 'Jump'
             self.mYDelta = 5
 
     def getBB(self):
-        hw = self.mImages['Stop'].w // Player.imageIndexs['Stop'] / 2 - 10
-        hh = self.mImages['Stop'].h / 2 - 10
-        return self.mXPos - hw, self.mYPos - hh, self.mXPos + hw, self.mYPos + hh
+        return self.mXPos - self.mBB[0], self.mYPos - self.mBB[1], self.mXPos + self.mBB[0], self.mYPos + self.mBB[1]

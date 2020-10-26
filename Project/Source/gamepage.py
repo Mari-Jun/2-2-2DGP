@@ -31,6 +31,8 @@ class GamePage:
         for name in self.mActorName:
             for actor in self.mActors[name]:
                 actor.update()
+        if len(self.mDeadActors) > 0:
+            self.clearDeadActor()
 
     def draw(self):
         self.map.draw()
@@ -53,7 +55,7 @@ class GamePage:
     def addActor(self, name, actor):
         self.mActors[name].append(actor)
 
-    def removeActor(self, actor):
+    def removeActor (self, actor):
         self.mDeadActors.append(actor)
 
     def clearActor(self):
@@ -63,11 +65,12 @@ class GamePage:
         self.mActors.clear()
 
     def clearDeadActor(self):
-        for actor in self.mDeadActors:
-            try:
-                self.mActors.remove(actor)
-            except ValueError:
-                pass
+        for dActor in self.mDeadActors:
+            for actor in self.mActors:
+                try:
+                    self.mActors[actor].remove(dActor)
+                except ValueError:
+                    pass
         self.mDeadActors.clear()
 
 def create(game):
