@@ -60,7 +60,6 @@ class Player:
 
         # 충돌 검사
         self.collideBlock(xMove, yMove)
-        self.collideBubble()
 
     def collideBlock(self, xMove, yMove):
         self.mXPos += xMove
@@ -85,12 +84,6 @@ class Player:
                 if self.mAction != 'Attack':
                     self.mAction = 'Stop' if self.mXDelta == 0 and 'Stop' in Player.actions else 'Move'
                 break
-
-    def collideBubble(self):
-        for bubble in Player.page.mActors['bubble']:
-            if physics.collides(self, bubble.getBB()):
-                bubble.unLoad()
-
 
     def draw(self):
         actorhelper.commomDraw(self)

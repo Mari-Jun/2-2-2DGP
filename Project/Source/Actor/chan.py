@@ -47,7 +47,7 @@ class Chan:
     def update(self):
         # 중력 설정
         if self.mYDelta > -5:
-            self.mYDelta -= 0.125
+            self.mYDelta -= 10 * Chan.page.mGame.deltaTime
         self.bt.run()
 
     def draw(self):

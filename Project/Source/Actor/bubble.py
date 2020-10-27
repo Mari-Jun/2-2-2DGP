@@ -12,7 +12,7 @@ class Bubble:
         Bubble.page = page
         self.load()
         self.mImages = actorhelper.load_image(self, 'bubble')
-        self.mBB = self.mImages['Move'].w // Bubble.imageIndexs['Move'] / 2 - 13, self.mImages['Move'].h / 2 - 13
+        self.mBB = self.mImages['Move'].w // Bubble.imageIndexs['Move'] / 2 - 14, self.mImages['Move'].h / 2 - 13
         player = page.mActors['player'][0]
         self.mXDelta = -1 if player.mFlip == 'h' else 1
         self.mYDelta = 0
@@ -48,23 +48,35 @@ class Bubble:
         self.mLength -= abs(xMove)
         if self.mLength > 0:
             self.mXPos += xMove
+        else:
+            if self.mYDelta == 0:
+                self.mSpeed = 250
+                self.mYDelta = 1
+
+        #일단 임시로 정지시키자
+        if self.mYPos < 430:
+            self.mYPos += yMove
 
         # 충돌 검사
-        for block in Bubble.page.map.datas['block']:
-            if physics.collides(self, block):
-                self.mXPos -= xMove
-                break
+        self .collidePlayer(xMove, yMove)
+        self.collideBlock(xMove)
 
-        # self.mYPos += yMove
-        # for block in Player.page.map.datas['block']:
-        #     if physics.collidesBlock(self.getBB(), block) and self.mYDelta < 0:
-        #         self.mYPos -= yMove
-        #         self.mYDelta = 0
-        #         if physics.collidesBlock(self.getBB(), block):
-        #             self.mXPos -= xMove
-        #         if self.mAction != 'Attack':
-        #             self.mAction = 'Stop' if self.mXDelta == 0 and 'Stop' in Player.actions else 'Move'
-        #         break
+    def collidePlayer(self, xMove, yMove):
+        for player in Bubble.page.mActors['player']:
+            if physics.collides(self, player.getBB()):
+                if abs(player.mXDelta) < abs(player.mYDelta):
+                    self.unLoad()
+                else:
+                    self.mLength = 50
+                    self.mXDelta = player.mXDelta
+
+    def collideBlock(self, xMove):
+        if self.mYDelta == 0:
+            for block in Bubble.page.map.datas['block']:
+                if physics.collides(self, block):
+                    self.mXPos -= xMove
+                    self.mLength = 0
+                    break
 
     def draw(self):
         image = self.mImages['Move']
