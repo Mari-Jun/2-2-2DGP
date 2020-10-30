@@ -36,7 +36,7 @@ class Monsta:
         self.build_behavior_tree()
 
     def unLoad(self):
-        self.removeActor(self)
+        Monsta.page.removeActor(self)
 
     def update(self):
         self.bt.run()

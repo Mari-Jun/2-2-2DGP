@@ -36,7 +36,7 @@ class Banebou:
         self.build_behavior_tree()
 
     def unLoad(self):
-        self.removeActor(self)
+        Banebou.page.removeActor(self)
 
     def update(self):
         # 중력 설정

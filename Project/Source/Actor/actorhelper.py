@@ -28,7 +28,12 @@ def commomUpdate(actor):
 def commomDraw(actor):
     # 이미지 변환
     actor.mTime += actor.page.mGame.deltaTime
-    actor.mImageIndex = int(actor.mTime * 10)
+    if 'Inb' in actor.imageIndexs and actor.mAction == 'Inb' or\
+            'Die' in actor.imageIndexs and actor.mAction == 'Die':
+        actor.mImageIndex = int(actor.mTime * 5)
+    else:
+        actor.mImageIndex = int(actor.mTime * 10)
+
 
     # 액션 설정
     if actor.mAction == 'Attack' and actor.mImageIndex > actor.imageIndexs['Attack'] or \
@@ -38,7 +43,8 @@ def commomDraw(actor):
         elif 'Move' in actor.imageIndexs:
             actor.mAction = 'Move'
 
-    actor.mImageIndex %= actor.imageIndexs[actor.mAction]
+    if actor.mAction != 'Die':
+        actor.mImageIndex %= actor.imageIndexs[actor.mAction]
 
     if actor.mXDelta < 0:
         actor.mFlip = 'h'

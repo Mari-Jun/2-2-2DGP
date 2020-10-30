@@ -179,7 +179,7 @@ class Chan:
         if self.mAction != 'Die':
             return BehaviorTree.FAIL
 
-        if self.mImageIndex + 1 == Chan.imageIndexs['Die']:
+        if self.mImageIndex >= Chan.imageIndexs['Die']:
             self.unLoad()
 
         return BehaviorTree.SUCCESS
