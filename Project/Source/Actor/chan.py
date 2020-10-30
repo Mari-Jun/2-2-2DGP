@@ -8,8 +8,8 @@ from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 class Chan:
     page = None
     player = None
-    actions = ['Move', 'Jump', 'Die']
-    imageIndexs = {'Move': 4, 'Jump': 8, 'Die': 4}
+    actions = ['Move', 'Jump', 'Inb', 'Die']
+    imageIndexs = {'Move': 4, 'Jump': 8, 'Inb': 3, 'Die': 4}
     images = {}
 
     def __init__(self, page, xPos, yPos):
@@ -29,6 +29,7 @@ class Chan:
         self.mAction = 'Move'
         self.mJumpDelay = 0
         self.mSemiJump = False
+        self.mBubble = None
 
     def __del__(self):
         pass
@@ -42,7 +43,7 @@ class Chan:
         self.build_behavior_tree()
 
     def unLoad(self):
-        self.removeActor(self)
+        Chan.page.removeActor(self)
 
     def update(self):
         # 중력 설정
@@ -112,6 +113,7 @@ class Chan:
                 if block != b and physics.collidesBlock(jumpSize, b):
                     self.mAction = "Jump"
                     self.mYDelta = 5
+                    actorhelper.resetImageIndex(self)
                     return BehaviorTree.FAIL
 
     def checkSemiJump(self, block):
@@ -126,8 +128,9 @@ class Chan:
             else:
                 r = random.randint(0, 4)
             if r == 0:
-                self.mAction = "Jump"
+                self.mAction = 'Jump'
                 self.mYDelta = 3
+                actorhelper.resetImageIndex(self)
                 self.mSemiJump = True
                 return BehaviorTree.FAIL
 
@@ -163,16 +166,25 @@ class Chan:
 
         return BehaviorTree.SUCCESS
 
-    def doDead(self):
-        pass
+    def doInBubble(self):
+        if self.mAction != 'Inb':
+            return BehaviorTree.FAIL
+
+        self.mXPos = self.mBubble.mXPos
+        self.mYPos = self.mBubble.mYPos
+
+        return BehaviorTree.SUCCESS
+
+    def doDie(self):
+        if self.mAction != 'Die':
+            return BehaviorTree.FAIL
+
+        if self.mImageIndex + 1 == Chan.imageIndexs['Die']:
+            self.unLoad()
+
+        return BehaviorTree.SUCCESS
 
     def build_behavior_tree(self):
-        # node_gnp = LeafNode("Get Next Position", self.set_patrol_target)
-        # node_mtt = LeafNode("Move to Target", self.update_position)
-        # patrol_node = SequenceNode("Patrol")
-        # patrol_node.add_children(node_gnp, node_mtt)
-        # self.bt = BehaviorTree(patrol_node)
-
         self.bt = BehaviorTree.build({
             "name": "Chan",
             "class": SelectorNode,
@@ -189,29 +201,13 @@ class Chan:
                 },
                 {
                     "class": LeafNode,
-                    "name": "Dead",
-                    "function": self.doDead,
+                    "name": "Inb",
+                    "function": self.doInBubble,
+                },
+                {
+                    "class": LeafNode,
+                    "name": "Die",
+                    "function": self.doDie,
                 }
-                # {
-                #     "name": "Chase",
-                #     "class": SequenceNode,
-                #     "children": [
-                #         {
-                #             "class": LeafNode,
-                #             "name": "Find Player",
-                #             "function": self.find_player,
-                #         },
-                #         {
-                #             "class": LeafNode,
-                #             "name": "Move to Player",
-                #             "function": self.move_to_player,
-                #         },
-                #     ],
-                # },
-                # {
-                #     "class": LeafNode,
-                #     "name": "Follow Patrol positions",
-                #     "function": self.follow_patrol_positions,
-                # },
             ],
         })

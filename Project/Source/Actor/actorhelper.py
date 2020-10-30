@@ -32,7 +32,7 @@ def commomDraw(actor):
 
     # 액션 설정
     if actor.mAction == 'Attack' and actor.mImageIndex > actor.imageIndexs['Attack'] or \
-        actor.mAction != 'Attack' and actor.mAction != 'Jump':
+        actor.mAction == 'Stop' or actor.mAction == 'Move':
         if 'Stop' in actor.imageIndexs and actor.mXDelta == 0:
             actor.mAction = 'Stop'
         elif 'Move' in actor.imageIndexs:
@@ -48,3 +48,7 @@ def commomDraw(actor):
     startX = image.w // actor.imageIndexs[actor.mAction] * actor.mImageIndex
     image.clip_composite_draw(startX, 0, image.w // actor.imageIndexs[actor.mAction], image.h, 0, actor.mFlip,
                               actor.mXPos, actor.mYPos, image.w // actor.imageIndexs[actor.mAction], image.h)
+
+def resetImageIndex(actor):
+    actor.mTime = 0
+    actor.mImageIndex = 0

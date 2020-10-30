@@ -1,11 +1,12 @@
 from pico2d import *
 from Actor import actorhelper
 import physics
+from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
 class Monsta:
     page = None
-    actions = ['Move', 'Die']
-    imageIndexs = {'Move': 2, 'Die': 4}
+    actions = ['Move', 'Inb', 'Die']
+    imageIndexs = {'Move': 2, 'Inb': 3, 'Die': 4}
     images = { }
 
     def __init__(self, page, xPos, yPos):
@@ -21,6 +22,7 @@ class Monsta:
         self.mTime = 0
         self.mImageIndex = 0
         self.mAction = 'Move'
+        self.mBubble = None
 
     def __del__(self):
         pass
@@ -30,12 +32,30 @@ class Monsta:
 
     def load(self):
         if len(Monsta.images) == 0:
-            actorhelper.load_image(self, 'monsta')
+            actorhelper.load_image(self, 'Monsta')
+        self.build_behavior_tree()
 
     def unLoad(self):
         self.removeActor(self)
 
     def update(self):
+        self.bt.run()
+
+    def draw(self):
+        actorhelper.commomDraw(self)
+
+    def processInput(self, key):
+        pass
+
+    def getBB(self):
+        hw = self.mImages['Move'].w // Monsta.imageIndexs['Move'] / 2 - 15
+        hh = self.mImages['Move'].h / 2 - 10
+        return self.mXPos - hw, self.mYPos - hh, self.mXPos + hw, self.mYPos + hh
+
+    def doMove(self):
+        if self.mAction != 'Move':
+            return BehaviorTree.FAIL
+
         # 이동
         xMove = self.mXDelta * self.mSpeed * self.page.mGame.deltaTime
         yMove = self.mYDelta * self.mSpeed * self.page.mGame.deltaTime
@@ -55,18 +75,45 @@ class Monsta:
                 self.mYDelta *= -1
                 break
 
-        # 이미지 변환
-        self.mTime += self.page.mGame.deltaTime
-        self.mImageIndex = int(self.mTime * 5)
-        self.mImageIndex %= self.imageIndexs[self.mAction]
+        return BehaviorTree.SUCCESS
 
-    def draw(self):
-        actorhelper.commomDraw(self)
+    def doInBubble(self):
+        if self.mAction != 'Inb':
+            return BehaviorTree.FAIL
 
-    def processInput(self, key):
-        pass
+        self.mXPos = self.mBubble.mXPos
+        self.mYPos = self.mBubble.mYPos
 
-    def getBB(self):
-        hw = self.mImages['Move'].w // Monsta.imageIndexs['Move'] / 2 - 15
-        hh = self.mImages['Move'].h / 2 - 10
-        return self.mXPos - hw, self.mYPos - hh, self.mXPos + hw, self.mYPos + hh
+        return BehaviorTree.SUCCESS
+
+    def doDie(self):
+        if self.mAction != 'Die':
+            return BehaviorTree.FAIL
+
+        if self.mImageIndex + 1 == Monsta.imageIndexs['Die']:
+            self.unLoad()
+
+        return BehaviorTree.SUCCESS
+
+    def build_behavior_tree(self):
+        self.bt = BehaviorTree.build({
+            "name": "Monsta",
+            "class": SelectorNode,
+            "children": [
+                {
+                    "class": LeafNode,
+                    "name": "Move",
+                    "function": self.doMove,
+                },
+                {
+                    "class": LeafNode,
+                    "name": "Inb",
+                    "function": self.doInBubble,
+                },
+                {
+                    "class": LeafNode,
+                    "name": "Die",
+                    "function": self.doDie,
+                }
+            ],
+        })

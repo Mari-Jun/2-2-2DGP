@@ -1,11 +1,12 @@
 from pico2d import *
 from Actor import actorhelper
 import physics
+from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
 class Banebou:
     page = None
-    actions = ['Move', 'Die']
-    imageIndexs = {'Move': 6, 'Die': 4}
+    actions = ['Move', 'Inb', 'Die']
+    imageIndexs = {'Move': 6, 'Inb': 3, 'Die': 4}
     images = { }
 
     def __init__(self, page, xPos, yPos):
@@ -21,6 +22,7 @@ class Banebou:
         self.mTime = 0
         self.mImageIndex = 0
         self.mAction = 'Move'
+        self.mBubble = None
 
     def __del__(self):
         pass
@@ -31,6 +33,7 @@ class Banebou:
     def load(self):
         if len(Banebou.images) == 0:
             actorhelper.load_image(self, 'banebou')
+        self.build_behavior_tree()
 
     def unLoad(self):
         self.removeActor(self)
@@ -38,7 +41,23 @@ class Banebou:
     def update(self):
         # 중력 설정
         if self.mYDelta > -3:
-            self.mYDelta -= 0.125
+            self.mYDelta -= 10 * Banebou.page.mGame.deltaTime
+        self.bt.run()
+
+    def draw(self):
+        actorhelper.commomDraw(self)
+
+    def processInput(self, key):
+        pass
+
+    def getBB(self):
+        hw = self.mImages['Move'].w // Banebou.imageIndexs['Move'] / 2 - 15
+        hh = self.mImages['Move'].h / 2 - 10
+        return self.mXPos - hw, self.mYPos - hh, self.mXPos + hw, self.mYPos + hh
+
+    def doMove(self):
+        if self.mAction != 'Move':
+            return BehaviorTree.FAIL
 
         # 이동
         xMove = self.mXDelta * self.mSpeed * self.page.mGame.deltaTime
@@ -64,18 +83,45 @@ class Banebou:
                     self.mImageIndex = 0
                 break
 
-        # 이미지 변환
-        self.mTime += self.page.mGame.deltaTime
-        self.mImageIndex = int(self.mTime * 10)
-        self.mImageIndex %= self.imageIndexs[self.mAction]
+        return BehaviorTree.SUCCESS
 
-    def draw(self):
-        actorhelper.commomDraw(self)
+    def doInBubble(self):
+        if self.mAction != 'Inb':
+            return BehaviorTree.FAIL
 
-    def processInput(self, key):
-        pass
+        self.mXPos = self.mBubble.mXPos
+        self.mYPos = self.mBubble.mYPos
 
-    def getBB(self):
-        hw = self.mImages['Move'].w // Banebou.imageIndexs['Move'] / 2 - 15
-        hh = self.mImages['Move'].h / 2 - 10
-        return self.mXPos - hw, self.mYPos - hh, self.mXPos + hw, self.mYPos + hh
+        return BehaviorTree.SUCCESS
+
+    def doDie(self):
+        if self.mAction != 'Die':
+            return BehaviorTree.FAIL
+
+        if self.mImageIndex + 1 == Banebou.imageIndexs['Die']:
+            self.unLoad()
+
+        return BehaviorTree.SUCCESS
+
+    def build_behavior_tree(self):
+        self.bt = BehaviorTree.build({
+            "name": "Banebou",
+            "class": SelectorNode,
+            "children": [
+                {
+                    "class": LeafNode,
+                    "name": "Move",
+                    "function": self.doMove,
+                },
+                {
+                    "class": LeafNode,
+                    "name": "Inb",
+                    "function": self.doInBubble,
+                },
+                {
+                    "class": LeafNode,
+                    "name": "Die",
+                    "function": self.doDie,
+                }
+            ],
+        })

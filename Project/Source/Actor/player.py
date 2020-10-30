@@ -29,6 +29,7 @@ class Player:
         self.mFlip = ''
         self.mSpeed = 200
         self.mAttackDelay = 0
+        self.mAttackInput = False
         self.mTime = 0
         self.mImageIndex = 0
         self.mAction = 'Stop'
@@ -51,6 +52,12 @@ class Player:
         # 공격 딜레이 감소
         if self.mAttackDelay > 0:
             self.mAttackDelay = max(0, self.mAttackDelay - Player.page.mGame.deltaTime)
+
+        # 공격 발사
+        if self.mAttackInput and self.mImageIndex == 1:
+            b = bubble.Bubble(Player.page)
+            Player.page.addActor('bubble', b)
+            self.mAttackInput = False
 
         # 이동
         xMove = self.mXDelta * self.mSpeed * Player.page.mGame.deltaTime
@@ -103,8 +110,8 @@ class Player:
             self.mTime = 0
             self.mImageIndex = 0
             self.mAction = 'Attack'
-            b = bubble.Bubble(Player.page)
-            Player.page.addActor('bubble', b)
+            self.mAttackInput = True
+
 
     def jump(self):
         if self.mAction != 'Jump' and self.mYDelta == 0:

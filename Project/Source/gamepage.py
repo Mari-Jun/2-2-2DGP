@@ -8,7 +8,7 @@ import physics
 class GamePage:
     def __init__(self, game):
         self.mGame = game
-        self.mActorName = ['item', 'enemy', 'bubble', 'player', 'ui']
+        self.mActorName = ['item', 'bubble', 'enemy', 'player', 'ui']
         self.mActors = {}
         self.mDeadActors = []
         self.map = None
