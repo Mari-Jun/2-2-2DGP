@@ -1,4 +1,5 @@
 from pico2d import *
+import map
 
 def isCollide(a, b):
 	if a[0] > b[2]: return False
@@ -12,6 +13,15 @@ def isCollideBlock(a, b):
 	if a[2] < b[0]: return False
 	if a[1] > b[3]: return False
 	if a[3] < b[3]: return False
+	if b[1] < a[1] < b[3]:
+		return True
+	return False
+
+def isCollideJumpCheck(a, b):
+	if a[0] > b[2]: return False
+	if a[2] < b[0]: return False
+	if a[1] > b[3]: return False
+	if a[3] < b[3]: return False
 	return True
 
 def collides(actor, bb):
@@ -19,6 +29,9 @@ def collides(actor, bb):
 
 def collidesBlock(bb, block):
 	return isCollideBlock(bb, block)
+
+def collidesJumpCheck(bb, block):
+	return isCollideJumpCheck(bb, block)
 
 def collidesBox(a, b):
 	return isCollide(a.getBB(), b.getBB())

@@ -5,31 +5,29 @@ import Actor
 class Map:
 
     page = None
-    stage = 1
-    maxStage = 1
-    imageName = ['front', 'back']
+    maxStage = 2
+    imageName = ['front']
     images = {}
     datas = {}
     ldPos = (0, 50)
     sideBlocks = [(0, 0, 40, 700), (760, 0, 800, 700)]
 
     def __init__(self, page):
+        self.mTime = 0.0
+        self.mStage = 2
         Map.page = page
-        self.load()
+        self.loadImage('front')
+        self.loadStage()
 
-    def load(self):
-        Map.loadImage('front')
-        Map.loadImage('back')
-
-        #blocks는 벽돌들로 스테이지 넘어갈때 로딩하게 구현원함
+    def loadStage(self):
+        # blocks는 벽돌들로 스테이지 넘어갈때 로딩하게 구현원함
         Map.datas.clear()
-        Map.datas['block'] = Map.loadMapData(Map.stage, 'block')
-        Map.datas['enemy'] = Map.loadMapData(Map.stage, 'enemy')
+        Map.datas['block'] = self.loadMapData('block')
+        Map.datas['enemy'] = self.loadMapData('enemy')
         for enemy in Map.datas['enemy']:
             self.loadEnemy(enemy)
 
-    @staticmethod
-    def loadImage(char):
+    def loadImage(self, char):
         fileName = '%s/map/stage%s%s.png'
 
         images = []
@@ -44,10 +42,9 @@ class Map:
 
         Map.images[char] = images
 
-    @staticmethod
-    def loadMapData(stage, data):
+    def loadMapData(self, data):
         fileName = '%s/map/stage%s%s.json'
-        fn = fileName % (Map.page.mGame.imageDir, stage, data)
+        fn = fileName % (Map.page.mGame.imageDir, self.mStage, data)
         return mapdata.load(fn, data, Map.ldPos)
 
     def loadEnemy(self, enemy):
@@ -62,12 +59,16 @@ class Map:
             Map.page.addActor('enemy', banebou)
 
     def update(self):
-        pass
+        if len(Map.page.mActors['enemy']) == 0:
+            self.mTime += Map.page.mGame.deltaTime
+            if self.mTime > 5.0:
+                self.mStage += 1
+                self.loadStage()
+        else:
+            self.mTime = 0.0
 
     def draw(self):
-        image = Map.images['back'][Map.stage - 1]
-        image.draw(image.w / 2 + Map.ldPos[0], image.h / 2 + Map.ldPos[1])
-        image = Map.images['front'][Map.stage - 1]
+        image = Map.images['front'][self.mStage - 1]
         image.draw(image.w / 2 + Map.ldPos[0], image.h / 2 + Map.ldPos[1])
 
         #충돌 박스 그리기

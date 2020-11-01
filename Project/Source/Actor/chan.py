@@ -4,6 +4,7 @@ from Actor import actorhelper
 import physics
 from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
+
 class Chan:
     page = None
     player = None
@@ -106,7 +107,7 @@ class Chan:
             upSize = jumpSize[-1] + 80
             jumpSize = jumpSize[0], jumpSize[1], jumpSize[2], upSize;
             for b in Chan.page.map.datas['block']:
-                if block != b and physics.collidesBlock(jumpSize, b):
+                if block != b and physics.collidesJumpCheck(jumpSize, b):
                     self.mAction = "Jump"
                     self.mYDelta = 5
                     actorhelper.resetImageIndex(self)
@@ -117,10 +118,10 @@ class Chan:
         if ((self.mXDelta > 0 and block[2] - 20 < self.mXPos < block[2] - 10) or \
             (self.mXDelta < 0 and block[0] + 10 < self.mXPos < block[0] + 20)) and \
                 self.mYPos <= Chan.player.mYPos + 10:
-            #바라보는 경우
+            # 바라보는 경우
             if (Chan.player.mXPos - self.mXPos) * self.mXDelta > 0:
                 r = 0
-            #바라보지 않는 경우
+            # 바라보지 않는 경우
             else:
                 r = random.randint(0, 4)
             if r == 0:
@@ -143,7 +144,9 @@ class Chan:
         # 충돌 검사
         self.mYPos += yMove
         for block in Chan.page.map.datas['block']:
-            if physics.collidesBlock(self.getBB(), block) and self.mYDelta < 0:
+            if physics.collidesBlock(self.getBB(), block) and self.mYDelta < 0 or \
+                    physics.collides(self, Chan.page.map.sideBlocks[0]) or \
+                    physics.collides(self, Chan.page.map.sideBlocks[1]):
                 self.mYPos -= yMove
                 self.mYDelta = 0
 

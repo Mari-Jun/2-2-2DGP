@@ -11,6 +11,8 @@ def load(file, data, ldPos):
     with open(file, 'r') as f:
         dataList = json.load(f)
 
+    print('%s load complete' % file)
+
     if data == 'block':
         return loadBlock(dataList, file, ldPos)
     elif data == 'enemy':

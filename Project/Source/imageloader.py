@@ -8,8 +8,6 @@ class ImageLoader:
         if fileName in self.images:
             return self.images[fileName]
 
-        print(fileName)
-
         image = load_image(fileName)
         self.images[fileName] = image
         return image
