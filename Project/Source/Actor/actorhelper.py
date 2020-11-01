@@ -1,4 +1,5 @@
 from pico2d import *
+from Actor import player
 from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
 def load_image(actor, char):
@@ -23,11 +24,10 @@ def load_image(actor, char):
     return images
 
 def commomUpdate(actor):
-    if actor.mAction != 'Die':
-        if actor.mYPos < 50:
-            actor.mYPos = 570
-        if actor.mYPos > 570:
-            actor.mYPos = 50
+    if actor.mYPos < 50:
+        actor.mYPos = 570
+    if actor.mYPos > 570:
+        actor.mYPos = 50
 
 def commomDraw(actor):
     # 이미지 변환

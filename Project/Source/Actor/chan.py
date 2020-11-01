@@ -51,7 +51,8 @@ class Chan:
             self.mYDelta -= 10 * Chan.page.mGame.deltaTime
 
         # 공통 부분 업데이트
-        actorhelper.commomUpdate(self)
+        if self.mAction != 'Die':
+            actorhelper.commomUpdate(self)
 
         self.bt.run()
 
