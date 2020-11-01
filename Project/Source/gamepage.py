@@ -55,7 +55,7 @@ class GamePage:
     def addActor(self, name, actor):
         self.mActors[name].append(actor)
 
-    def removeActor (self, actor):
+    def removeActor  (self, actor):
         self.mDeadActors.append(actor)
 
     def clearActor(self):

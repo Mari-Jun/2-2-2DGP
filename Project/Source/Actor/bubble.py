@@ -20,7 +20,6 @@ class Bubble:
         self.mXPos = player.mXPos + self.mXDelta * (player.mBB[0] + self.mBB[0])
         self.mYPos = player.mYPos
         self.mSpeed = 350
-        self.mLength = 300
         self.mAttack = True
         self.mTime = 0
         self.mImageIndex = 0
@@ -63,6 +62,10 @@ class Bubble:
     def getBB(self):
         return self.mXPos - self.mBB[0], self.mYPos - self.mBB[1], self.mXPos + self.mBB[0], self.mYPos + self.mBB[1]
 
+    def getBTB(self):
+        lx, ly, rx, ry = self.getBB()
+        return lx + 10, ly + 10, rx - 10, ry - 10
+
     def collidePlayer(self):
         for player in Bubble.page.mActors['player']:
             if physics.collides(self, player.getBB()):
@@ -73,13 +76,26 @@ class Bubble:
                     self.mAction = 'Die'
                     actorhelper.resetImageIndex(self)
                 else:
-                    self.mLength = 50
-                    self.mSpeed = 300
                     self.mXDelta = player.mXDelta
-                    self.mYDelta = 1
 
-    def collideBubble(self):
-        pass
+    def collideBubble(self, xMove, yMove):
+        count = 0
+        for bub in Bubble.page.mActors['bubble']:
+            if bub != self and physics.collidesBTB(self, bub):
+                self.mXPos -= xMove
+                bub.mXPos += xMove
+                self.mYPos -= yMove
+                bub.mYPos += yMove
+                if xMove != 0:
+                    self.mXDelta *= -1
+                    bub.mXDelta *= -1
+                if yMove != 0:
+                    self.mYDelta *= -1
+                    bub.mYDelta *= -1
+                count += 1
+        if count >= 4 and self.mEnemy is None:
+            self.mAction = 'Die'
+            actorhelper.resetImageIndex(self)
 
     def collideEnemy(self):
         for enemy in Bubble.page.mActors['enemy']:
@@ -96,6 +112,8 @@ class Bubble:
             for block in Bubble.page.map.datas['block']:
                 if physics.collides(self, block):
                     self.mXPos -= xMove
+                    self.mAction = 'Move'
+                    self.mSpeed = 100
                     break
 
     def doAttack(self):
@@ -126,21 +144,28 @@ class Bubble:
 
         self.mXPos += xMove
         self.mYPos += yMove
-        self.mXDelta = 0
         # 임시로 뭉쳐놓기
         if 430 < self.mYPos < 450:
-            if self.mXPos >= get_canvas_width() / 2 + 10:
+            if self.mXPos >= get_canvas_width() / 2 + 60:
                 self.mXDelta = -1
-            elif self.mXPos <= get_canvas_width() / 2 - 10:
+                self.mYDelta = 0
+            elif self.mXPos <= get_canvas_width() / 2 - 60:
                 self.mXDelta = 1
+                self.mYDelta = 0
+            else:
+                if self.mYDelta == 0:
+                    self.mYDelta = 1
         elif self.mYPos <= 430:
             self.mYDelta = 1
+            self.mXDelta = 0
         else:
             self.mYDelta = -1
+            self.mXDelta = 0
 
         # 충돌 검사
         self.collidePlayer()
         self.collideBlock(xMove)
+        self.collideBubble(xMove, yMove)
 
         return BehaviorTree.SUCCESS
 

@@ -23,6 +23,12 @@ def collidesBlock(bb, block):
 def collidesBox(a, b):
 	return isCollide(a.getBB(), b.getBB())
 
+def collidesBTB(a, b):
+	return isCollide(a.getBTB(), b.getBTB())
+
 def drawCollisionBox(actor):
-    if hasattr(actor, 'getBB'):
-        draw_rectangle(*actor.getBB())
+	if hasattr(actor, 'getBB'):
+		draw_rectangle(*actor.getBB())
+
+	if hasattr(actor, 'getBTB'):
+		draw_rectangle(*actor.getBTB())
