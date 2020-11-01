@@ -9,12 +9,12 @@ class Monsta:
     imageIndexs = {'Move': 2, 'Inb': 3, 'Die': 4}
     images = { }
 
-    def __init__(self, page, xPos, yPos):
+    def __init__(self, page, xPos, yPos, left):
         Monsta.page = page
         self.load()
         self.mImages = actorhelper.load_image(self, 'monsta')
         self.mXPos = xPos
-        self.mXDelta = -1
+        self.mXDelta = -1 if left else 1
         self.mYPos = yPos
         self.mYDelta = -1
         self.mFlip = ''

@@ -9,12 +9,12 @@ class Banebou:
     imageIndexs = {'Move': 6, 'Inb': 3, 'Die': 4}
     images = { }
 
-    def __init__(self, page, xPos, yPos):
+    def __init__(self, page, xPos, yPos, left):
         Banebou.page = page
         self.load()
         self.mImages = actorhelper.load_image(self, 'banebou')
         self.mXPos = xPos
-        self.mXDelta = -1
+        self.mXDelta = -1 if left else 1
         self.mYPos = yPos
         self.mYDelta = -1
         self.mFlip = ''

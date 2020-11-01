@@ -5,7 +5,7 @@ import Actor
 class Map:
 
     page = None
-    maxStage = 2
+    maxStage = 3
     imageName = ['front']
     images = {}
     datas = {}
@@ -14,7 +14,7 @@ class Map:
 
     def __init__(self, page):
         self.mTime = 0.0
-        self.mStage = 2
+        self.mStage = 3
         Map.page = page
         self.loadImage('front')
         self.loadStage()
@@ -49,13 +49,13 @@ class Map:
 
     def loadEnemy(self, enemy):
         if enemy[0] == 'chan':
-            chan = Actor.chan.Chan(Map.page, enemy[1], enemy[2])
+            chan = Actor.chan.Chan(Map.page, enemy[1], enemy[2], enemy[3])
             Map.page.addActor('enemy', chan)
         elif enemy[0] == 'monsta':
-            monsta = Actor.monsta.Monsta(Map.page, enemy[1], enemy[2])
+            monsta = Actor.monsta.Monsta(Map.page, enemy[1], enemy[2], enemy[3])
             Map.page.addActor('enemy', monsta)
         elif enemy[0] == 'banebou':
-            banebou = Actor.banebou.Banebou(Map.page, enemy[1], enemy[2])
+            banebou = Actor.banebou.Banebou(Map.page, enemy[1], enemy[2], enemy[3])
             Map.page.addActor('enemy', banebou)
 
     def update(self):

@@ -32,7 +32,7 @@ def loadEnemy(dataList, file, ldPos):
     enemys = []
 
     for data in dataList:
-        enemys.append((data['name'], data['x'] + ldPos[0], data['y'] + ldPos[1]))
+        enemys.append((data['name'], data['x'] + ldPos[0], data['y'] + ldPos[1], data['left']))
 
     mapdatas[file] = enemys
     return enemys
