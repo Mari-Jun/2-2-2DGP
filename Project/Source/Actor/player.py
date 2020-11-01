@@ -48,6 +48,9 @@ class Player:
         # 중력 설정
         if self.mYDelta > -5:
             self.mYDelta -= 10 * Player.page.mGame.deltaTime
+        
+        #공통 부분 업데이트
+        actorhelper.commomUpdate(self)
 
         # 공격 딜레이 감소
         if self.mAttackDelay > 0:
@@ -61,8 +64,6 @@ class Player:
 
         # 이동
         xMove = self.mXDelta * self.mSpeed * Player.page.mGame.deltaTime
-        if self.mYDelta <= -5:
-            xMove /= 5
         yMove = self.mYDelta * self.mSpeed / 2 * Player.page.mGame.deltaTime
 
         # 충돌 검사

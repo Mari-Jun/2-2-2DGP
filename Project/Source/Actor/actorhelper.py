@@ -23,7 +23,11 @@ def load_image(actor, char):
     return images
 
 def commomUpdate(actor):
-    pass
+    if actor.mAction != 'Die':
+        if actor.mYPos < 50:
+            actor.mYPos = 570
+        if actor.mYPos > 570:
+            actor.mYPos = 50
 
 def commomDraw(actor):
     # 이미지 변환

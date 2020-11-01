@@ -42,6 +42,10 @@ class Banebou:
         # 중력 설정
         if self.mYDelta > -3:
             self.mYDelta -= 10 * Banebou.page.mGame.deltaTime
+
+        # 공통 부분 업데이트
+        actorhelper.commomUpdate(self)
+
         self.bt.run()
 
     def draw(self):

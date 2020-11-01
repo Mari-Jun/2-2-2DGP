@@ -49,6 +49,10 @@ class Chan:
         # 중력 설정
         if self.mYDelta > -5:
             self.mYDelta -= 10 * Chan.page.mGame.deltaTime
+
+        # 공통 부분 업데이트
+        actorhelper.commomUpdate(self)
+
         self.bt.run()
 
     def draw(self):

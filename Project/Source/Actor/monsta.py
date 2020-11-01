@@ -39,6 +39,9 @@ class Monsta:
         Monsta.page.removeActor(self)
 
     def update(self):
+        # 공통 부분 업데이트
+        actorhelper.commomUpdate(self)
+
         self.bt.run()
 
     def draw(self):
