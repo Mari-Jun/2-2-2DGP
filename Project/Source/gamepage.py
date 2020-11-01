@@ -2,6 +2,7 @@ from pico2d import *
 import gameframework
 import Actor
 import map
+import score
 import pausepage
 import physics
 
@@ -22,19 +23,24 @@ class GamePage:
         self.load()
 
     def load(self):
+        self.mBKImage = self.mGame.imageLoader.load(self.mGame.imageDir + 'game.png')
         dragon = Actor.player.Player(self)
         self.addActor('player', dragon)
         self.map = map.Map(self)
+        self.mScore = score.Score(self, gameframework.canvasWidth / 2 + 130, gameframework.canvasHeight - 60)
+        self.addActor('ui', self.mScore)
 
     def update(self):
         self.map.update()
         for name in self.mActorName:
             for actor in self.mActors[name]:
                 actor.update()
+
         if len(self.mDeadActors) > 0:
             self.clearDeadActor()
 
     def draw(self):
+        self.mBKImage.draw(gameframework.canvasWidth / 2, gameframework.canvasHeight / 2)
         self.map.draw()
         for name in self.mActorName:
             for actor in self.mActors[name]:
@@ -48,9 +54,8 @@ class GamePage:
             self.mGame.pushPage(pausepage.PausePage(self.mGame))
             self.mGame.isPause = True
 
-        for name in self.mActorName:
-            for actor in self.mActors[name]:
-                actor.processInput(key)
+        for actor in self.mActors['player']:
+            actor.processInput(key)
 
     def addActor(self, name, actor):
         self.mActors[name].append(actor)

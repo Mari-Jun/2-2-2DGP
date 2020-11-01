@@ -29,7 +29,7 @@ class Bubble:
         #생성 위치가 충돌 위치라면
         for block in Bubble.page.map.datas['block']:
             if physics.collides(self, block):
-                self.unLoad()
+                self.mAction = 'Die'
 
     def load(self):
         if len(Bubble.images) == 0:
@@ -56,9 +56,6 @@ class Bubble:
         image.clip_draw(startX, 0, image.w // self.imageIndexs[self.mAction], image.h,
                         self.mXPos, self.mYPos, image.w // self.imageIndexs[self.mAction], image.h)
 
-    def processInput(self, key):
-        pass
-
     def getBB(self):
         return self.mXPos - self.mBB[0], self.mYPos - self.mBB[1], self.mXPos + self.mBB[0], self.mYPos + self.mBB[1]
 
@@ -69,19 +66,22 @@ class Bubble:
     def collidePlayer(self):
         for player in Bubble.page.mActors['player']:
             if physics.collides(self, player.getBB()):
-                if abs(player.mXDelta) < abs(player.mYDelta):
+                if player.mYDelta != 0:
                     if self.mEnemy is not None:
                         self.mEnemy.mAction = 'Die'
+                        self.mEnemy.mYDelta = 3
                         actorhelper.resetImageIndex(self.mEnemy)
                     self.mAction = 'Die'
                     actorhelper.resetImageIndex(self)
+                    break
                 else:
                     self.mXDelta = player.mXDelta
+                    self.mYDelta = (self.mYPos - player.mYPos) / abs(self.mYPos - player.mYPos)
 
     def collideBubble(self, xMove, yMove):
         count = 0
         for bub in Bubble.page.mActors['bubble']:
-            if bub != self and physics.collidesBTB(self, bub):
+            if bub != self and bub.mAction != 'Attack' and physics.collidesBTB(self, bub):
                 self.mXPos -= xMove
                 bub.mXPos += xMove
                 self.mYPos -= yMove
@@ -163,9 +163,9 @@ class Bubble:
             self.mXDelta = 0
 
         # 충돌 검사
-        self.collidePlayer()
         self.collideBlock(xMove)
         self.collideBubble(xMove, yMove)
+        self.collidePlayer()
 
         return BehaviorTree.SUCCESS
 
@@ -174,6 +174,7 @@ class Bubble:
             return BehaviorTree.FAIL
 
         if self.mImageIndex >= Bubble.imageIndexs['Die']:
+            Bubble.page.mScore.score += 10
             self.unLoad()
 
         return BehaviorTree.SUCCESS

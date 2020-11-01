@@ -4,7 +4,6 @@ from Actor import actorhelper
 import physics
 from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
-
 class Chan:
     page = None
     player = None
@@ -53,9 +52,6 @@ class Chan:
 
     def draw(self):
         actorhelper.commomDraw(self)
-
-    def processInput(self, key):
-        pass
 
     def getBB(self):
         hw = self.mImages['Move'].w // Chan.imageIndexs['Move'] / 2 - 15
@@ -176,13 +172,7 @@ class Chan:
         return BehaviorTree.SUCCESS
 
     def doDie(self):
-        if self.mAction != 'Die':
-            return BehaviorTree.FAIL
-
-        if self.mImageIndex >= Chan.imageIndexs['Die']:
-            self.unLoad()
-
-        return BehaviorTree.SUCCESS
+        return actorhelper.commonDoDie(self)
 
     def build_behavior_tree(self):
         self.bt = BehaviorTree.build({

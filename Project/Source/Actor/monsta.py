@@ -44,9 +44,6 @@ class Monsta:
     def draw(self):
         actorhelper.commomDraw(self)
 
-    def processInput(self, key):
-        pass
-
     def getBB(self):
         hw = self.mImages['Move'].w // Monsta.imageIndexs['Move'] / 2 - 15
         hh = self.mImages['Move'].h / 2 - 10
@@ -87,13 +84,7 @@ class Monsta:
         return BehaviorTree.SUCCESS
 
     def doDie(self):
-        if self.mAction != 'Die':
-            return BehaviorTree.FAIL
-
-        if self.mImageIndex + 1 == Monsta.imageIndexs['Die']:
-            self.unLoad()
-
-        return BehaviorTree.SUCCESS
+        return actorhelper.commonDoDie(self)
 
     def build_behavior_tree(self):
         self.bt = BehaviorTree.build({
