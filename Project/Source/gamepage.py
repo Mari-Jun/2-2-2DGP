@@ -13,6 +13,7 @@ class GamePage:
         self.mActors = {}
         self.mDeadActors = []
         self.map = None
+        self.mEndGame = False
 
     def __del__(self):
         self.clearActor()
@@ -38,6 +39,10 @@ class GamePage:
 
         if len(self.mDeadActors) > 0:
             self.clearDeadActor()
+
+        print(self.mEndGame)
+        if self.mEndGame:
+            self.mGame.popPage()
 
     def draw(self):
         self.mBKImage.draw(gameframework.canvasWidth / 2, gameframework.canvasHeight / 2)
