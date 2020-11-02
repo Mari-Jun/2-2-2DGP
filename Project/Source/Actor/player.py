@@ -77,13 +77,13 @@ class Player:
                 break
 
         if self.mYDelta <= 0:
-            for block in Player.page.map.datas['block']:
+            for block in Player.page.map.getBlockData():
                 if physics.collidesBlock(self.getBB(), block):
                     self.mXPos -= xMove
                     break
 
         self.mYPos += yMove
-        for block in Player.page.map.datas['block']:
+        for block in Player.page.map.getBlockData():
             if physics.collidesBlock(self.getBB(), block) and self.mYDelta < 0:
                 self.mYPos -= yMove
                 self.mYDelta = 0

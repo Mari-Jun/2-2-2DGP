@@ -77,7 +77,7 @@ class Chan:
         yMove = self.mYDelta * self.mSpeed / 2 * Chan.page.mGame.deltaTime
 
         self.mXPos += xMove
-        for block in Chan.page.map.datas['block']:
+        for block in Chan.page.map.getBlockData():
             if physics.collides(self, block):
                 self.mXPos -= xMove
                 self.mXDelta *= -1
@@ -85,7 +85,7 @@ class Chan:
 
         self.mYPos += yMove
         collide = False
-        for block in Chan.page.map.datas['block']:
+        for block in Chan.page.map.getBlockData():
             if physics.collidesBlock(self.getBB(), block) and self.mYDelta < 0:
                 self.mYPos -= yMove
                 self.mYDelta = 0
@@ -111,7 +111,7 @@ class Chan:
             jumpSize = self.getBB()
             upSize = jumpSize[-1] + 80
             jumpSize = jumpSize[0], jumpSize[1], jumpSize[2], upSize;
-            for b in Chan.page.map.datas['block']:
+            for b in Chan.page.map.getBlockData():
                 if block != b and physics.collidesJumpCheck(jumpSize, b):
                     self.mAction = "Jump"
                     self.mYDelta = 5
@@ -148,7 +148,7 @@ class Chan:
 
         # 충돌 검사
         self.mYPos += yMove
-        for block in Chan.page.map.datas['block']:
+        for block in Chan.page.map.getBlockData():
             if physics.collidesBlock(self.getBB(), block) and self.mYDelta < 0 or \
                     physics.collides(self, Chan.page.map.sideBlocks[0]) or \
                     physics.collides(self, Chan.page.map.sideBlocks[1]):

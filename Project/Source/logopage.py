@@ -1,7 +1,7 @@
 #로고 페이지이며 로딩 페이지
 
 from pico2d import *
-import gameframework
+from GFW import gameframework
 import titlepage
 
 

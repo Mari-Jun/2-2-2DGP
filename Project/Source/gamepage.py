@@ -1,7 +1,7 @@
 from pico2d import *
-import gameframework
+from GFW import gameframework
 import Actor
-import map
+import MapInfo
 import score
 import pausepage
 import physics
@@ -26,7 +26,7 @@ class GamePage:
         self.mBKImage = self.mGame.imageLoader.load(self.mGame.imageDir + 'game.png')
         dragon = Actor.player.Player(self)
         self.addActor('player', dragon)
-        self.map = map.Map(self)
+        self.map = MapInfo.map.Map(self)
         self.mScore = score.Score(self, gameframework.canvasWidth / 2 + 130, gameframework.canvasHeight - 60)
         self.addActor('ui', self.mScore)
 

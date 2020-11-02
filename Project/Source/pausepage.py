@@ -1,5 +1,5 @@
 from pico2d import *
-import gameframework
+from GFW import gameframework
 import selecter
 
 

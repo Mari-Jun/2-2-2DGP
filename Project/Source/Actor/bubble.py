@@ -27,7 +27,7 @@ class Bubble:
         self.mEnemy = None
 
         #생성 위치가 충돌 위치라면
-        for block in Bubble.page.map.datas['block']:
+        for block in Bubble.page.map.getBlockData():
             if physics.collides(self, block):
                 self.mAction = 'Die'
 
@@ -109,7 +109,7 @@ class Bubble:
 
     def collideBlock(self, xMove):
         if self.mYDelta != 0:
-            for block in Bubble.page.map.datas['block']:
+            for block in Bubble.page.map.getBlockData():
                 if physics.collides(self, block):
                     self.mXPos -= xMove
                     self.mAction = 'Move'

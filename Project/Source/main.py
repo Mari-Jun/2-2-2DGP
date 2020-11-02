@@ -1,4 +1,4 @@
-import gameframework
+from GFW import gameframework
 import logopage
 
 game = gameframework.Game()

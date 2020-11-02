@@ -1,5 +1,4 @@
 from pico2d import *
-import map
 
 def isCollide(a, b):
 	if a[0] > b[2]: return False

@@ -1,6 +1,6 @@
 import time
 from pico2d import *
-import imageloader
+from GFW import imageloader
 
 canvasWidth = 800
 canvasHeight = 650

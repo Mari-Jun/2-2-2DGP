@@ -1,5 +1,5 @@
 from pico2d import *
-import mapdata
+from MapInfo import mapdata
 import Actor
 
 class Map:
@@ -14,17 +14,16 @@ class Map:
 
     def __init__(self, page):
         self.mTime = 0.0
-        self.mStage = 3
+        self.mStage = 1
         Map.page = page
         self.loadImage('front')
+        self.loadMapData('block')
+        self.loadMapData('enemy')
         self.loadStage()
 
     def loadStage(self):
         # blocks는 벽돌들로 스테이지 넘어갈때 로딩하게 구현원함
-        Map.datas.clear()
-        Map.datas['block'] = self.loadMapData('block')
-        Map.datas['enemy'] = self.loadMapData('enemy')
-        for enemy in Map.datas['enemy']:
+        for enemy in Map.datas['enemy'][self.mStage - 1]:
             self.loadEnemy(enemy)
 
     def loadImage(self, char):
@@ -44,8 +43,15 @@ class Map:
 
     def loadMapData(self, data):
         fileName = '%s/map/stage%s%s.json'
-        fn = fileName % (Map.page.mGame.imageDir, self.mStage, data)
-        return mapdata.load(fn, data, Map.ldPos)
+
+        mapData = []
+
+        for stage in range(0, Map.maxStage):
+            fn = fileName % (Map.page.mGame.imageDir, stage + 1, data)
+            if os.path.isfile(fn):
+                mapData.append(mapdata.load(fn, data, Map.ldPos))
+
+        Map.datas[data] = mapData
 
     def loadEnemy(self, enemy):
         if enemy[0] == 'chan':
@@ -72,7 +78,9 @@ class Map:
         image.draw(image.w / 2 + Map.ldPos[0], image.h / 2 + Map.ldPos[1])
 
         #충돌 박스 그리기
-        for block in Map.datas['block']:
+        for block in self.getBlockData():
             draw_rectangle(*block)
 
+    def getBlockData(self):
+        return Map.datas['block'][self.mStage - 1]
 
