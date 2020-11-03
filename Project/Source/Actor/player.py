@@ -22,9 +22,9 @@ class Player:
         self.load()
         self.mImages = actorhelper.load_image(self, 'green')
         self.mBB = self.mImages['Stop'].w // Player.imageIndexs['Stop'] / 2 - 10, self.mImages['Stop'].h / 2 - 10
-        self.mXPos = 100
+        self.mXPos = get_canvas_width() / 2
         self.mXDelta = 0
-        self.mYPos = 110
+        self.mYPos = get_canvas_height() / 2
         self.mYDelta = -5
         self.mFlip = ''
         self.mSpeed = 200
@@ -48,7 +48,7 @@ class Player:
         # 중력 설정
         if self.mYDelta > -5:
             self.mYDelta -= 10 * Player.page.mGame.deltaTime
-        
+
         #공통 부분 업데이트
         actorhelper.commomUpdate(self)
 
@@ -65,6 +65,12 @@ class Player:
         # 이동
         xMove = self.mXDelta * self.mSpeed * Player.page.mGame.deltaTime
         yMove = self.mYDelta * self.mSpeed / 2 * Player.page.mGame.deltaTime
+
+        # 로딩중일 경우
+        if Player.page.map.mStageChange:
+            xMove = 0
+            yMove = 0
+            self.mAction = 'Move'
 
         # 충돌 검사
         self.collideBlock(xMove, yMove)
@@ -100,10 +106,11 @@ class Player:
         pair = (key.type, key.key)
         if pair in Player.keyMap:
             self.mXDelta += Player.keyMap[pair][0]
-        elif pair == Player.KEYDOWN_ATTACK:
+        elif pair == Player.KEYDOWN_ATTACK and not Player.page.map.mStageChange:
             self.attack()
-        elif pair == Player.KEYDOWN_JUMP:
+        elif pair == Player.KEYDOWN_JUMP and not Player.page.map.mStageChange:
             self.jump()
+
 
     def attack(self):
         if self.mAttackDelay == 0:

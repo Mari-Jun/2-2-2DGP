@@ -14,8 +14,8 @@ class Map:
 
     def __init__(self, page):
         self.mTime = 0.0
-        self.mStage = 3
-        self.mStageChange = False
+        self.mStage = 1
+        self.mStageChange = True
         Map.page = page
         self.loadImage('front')
         self.loadMapData('block')
@@ -24,8 +24,14 @@ class Map:
 
     def loadStage(self):
         # blocks는 벽돌들로 스테이지 넘어갈때 로딩하게 구현원함
+        for enemy in Map.page.mActors['enemy']:
+            enemy.mAction = 'Die'
         for enemy in Map.datas['enemy'][self.mStage - 1]:
             self.loadEnemy(enemy)
+        for bubble in Map.page.mActors['bubble']:
+            bubble.mAction = 'Die'
+        self.moveX = (100 - Map.page.mActors['player'][0].mXPos)
+        self.moveY = 100 - Map.page.mActors['player'][0].mYPos
 
     def loadImage(self, char):
         fileName = '%s/map/stage%s%s.png'
@@ -77,19 +83,27 @@ class Map:
                     self.mStageChange = True
                     self.mTime = 0.0
 
-    def draw(self):
         if self.mStageChange:
             self.mTime += Map.page.mGame.deltaTime
-            bImage = Map.images['front'][self.mStage - 2]
-            nImage = Map.images['front'][self.mStage - 1]
-            divideY = round(275 * self.mTime)
+            Map.page.mActors['player'][0].mXPos += self.moveX * Map.page.mGame.deltaTime / 2
+            Map.page.mActors['player'][0].mYPos += self.moveY * Map.page.mGame.deltaTime / 2
 
-            bImage.clip_draw_to_origin(0, divideY, bImage.w, bImage.h - divideY, \
-                                       0, 50 + divideY, bImage.w, bImage.h - divideY)
-            nImage.clip_draw_to_origin(0, nImage.h - divideY, nImage.w, divideY, \
-                                       0, 50,  nImage.w, divideY)
-            if divideY > nImage.h:
+
+    def draw(self):
+        if self.mStageChange:
+            self.divideY = round(275 * self.mTime)
+
+            if self.mStage > 1:
+                bImage = Map.images['front'][self.mStage - 2]
+                bImage.clip_draw_to_origin(0, 0, bImage.w, bImage.h - self.divideY, \
+                                           0, 50 + self.divideY, bImage.w, bImage.h - self.divideY)
+
+            nImage = Map.images['front'][self.mStage - 1]
+            nImage.clip_draw_to_origin(0, nImage.h - self.divideY, nImage.w, self.divideY,\
+                                       0, 50,  nImage.w, self.divideY)
+            if self.divideY > nImage.h:
                 self.mStageChange = False
+
         else:
             image = Map.images['front'][self.mStage - 1]
             image.draw_to_origin(0, 50)

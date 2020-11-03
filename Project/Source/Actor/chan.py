@@ -54,7 +54,8 @@ class Chan:
         if self.mAction != 'Die':
             actorhelper.commomUpdate(self)
 
-        self.bt.run()
+        if not Chan.page.map.mStageChange:
+            self.bt.run()
 
     def draw(self):
         actorhelper.commomDraw(self)
