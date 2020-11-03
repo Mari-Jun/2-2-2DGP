@@ -40,7 +40,6 @@ class GamePage:
         if len(self.mDeadActors) > 0:
             self.clearDeadActor()
 
-        print(self.mEndGame)
         if self.mEndGame:
             self.mGame.popPage()
 

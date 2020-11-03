@@ -15,6 +15,7 @@ class Map:
     def __init__(self, page):
         self.mTime = 0.0
         self.mStage = 3
+        self.mStageChange = False
         Map.page = page
         self.loadImage('front')
         self.loadMapData('block')
@@ -73,12 +74,25 @@ class Map:
                 else:
                     self.mStage += 1
                     self.loadStage()
-        else:
-            self.mTime = 0.0
+                    self.mStageChange = True
+                    self.mTime = 0.0
 
     def draw(self):
-        image = Map.images['front'][self.mStage - 1]
-        image.draw(image.w / 2 + Map.ldPos[0], image.h / 2 + Map.ldPos[1])
+        if self.mStageChange:
+            self.mTime += Map.page.mGame.deltaTime
+            bImage = Map.images['front'][self.mStage - 2]
+            nImage = Map.images['front'][self.mStage - 1]
+            divideY = round(275 * self.mTime)
+
+            bImage.clip_draw_to_origin(0, divideY, bImage.w, bImage.h - divideY, \
+                                       0, 50 + divideY, bImage.w, bImage.h - divideY)
+            nImage.clip_draw_to_origin(0, nImage.h - divideY, nImage.w, divideY, \
+                                       0, 50,  nImage.w, divideY)
+            if divideY > nImage.h:
+                self.mStageChange = False
+        else:
+            image = Map.images['front'][self.mStage - 1]
+            image.draw_to_origin(0, 50)
 
         #충돌 박스 그리기
         for block in self.getBlockData():
