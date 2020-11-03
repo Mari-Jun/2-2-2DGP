@@ -67,10 +67,6 @@ class Bubble:
         for player in Bubble.page.mActors['player']:
             if physics.collides(self, player.getBB()):
                 if player.mYDelta != 0:
-                    if self.mEnemy is not None:
-                        self.mEnemy.mAction = 'Die'
-                        self.mEnemy.mYDelta = 3
-                        actorhelper.resetImageIndex(self.mEnemy)
                     self.mAction = 'Die'
                     actorhelper.resetImageIndex(self)
                     break
@@ -82,18 +78,21 @@ class Bubble:
         count = 0
         for bub in Bubble.page.mActors['bubble']:
             if bub != self and bub.mAction != 'Attack' and physics.collidesBTB(self, bub):
-                self.mXPos -= xMove
-                bub.mXPos += xMove
-                self.mYPos -= yMove
-                bub.mYPos += yMove
-                if xMove != 0:
-                    self.mXDelta *= -1
-                    bub.mXDelta *= -1
-                if yMove != 0:
-                    self.mYDelta *= -1
-                    bub.mYDelta *= -1
+                if bub.mAction == 'Die' and bub.mTime < 0.2:
+                    count = 10
+                else:
+                    self.mXPos -= xMove
+                    bub.mXPos += xMove
+                    self.mYPos -= yMove
+                    bub.mYPos += yMove
+                    if xMove != 0:
+                        self.mXDelta *= -1
+                        bub.mXDelta *= -1
+                    if yMove != 0:
+                        self.mYDelta *= -1
+                        bub.mYDelta *= -1
                 count += 1
-        if count >= 4 and self.mEnemy is None:
+        if count >= 10 and self.mEnemy is None:
             self.mAction = 'Die'
             actorhelper.resetImageIndex(self)
 
@@ -172,6 +171,11 @@ class Bubble:
     def doDie(self):
         if self.mAction != 'Die':
             return BehaviorTree.FAIL
+
+        if self.mEnemy is not None:
+            self.mEnemy.mAction = 'Die'
+            self.mEnemy.mYDelta = 3
+            actorhelper.resetImageIndex(self.mEnemy)
 
         if self.mImageIndex >= Bubble.imageIndexs['Die']:
             Bubble.page.mScore.score += 10

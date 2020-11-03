@@ -1,5 +1,6 @@
 from pico2d import *
 from Actor import player
+import physics
 from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
 def load_image(actor, char):
@@ -27,7 +28,12 @@ def commomUpdate(actor):
     if actor.mYPos < 50:
         actor.mYPos = 570
     if actor.mYPos > 570:
-        actor.mYPos = 50
+        col = False
+        for block in actor.page.map.getBlockData():
+            if physics.collides(actor, block):
+                col = True
+        if not col:
+            actor.mYPos = 50
 
 def commomDraw(actor):
     # 이미지 변환
