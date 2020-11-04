@@ -59,6 +59,8 @@ class Hidegons:
 
     def draw(self):
         actorhelper.commomDraw(self)
+        if self.mAction == 'Jump':
+            self.mTime -= Hidegons.page.mGame.deltaTime / 2
 
     def getBB(self):
         hw = self.mImages['Move'].w // Hidegons.imageIndexs['Move'] / 2 - 15
