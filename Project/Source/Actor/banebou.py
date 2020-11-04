@@ -89,16 +89,10 @@ class Banebou:
         return BehaviorTree.SUCCESS
 
     def doInBubble(self):
-        if self.mAction != 'Inb':
-            return BehaviorTree.FAIL
-
-        self.mXPos = self.mBubble.mXPos
-        self.mYPos = self.mBubble.mYPos
-
-        return BehaviorTree.SUCCESS
+        return actorhelper.commomInBubble(self)
 
     def doDie(self):
-        return actorhelper.commonDoDie(self)
+        return actorhelper.commomDoDie(self)
 
     def build_behavior_tree(self):
         self.bt = BehaviorTree.build({

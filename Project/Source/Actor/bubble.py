@@ -78,7 +78,7 @@ class Bubble:
         count = 0
         for bub in Bubble.page.mActors['bubble']:
             if bub != self and bub.mAction != 'Attack' and physics.collidesBTB(self, bub):
-                if bub.mAction == 'Die' and bub.mTime < 0.2:
+                if bub.mAction == 'Die' and bub.mTime < 0.2 and physics.collidesBox(self, bub):
                     count = 10
                 else:
                     self.mXPos -= xMove
@@ -92,7 +92,7 @@ class Bubble:
                         self.mYDelta *= -1
                         bub.mYDelta *= -1
                 count += 1
-        if count >= 10 and self.mEnemy is None:
+        if count >= 6 and (self.mEnemy is None or (self.mEnemy is not None and bub.mEnemy is not None)):
             self.mAction = 'Die'
             actorhelper.resetImageIndex(self)
 
@@ -172,7 +172,7 @@ class Bubble:
         if self.mAction != 'Die':
             return BehaviorTree.FAIL
 
-        if self.mEnemy is not None:
+        if self.mEnemy is not None and self.mTime > 0.1:
             self.mEnemy.mAction = 'Die'
             self.mEnemy.mYDelta = 3
             actorhelper.resetImageIndex(self.mEnemy)

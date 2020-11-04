@@ -70,6 +70,9 @@ class Map:
         elif enemy[0] == 'banebou':
             banebou = Actor.banebou.Banebou(Map.page, enemy[1], enemy[2], enemy[3])
             Map.page.addActor('enemy', banebou)
+        elif enemy[0] == 'hidegons':
+            hidegons = Actor.hidegons.Hidegons(Map.page, enemy[1], enemy[2], enemy[3])
+            Map.page.addActor('enemy', hidegons)
 
     def update(self):
         if len(Map.page.mActors['enemy']) == 0:

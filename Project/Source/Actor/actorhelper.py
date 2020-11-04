@@ -1,4 +1,5 @@
 from pico2d import *
+import random
 from Actor import player
 import physics
 from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
@@ -65,7 +66,121 @@ def commomDraw(actor):
     image.clip_composite_draw(startX, 0, image.w // actor.imageIndexs[actor.mAction], image.h, 0, actor.mFlip,
                               actor.mXPos, actor.mYPos, image.w // actor.imageIndexs[actor.mAction], image.h)
 
-def commonDoDie(actor):
+def commomMove(actor):
+    if actor.mAction != 'Move':
+        return BehaviorTree.FAIL
+
+    # 점프 딜레이 설정
+    actor.mJumpDelay = max(0, actor.mJumpDelay - actor.page.mGame.deltaTime)
+    if abs(actor.mXPos - actor.player.mXPos) < 10:
+        actor.mJumpDelay = min(0.1, actor.mJumpDelay - actor.page.mGame.deltaTime)
+
+    xMove = actor.mXDelta * actor.mSpeed * actor.page.mGame.deltaTime
+    yMove = actor.mYDelta * actor.mSpeed / 2 * actor.page.mGame.deltaTime
+
+    actor.mXPos += xMove
+    for block in actor.page.map.getBlockData():
+        if physics.collides(actor, block):
+            actor.mXPos -= xMove
+            actor.mXDelta *= -1
+            break
+
+    actor.mYPos += yMove
+    collide = False
+    for block in actor.page.map.getBlockData():
+        if physics.collidesBlock(actor.getBB(), block) and actor.mYDelta < 0:
+            actor.mYPos -= yMove
+            actor.mYDelta = 0
+            if actor.mXDelta == 0:
+                actor.mXDelta = actor.mOXDelta
+            collide = True
+
+            commomCheckJump(actor, block)
+            commomCheckSemiJump(actor, block)
+            break
+
+    # 그냥 떨어지는 경우
+    if not collide:
+        if actor.mXDelta != 0:
+            actor.mOXDelta = actor.mXDelta
+        actor.mXDelta = 0
+        actor.mJumpDelay = 0.5
+
+    return BehaviorTree.SUCCESS
+
+def commomCheckJump(actor, block):
+    if actor.mYPos < actor.player.mYPos - 80 and actor.mJumpDelay == 0:
+        jumpSize = actor.getBB()
+        upSize = jumpSize[-1] + 80
+        jumpSize = jumpSize[0], jumpSize[1], jumpSize[2], upSize;
+        for b in actor.page.map.getBlockData():
+            if block != b and physics.collidesJumpCheck(jumpSize, b):
+                actor.mAction = "Jump"
+                actor.mYDelta = 5
+                resetImageIndex(actor)
+
+def commomCheckSemiJump(actor, block):
+    # 세미 점프. 살짝 뛰는 방식이다.
+    if ((actor.mXDelta > 0 and block[2] - 20 < actor.mXPos < block[2] - 10) or \
+        (actor.mXDelta < 0 and block[0] + 10 < actor.mXPos < block[0] + 20)) and \
+            actor.mYPos <= actor.player.mYPos + 10:
+        # 바라보는 경우
+        if (actor.player.mXPos - actor.mXPos) * actor.mXDelta > 0:
+            r = 0
+        # 바라보지 않는 경우
+        else:
+            r = random.randint(0, 4)
+        if r == 0:
+            actor.mAction = 'Jump'
+            actor.mYDelta = 3
+            resetImageIndex(actor)
+            actor.mSemiJump = True
+            return BehaviorTree.FAIL
+
+def commomJump(actor):
+    if actor.mAction != 'Jump':
+        return BehaviorTree.FAIL
+
+    if actor.mSemiJump:
+        xMove = actor.mXDelta * actor.mSpeed * actor.page.mGame.deltaTime
+        actor.mXPos += xMove
+
+    yMove = actor.mYDelta * actor.mSpeed / 2 * actor.page.mGame.deltaTime
+
+    # 충돌 검사
+    actor.mYPos += yMove
+    for block in actor.page.map.getBlockData():
+        if physics.collidesBlock(actor.getBB(), block) and actor.mYDelta < 0 or \
+                physics.collides(actor, actor.page.map.sideBlocks[0]) or \
+                physics.collides(actor, actor.page.map.sideBlocks[1]):
+            actor.mYPos -= yMove
+            actor.mYDelta = 0
+
+            # 점프 후 땅에 충돌할 때 AI 재정의
+            if actor.mYPos <= actor.player.mYPos + 10 and not actor.mSemiJump:
+                if actor.mXPos < actor.player.mXPos:
+                    actor.mXDelta = 1
+                else:
+                    actor.mXDelta = -1
+
+            r = random.randint(5, 15)
+            actor.mJumpDelay = r / 10
+            actor.mSemiJump = False
+            actor.mAction = 'Move'
+            break
+
+    return BehaviorTree.SUCCESS
+
+def commomInBubble(actor):
+    if actor.mAction != 'Inb':
+        return BehaviorTree.FAIL
+
+    actor.mXPos = actor.mBubble.mXPos
+    actor.mYPos = actor.mBubble.mYPos
+
+    return BehaviorTree.SUCCESS
+
+def commomDoDie(actor):
     if actor.mAction != 'Die':
         return BehaviorTree.FAIL
 
