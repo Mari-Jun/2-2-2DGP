@@ -1,6 +1,7 @@
 from pico2d import *
 import random
 from Actor import player
+import math
 import physics
 from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
@@ -41,14 +42,13 @@ def commonDraw(actor):
     actor.mTime += actor.page.mGame.deltaTime
     if 'Inb' in actor.imageIndexs and actor.mAction == 'Inb' or\
             'Die' in actor.imageIndexs and actor.mAction == 'Die':
-        actor.mImageIndex = round(actor.mTime * 5)
+        actor.mImageIndex = math.floor(actor.mTime * 5)
     else:
-        actor.mImageIndex = round(actor.mTime * 10)
-
+        actor.mImageIndex = math.floor(actor.mTime * 10)
 
     # 액션 설정
     if actor.mAction == 'Attack' and actor.mImageIndex > actor.imageIndexs['Attack'] or \
-        actor.mAction == 'Stop' or actor.mAction == 'Move':
+            actor.mAction == 'Stop' or actor.mAction == 'Move':
         if 'Stop' in actor.imageIndexs and actor.mXDelta == 0.0:
             actor.mAction = 'Stop'
         elif 'Move' in actor.imageIndexs:
@@ -57,9 +57,11 @@ def commonDraw(actor):
     if actor.mAction != 'Die':
         actor.mImageIndex %= actor.imageIndexs[actor.mAction]
 
-    coomonDrawClipComposite(actor)
+    commonDrawClipComposite(actor)
 
-def coomonDrawClipComposite(actor):
+
+
+def commonDrawClipComposite(actor):
     if actor.mXDelta < 0.0:
         actor.mFlip = 'h'
     elif actor.mXDelta > 0.0:

@@ -7,4 +7,5 @@ import Actor.banebou
 import Actor.hidegons
 import Actor.hidegonsAT
 import Actor.invator
+import Actor.invatorAT
 

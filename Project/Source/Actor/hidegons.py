@@ -71,6 +71,11 @@ class Hidegons:
         if self.mAction != 'Move':
             return BehaviorTree.FAIL
 
+        actorhelper.commonSetJumpDelay(self)
+        actorhelper.commonSetAttackDelay(self)
+        actorhelper.commonXMove(self)
+        actorhelper.commonYMove(self)
+
         if self.mYPos - 10 < Hidegons.player.mYPos < self.mYPos + 10 and \
                 0 < self.mXDelta * (Hidegons.player.mXPos - self.mXPos) < 600 and \
                 self.mAttackDelay == 0.0:
@@ -79,11 +84,6 @@ class Hidegons:
             fire = hidegonsAT.HidegonsAT(Hidegons.page, self.mXPos, self.mYPos, self.mXDelta)
             Hidegons.page.addActor('enemyAT', fire)
             actorhelper.resetImageIndex(self)
-
-        actorhelper.commonSetJumpDelay(self)
-        actorhelper.commonSetAttackDelay(self)
-        actorhelper.commonXMove(self)
-        actorhelper.commonYMove(self)
 
         return BehaviorTree.SUCCESS
 

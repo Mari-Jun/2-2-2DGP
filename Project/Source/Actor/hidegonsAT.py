@@ -39,7 +39,7 @@ class HidegonsAT:
         if self.mImageIndex >= HidegonsAT.imageIndexs['Fire']:
             self.unLoad()
 
-        actorhelper.coomonDrawClipComposite(self)
+        actorhelper.commonDrawClipComposite(self)
 
     def getBB(self):
         return self.mXPos - self.mBB[0], self.mYPos - self.mBB[1], self.mXPos + self.mBB[0], self.mYPos + self.mBB[1]
