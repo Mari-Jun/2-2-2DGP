@@ -52,13 +52,13 @@ class Chan:
 
         # 공통 부분 업데이트
         if self.mAction != 'Die':
-            actorhelper.commomUpdate(self)
+            actorhelper.commonUpdate(self)
 
         if not Chan.page.map.mStageChange:
             self.bt.run()
 
     def draw(self):
-        actorhelper.commomDraw(self)
+        actorhelper.commonDraw(self)
 
     def getBB(self):
         hw = self.mImages['Move'].w // Chan.imageIndexs['Move'] / 2 - 15
@@ -66,16 +66,23 @@ class Chan:
         return self.mXPos - hw, self.mYPos - hh, self.mXPos + hw, self.mYPos + hh
 
     def doMove(self):
-        return actorhelper.commomMove(self)
+        if self.mAction != 'Move':
+            return BehaviorTree.FAIL
+
+        actorhelper.commonSetJumpDelay(self)
+        actorhelper.commonXMove(self)
+        actorhelper.commonYMove(self)
+
+        return BehaviorTree.SUCCESS
 
     def doJump(self):
-        return actorhelper.commomJump(self)
+        return actorhelper.commonJump(self)
 
     def doInBubble(self):
-        return actorhelper.commomInBubble(self)
+        return actorhelper.commonInBubble(self)
 
     def doDie(self):
-        return actorhelper.commomDoDie(self)
+        return actorhelper.commonDoDie(self)
 
     def build_behavior_tree(self):
         self.bt = BehaviorTree.build({

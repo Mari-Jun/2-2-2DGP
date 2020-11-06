@@ -45,13 +45,13 @@ class Banebou:
 
         # 공통 부분 업데이트
         if self.mAction != 'Die':
-            actorhelper.commomUpdate(self)
+            actorhelper.commonUpdate(self)
 
         if not Banebou.page.map.mStageChange:
             self.bt.run()
 
     def draw(self):
-        actorhelper.commomDraw(self)
+        actorhelper.commonDraw(self)
 
     def getBB(self):
         hw = self.mImages['Move'].w // Banebou.imageIndexs['Move'] / 2 - 15
@@ -89,10 +89,10 @@ class Banebou:
         return BehaviorTree.SUCCESS
 
     def doInBubble(self):
-        return actorhelper.commomInBubble(self)
+        return actorhelper.commonInBubble(self)
 
     def doDie(self):
-        return actorhelper.commomDoDie(self)
+        return actorhelper.commonDoDie(self)
 
     def build_behavior_tree(self):
         self.bt = BehaviorTree.build({

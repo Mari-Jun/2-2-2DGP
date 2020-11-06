@@ -25,7 +25,7 @@ def load_image(actor, char):
     print('actor %s load complete' % char)
     return images
 
-def commomUpdate(actor):
+def commonUpdate(actor):
     if actor.mYPos < 50:
         actor.mYPos = 570
     if actor.mYPos > 570:
@@ -36,14 +36,14 @@ def commomUpdate(actor):
         if not col:
             actor.mYPos = 50
 
-def commomDraw(actor):
+def commonDraw(actor):
     # 이미지 변환
     actor.mTime += actor.page.mGame.deltaTime
     if 'Inb' in actor.imageIndexs and actor.mAction == 'Inb' or\
             'Die' in actor.imageIndexs and actor.mAction == 'Die':
-        actor.mImageIndex = int(actor.mTime * 5)
+        actor.mImageIndex = round(actor.mTime * 5)
     else:
-        actor.mImageIndex = int(actor.mTime * 10)
+        actor.mImageIndex = round(actor.mTime * 10)
 
 
     # 액션 설정
@@ -57,33 +57,40 @@ def commomDraw(actor):
     if actor.mAction != 'Die':
         actor.mImageIndex %= actor.imageIndexs[actor.mAction]
 
+    coomonDrawClipComposite(actor)
+
+def coomonDrawClipComposite(actor):
     if actor.mXDelta < 0.0:
         actor.mFlip = 'h'
     elif actor.mXDelta > 0.0:
         actor.mFlip = ''
+
     image = actor.mImages[actor.mAction]
     startX = image.w // actor.imageIndexs[actor.mAction] * actor.mImageIndex
     image.clip_composite_draw(startX, 0, image.w // actor.imageIndexs[actor.mAction], image.h, 0, actor.mFlip,
                               actor.mXPos, actor.mYPos, image.w // actor.imageIndexs[actor.mAction], image.h)
 
-def commomMove(actor):
-    if actor.mAction != 'Move':
-        return BehaviorTree.FAIL
-
+def commonSetJumpDelay(actor):
     # 점프 딜레이 설정
     actor.mJumpDelay = max(0, actor.mJumpDelay - actor.page.mGame.deltaTime)
     if abs(actor.mXPos - actor.player.mXPos) < 10:
         actor.mJumpDelay = min(0.1, actor.mJumpDelay - actor.page.mGame.deltaTime)
 
-    xMove = actor.mXDelta * actor.mSpeed * actor.page.mGame.deltaTime
-    yMove = actor.mYDelta * actor.mSpeed / 2 * actor.page.mGame.deltaTime
+def commonSetAttackDelay(actor):
+    #공격 딜레이 설정
+    actor.mAttackDelay = max(0, actor.mAttackDelay - actor.page.mGame.deltaTime)
 
+def commonXMove(actor):
+    xMove = actor.mXDelta * actor.mSpeed * actor.page.mGame.deltaTime
     actor.mXPos += xMove
     for block in actor.page.map.getBlockData():
         if physics.collides(actor, block):
             actor.mXPos -= xMove
             actor.mXDelta *= -1
             break
+
+def commonYMove(actor):
+    yMove = actor.mYDelta * actor.mSpeed / 2 * actor.page.mGame.deltaTime
 
     actor.mYPos += yMove
     collide = False
@@ -95,8 +102,8 @@ def commomMove(actor):
                 actor.mXDelta = actor.mOXDelta
             collide = True
 
-            commomCheckJump(actor, block)
-            commomCheckSemiJump(actor, block)
+            commonCheckJump(actor, block)
+            commonCheckSemiJump(actor, block)
             break
 
     # 그냥 떨어지는 경우
@@ -106,9 +113,7 @@ def commomMove(actor):
         actor.mXDelta = 0
         actor.mJumpDelay = 0.5
 
-    return BehaviorTree.SUCCESS
-
-def commomCheckJump(actor, block):
+def commonCheckJump(actor, block):
     if actor.mYPos < actor.player.mYPos - 80 and actor.mJumpDelay == 0:
         jumpSize = actor.getBB()
         upSize = jumpSize[-1] + 80
@@ -119,7 +124,7 @@ def commomCheckJump(actor, block):
                 actor.mYDelta = 5
                 resetImageIndex(actor)
 
-def commomCheckSemiJump(actor, block):
+def commonCheckSemiJump(actor, block):
     # 세미 점프. 살짝 뛰는 방식이다.
     if ((actor.mXDelta > 0 and block[2] - 20 < actor.mXPos < block[2] - 10) or \
         (actor.mXDelta < 0 and block[0] + 10 < actor.mXPos < block[0] + 20)) and \
@@ -135,9 +140,8 @@ def commomCheckSemiJump(actor, block):
             actor.mYDelta = 3
             resetImageIndex(actor)
             actor.mSemiJump = True
-            return BehaviorTree.FAIL
 
-def commomJump(actor):
+def commonJump(actor):
     if actor.mAction != 'Jump':
         return BehaviorTree.FAIL
 
@@ -171,7 +175,7 @@ def commomJump(actor):
 
     return BehaviorTree.SUCCESS
 
-def commomInBubble(actor):
+def commonInBubble(actor):
     if actor.mAction != 'Inb':
         return BehaviorTree.FAIL
 
@@ -180,7 +184,7 @@ def commomInBubble(actor):
 
     return BehaviorTree.SUCCESS
 
-def commomDoDie(actor):
+def commonDoDie(actor):
     if actor.mAction != 'Die':
         return BehaviorTree.FAIL
 

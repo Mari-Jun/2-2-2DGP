@@ -50,7 +50,7 @@ class Player:
             self.mYDelta -= 10 * Player.page.mGame.deltaTime
 
         #공통 부분 업데이트
-        actorhelper.commomUpdate(self)
+        actorhelper.commonUpdate(self)
 
         # 공격 딜레이 감소
         if self.mAttackDelay > 0:
@@ -100,7 +100,7 @@ class Player:
                 break
 
     def draw(self):
-        actorhelper.commomDraw(self)
+        actorhelper.commonDraw(self)
 
     def processInput(self, key):
         pair = (key.type, key.key)

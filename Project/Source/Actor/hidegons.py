@@ -1,6 +1,6 @@
 from pico2d import *
 import random
-from Actor import actorhelper
+from Actor import actorhelper, hidegonsAT
 import physics
 from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
@@ -28,6 +28,7 @@ class Hidegons:
         self.mImageIndex = 0
         self.mAction = 'Move'
         self.mJumpDelay = 0
+        self.mAttackDelay = 0
         self.mSemiJump = False
         self.mBubble = None
 
@@ -52,13 +53,13 @@ class Hidegons:
 
         # 공통 부분 업데이트
         if self.mAction != 'Die':
-            actorhelper.commomUpdate(self)
+            actorhelper.commonUpdate(self)
 
         if not Hidegons.page.map.mStageChange:
             self.bt.run()
 
     def draw(self):
-        actorhelper.commomDraw(self)
+        actorhelper.commonDraw(self)
         if self.mAction == 'Jump':
             self.mTime -= Hidegons.page.mGame.deltaTime / 2
 
@@ -68,10 +69,27 @@ class Hidegons:
         return self.mXPos - hw, self.mYPos - hh, self.mXPos + hw, self.mYPos + hh
 
     def doMove(self):
-        return actorhelper.commomMove(self)
+        if self.mAction != 'Move':
+            return BehaviorTree.FAIL
+
+        if self.mYPos - 10 < Hidegons.player.mYPos < self.mYPos + 10 and \
+                0 < self.mXDelta * (Hidegons.player.mXPos - self.mXPos) < 600 and \
+                self.mAttackDelay == 0.0:
+            self.mAction = 'Attack'
+            self.mAttackDelay = 1.0
+            fire = hidegonsAT.HidegonsAT(Hidegons.page, self.mXPos, self.mYPos, self.mXDelta)
+            Hidegons.page.addActor('enemy', fire)
+            actorhelper.resetImageIndex(self)
+
+        actorhelper.commonSetJumpDelay(self)
+        actorhelper.commonSetAttackDelay(self)
+        actorhelper.commonXMove(self)
+        actorhelper.commonYMove(self)
+
+        return BehaviorTree.SUCCESS
 
     def doJump(self):
-        return actorhelper.commomJump(self)
+        return actorhelper.commonJump(self)
 
     def doAttack(self):
         if self.mAction != 'Attack':
@@ -80,10 +98,10 @@ class Hidegons:
         return BehaviorTree.SUCCESS
 
     def doInBubble(self):
-        return actorhelper.commomInBubble(self)
+        return actorhelper.commonInBubble(self)
 
     def doDie(self):
-        return actorhelper.commomDoDie(self)
+        return actorhelper.commonDoDie(self)
 
     def build_behavior_tree(self):
         self.bt = BehaviorTree.build({
