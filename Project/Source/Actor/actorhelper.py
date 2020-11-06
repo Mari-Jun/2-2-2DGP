@@ -113,6 +113,26 @@ def commonYMove(actor):
         actor.mXDelta = 0
         actor.mJumpDelay = 0.5
 
+def commonDiagonalMove(actor):
+    # 이동
+    xMove = actor.mXDelta * actor.mSpeed * actor.page.mGame.deltaTime
+    yMove = actor.mYDelta * actor.mSpeed * actor.page.mGame.deltaTime
+
+    # 충돌 검사
+    actor.mXPos += xMove
+    for block in actor.page.map.getBlockData():
+        if physics.collides(actor, block):
+            actor.mXPos -= xMove
+            actor.mXDelta *= -1
+            break
+
+    actor.mYPos += yMove
+    for block in actor.page.map.getBlockData():
+        if physics.collides(actor, block):
+            actor.mYPos -= yMove
+            actor.mYDelta *= -1
+            break
+
 def commonCheckJump(actor, block):
     if actor.mYPos < actor.player.mYPos - 80 and actor.mJumpDelay == 0:
         jumpSize = actor.getBB()

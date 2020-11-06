@@ -73,6 +73,9 @@ class Map:
         elif enemy[0] == 'hidegons':
             hidegons = Actor.hidegons.Hidegons(Map.page, enemy[1], enemy[2], enemy[3])
             Map.page.addActor('enemy', hidegons)
+        elif enemy[0] == 'invator':
+            invator = Actor.invator.Invator(Map.page, enemy[1], enemy[2], enemy[3])
+            Map.page.addActor('enemy', invator)
 
     def update(self):
         if len(Map.page.mActors['enemy']) == 0:

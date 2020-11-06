@@ -1,7 +1,4 @@
-from pico2d import *
-import random
 from Actor import actorhelper
-import physics
 from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
 

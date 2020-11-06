@@ -6,4 +6,5 @@ import Actor.monsta
 import Actor.banebou
 import Actor.hidegons
 import Actor.hidegonsAT
+import Actor.invator
 

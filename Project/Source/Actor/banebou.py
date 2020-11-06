@@ -1,4 +1,3 @@
-from pico2d import *
 from Actor import actorhelper
 import physics
 from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode

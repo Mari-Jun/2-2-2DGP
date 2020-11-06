@@ -58,24 +58,7 @@ class Monsta:
         if self.mAction != 'Move':
             return BehaviorTree.FAIL
 
-        # 이동
-        xMove = self.mXDelta * self.mSpeed * self.page.mGame.deltaTime
-        yMove = self.mYDelta * self.mSpeed * self.page.mGame.deltaTime
-
-        # 충돌 검사
-        self.mXPos += xMove
-        for block in self.page.map.getBlockData():
-            if physics.collides(self, block):
-                self.mXPos -= xMove
-                self.mXDelta *= -1
-                break
-
-        self.mYPos += yMove
-        for block in self.page.map.getBlockData():
-            if physics.collides(self, block):
-                self.mYPos -= yMove
-                self.mYDelta *= -1
-                break
+        actorhelper.commonDiagonalMove(self)
 
         return BehaviorTree.SUCCESS
 
