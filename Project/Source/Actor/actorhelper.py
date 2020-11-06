@@ -47,7 +47,7 @@ def commonDraw(actor):
         actor.mImageIndex = math.floor(actor.mTime * 10)
 
     # 액션 설정
-    if actor.mAction == 'Attack' and actor.mImageIndex > actor.imageIndexs['Attack'] or \
+    if actor.mAction == 'Attack' and actor.mImageIndex >= actor.imageIndexs['Attack'] or \
             actor.mAction == 'Stop' or actor.mAction == 'Move':
         if 'Stop' in actor.imageIndexs and actor.mXDelta == 0.0:
             actor.mAction = 'Stop'
@@ -58,8 +58,6 @@ def commonDraw(actor):
         actor.mImageIndex %= actor.imageIndexs[actor.mAction]
 
     commonDrawClipComposite(actor)
-
-
 
 def commonDrawClipComposite(actor):
     if actor.mXDelta < 0.0:
