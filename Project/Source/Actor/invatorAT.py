@@ -37,9 +37,10 @@ class InvatorAT:
             for block in InvatorAT.page.map.getBlockData():
                 if physics.collidesBlock(self.getBB(), block):
                     self.mImageIndex = 1
+                    self.mYDelta = 0
 
     def draw(self):
-        if self.mImageIndex > 1:
+        if self.mImageIndex > 0:
             self.mTime += self.page.mGame.deltaTime
             self.mImageIndex = int(self.mTime * 10)
             if self.mImageIndex >= InvatorAT.imageIndexs['Fire']:

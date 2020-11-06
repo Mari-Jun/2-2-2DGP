@@ -1,7 +1,6 @@
 from pico2d import *
 import random
 from Actor import actorhelper, invatorAT
-import physics
 from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
 
@@ -66,9 +65,9 @@ class Invator:
         actorhelper.commonSetAttackDelay(self)
         actorhelper.commonDiagonalMove(self)
 
-        if self.mXPos - 5 < Invator.player.mXPos < self.mXPos + 5 and self.mAttackDelay == 0.0:
+        if self.mAttackDelay == 0.0:
             self.mAction = 'Attack'
-            self.mAttackDelay = 1.0
+            self.mAttackDelay = random.randint(5, 10) * 0.2
             fire = invatorAT.InvatorAT(Invator.page, self.mXPos, self.mYPos)
             Invator.page.addActor('enemyAT', fire)
             actorhelper.resetImageIndex(self)
@@ -79,8 +78,6 @@ class Invator:
         if self.mAction != 'Attack':
             return BehaviorTree.FAIL
 
-        print(self.mImageIndex)
-        print(self.mTime)
         actorhelper.commonDiagonalMove(self)
 
         return BehaviorTree.SUCCESS
