@@ -43,6 +43,13 @@ class Player:
         if len(Player.images) == 0:
             actorhelper.load_image(self, 'green')
 
+        self.mJumpSound = load_wav(Player.page.mGame.soundDir + 'Pjump.wav')
+        self.mJumpSound.set_volume(80)
+        self.mAttackSound = load_wav(Player.page.mGame.soundDir + 'Pattack.wav')
+        self.mAttackSound.set_volume(35)
+        self.mDieSound = load_wav(Player.page.mGame.soundDir + 'PDie.wav')
+        self.mDieSound.set_volume(85)
+
     def unLoad(self):
         self.removeActor(self)
 
@@ -120,6 +127,7 @@ class Player:
                 self.mAction = 'Die'
                 self.mLife -= 1
                 actorhelper.resetImageIndex(self)
+                self.mDieSound.play()
                 break
 
     def draw(self):
@@ -134,7 +142,6 @@ class Player:
         elif pair == Player.KEYDOWN_JUMP and not Player.page.map.mStageChange:
             self.jump()
 
-
     def attack(self):
         if self.mAttackDelay == 0:
             self.mAttackDelay = 0.5
@@ -142,6 +149,7 @@ class Player:
             self.mImageIndex = 0
             self.mAction = 'Attack'
             self.mAttackInput = True
+            self.mAttackSound.play()
 
 
     def jump(self):
@@ -151,6 +159,7 @@ class Player:
             if self.mAction != 'Attack':
                 self.mAction = 'Jump'
             self.mYDelta = 5
+            self.mJumpSound.play()
 
     def getBB(self):
         return self.mXPos - self.mBB[0], self.mYPos - self.mBB[1], self.mXPos + self.mBB[0], self.mYPos + self.mBB[1]

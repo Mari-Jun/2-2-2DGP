@@ -30,11 +30,14 @@ class Bubble:
         for block in Bubble.page.map.getBlockData():
             if physics.collides(self, block):
                 self.mAction = 'Die'
+                self.sound.play()
 
     def load(self):
         if len(Bubble.images) == 0:
             actorhelper.load_image(self, 'bubble')
         self.build_behavior_tree()
+        self.sound = load_wav(Bubble.page.mGame.soundDir + 'bubblePop.wav')
+        self.sound.set_volume(120)
 
     def unLoad(self):
         Bubble.page.removeActor(self)
@@ -68,6 +71,7 @@ class Bubble:
             if physics.collides(self, player.getBB()):
                 if player.mYDelta != 0:
                     self.mAction = 'Die'
+                    self.sound.play()
                     actorhelper.resetImageIndex(self)
                     break
                 else:
@@ -94,6 +98,7 @@ class Bubble:
                 count += 1
         if count >= 6 and (self.mEnemy is None or (self.mEnemy is not None and bub.mEnemy is not None)):
             self.mAction = 'Die'
+            self.sound.play()
             actorhelper.resetImageIndex(self)
 
     def collideEnemy(self):

@@ -25,6 +25,9 @@ class InvatorAT:
     def load(self):
         if len(InvatorAT.images) == 0:
             actorhelper.load_image(self, 'invator')
+        self.mSound = load_wav(InvatorAT.page.mGame.soundDir + 'ivAttack.wav')
+        self.mSound.set_volume(120)
+        self.mSound.play()
 
     def unLoad(self):
         InvatorAT.page.removeActor(self)

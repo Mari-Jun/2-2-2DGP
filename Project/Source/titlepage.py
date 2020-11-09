@@ -18,6 +18,9 @@ class TitlePage:
     def load(self):
         self.mBKImage = self.mGame.imageLoader.load(self.mGame.imageDir + 'title.png')
         self.mSelecter = selecter.Selecter(self.mGame, 3, 335)
+        self.mBgm = load_music(self.mGame.soundDir +'titlePage.mp3')
+        self.mBgm.set_volume(64)
+        self.mBgm.repeat_play()
 
     def update(self):
         pass

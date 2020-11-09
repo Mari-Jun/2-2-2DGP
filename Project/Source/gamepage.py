@@ -30,6 +30,9 @@ class GamePage:
         self.map = MapInfo.map.Map(self)
         self.mUI = ui.UI(self, dragon, gameframework.canvasWidth / 2 + 130, gameframework.canvasHeight - 60)
         self.addActor('ui', self.mUI)
+        self.mBgm = load_music(self.mGame.soundDir + 'gamePage.mp3')
+        self.mBgm.set_volume(64)
+        self.mBgm.repeat_play()
 
     def update(self):
         self.map.update()

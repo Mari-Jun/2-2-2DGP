@@ -12,9 +12,12 @@ class Game:
         self.frameInterval = 0.01
         self.deltaTime = 0.0
         self.imageDir = 'Asset/Image/'
+        self.soundDir = 'Asset/Sound/'
         self.imageLoader = imageloader.ImageLoader()
 
     def quit(self):
+        if hasattr(self.pageStack[-1], 'mBgm'):
+           del self.pageStack[-1].mBgm
         self.running = False
 
     def run(self, page):
@@ -70,6 +73,8 @@ class Game:
         page.initialize()
 
     def pushPage(self, page):
+        if hasattr(self.pageStack[-1], 'mBgm'):
+            self.pageStack[-1].mBgm.stop()
         self.pageStack.append(page)
         page.initialize()
 
@@ -78,6 +83,8 @@ class Game:
             quit()
         elif len(self.pageStack) > 1:
             del self.pageStack[-1]
+            if hasattr(self.pageStack[-1], 'mBgm'):
+                self.pageStack[-1].mBgm.repeat_play()
 
 def run_main():
     import sys

@@ -24,6 +24,9 @@ class HidegonsAT:
     def load(self):
         if len(HidegonsAT.images) == 0:
             actorhelper.load_image(self, 'hidegons')
+        self.mSound = load_wav(HidegonsAT.page.mGame.soundDir + 'hidAttack.wav')
+        self.mSound.set_volume(120)
+        self.mSound.play()
 
     def unLoad(self):
         HidegonsAT.page.removeActor(self)
