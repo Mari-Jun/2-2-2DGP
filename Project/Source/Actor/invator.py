@@ -25,7 +25,7 @@ class Invator:
         self.mTime = 0
         self.mImageIndex = 0
         self.mAction = 'Move'
-        self.mAttackDelay = 0
+        self.mAttackDelay = 2.0
         self.mBubble = None
 
     def __del__(self):

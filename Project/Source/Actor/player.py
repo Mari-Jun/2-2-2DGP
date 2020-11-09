@@ -33,6 +33,8 @@ class Player:
         self.mTime = 0
         self.mImageIndex = 0
         self.mAction = 'Stop'
+        self.mLife = 2
+        self.mNoHitTime = 0
 
     def __del__(self):
         pass
@@ -49,31 +51,44 @@ class Player:
         if self.mYDelta > -5:
             self.mYDelta -= 10 * Player.page.mGame.deltaTime
 
-        #공통 부분 업데이트
-        actorhelper.commonUpdate(self)
+        if not self.mAction == 'Die':
+            # 공통 부분 업데이트
+            actorhelper.commonUpdate(self)
 
-        # 공격 딜레이 감소
-        if self.mAttackDelay > 0:
-            self.mAttackDelay = max(0, self.mAttackDelay - Player.page.mGame.deltaTime)
+            # 공격 딜레이 감소
+            if self.mAttackDelay > 0:
+                self.mAttackDelay = max(0, self.mAttackDelay - Player.page.mGame.deltaTime)
 
-        # 공격 발사
-        if self.mAttackInput and self.mImageIndex == 1:
-            b = bubble.Bubble(Player.page)
-            Player.page.addActor('bubble', b)
-            self.mAttackInput = False
+            # 공격 발사
+            if self.mAttackInput and self.mImageIndex == 1:
+                b = bubble.Bubble(Player.page)
+                Player.page.addActor('bubble', b)
+                self.mAttackInput = False
 
-        # 이동
-        xMove = self.mXDelta * self.mSpeed * Player.page.mGame.deltaTime
-        yMove = self.mYDelta * self.mSpeed / 2 * Player.page.mGame.deltaTime
+            # 이동
+            xMove = self.mXDelta * self.mSpeed * Player.page.mGame.deltaTime
+            yMove = self.mYDelta * self.mSpeed / 2 * Player.page.mGame.deltaTime
 
-        # 로딩중일 경우
-        if Player.page.map.mStageChange:
-            xMove = 0
-            yMove = 0
-            self.mAction = 'Move'
-
-        # 충돌 검사
-        self.collideBlock(xMove, yMove)
+            # 로딩중일 경우
+            if Player.page.map.mStageChange:
+                xMove = 0
+                yMove = 0
+                self.mAction = 'Move'
+            else:
+                self.mNoHitTime = max(0.0, self.mNoHitTime - Player.page.mGame.deltaTime)
+                self.collideBlock(xMove, yMove)
+                if self.mNoHitTime == 0.0:
+                    self.collideEnemy()
+        else:
+            if self.mImageIndex >= Player.imageIndexs[self.mAction]:
+                if self.mLife == 0:
+                    Player.page.mEndGame = True
+                else:
+                    self.mAction = 'Stop'
+                    actorhelper.resetImageIndex(self)
+                    self.mXPos = 100
+                    self.mYPos = 100
+                    self.mNoHitTime = 3.0
 
     def collideBlock(self, xMove, yMove):
         self.mXPos += xMove
@@ -97,6 +112,14 @@ class Player:
                     self.mXPos -= xMove
                 if self.mAction != 'Attack':
                     self.mAction = 'Stop' if self.mXDelta == 0 and 'Stop' in Player.actions else 'Move'
+                break
+
+    def collideEnemy(self):
+        for enemy in Player.page.mActors['enemy'] + Player.page.mActors['enemyAT']:
+            if enemy.mAction != 'Die' and enemy.mAction != 'Inb' and physics.collidesBox(self, enemy):
+                self.mAction = 'Die'
+                self.mLife -= 1
+                actorhelper.resetImageIndex(self)
                 break
 
     def draw(self):
