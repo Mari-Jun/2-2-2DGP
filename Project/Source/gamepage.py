@@ -2,7 +2,7 @@ from pico2d import *
 from GFW import gameframework
 import Actor
 import MapInfo
-import score
+import ui
 import pausepage
 import physics
 
@@ -28,8 +28,8 @@ class GamePage:
         dragon = Actor.player.Player(self)
         self.addActor('player', dragon)
         self.map = MapInfo.map.Map(self)
-        self.mScore = score.Score(self, gameframework.canvasWidth / 2 + 130, gameframework.canvasHeight - 60)
-        self.addActor('ui', self.mScore)
+        self.mUI = ui.UI(self, dragon, gameframework.canvasWidth / 2 + 130, gameframework.canvasHeight - 60)
+        self.addActor('ui', self.mUI)
 
     def update(self):
         self.map.update()

@@ -215,7 +215,7 @@ def commonDoDie(actor):
     actor.mYPos += yMove
 
     if actor.mImageIndex >= actor.imageIndexs['Die']:
-        actor.page.mScore.score += 1000
+        actor.page.mUI.score += 1000
         actor.unLoad()
 
     return BehaviorTree.SUCCESS

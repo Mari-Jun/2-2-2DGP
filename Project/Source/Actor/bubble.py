@@ -178,7 +178,7 @@ class Bubble:
             actorhelper.resetImageIndex(self.mEnemy)
 
         if self.mImageIndex >= Bubble.imageIndexs['Die']:
-            Bubble.page.mScore.score += 10
+            Bubble.page.mUI.score += 10
             self.unLoad()
 
         return BehaviorTree.SUCCESS
