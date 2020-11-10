@@ -9,6 +9,7 @@ class UI:
         self.lifeNameImage =  UI.page.mGame.imageLoader.load(UI.page.mGame.imageDir + 'lifeName.png')
         self.stageNameImage =  UI.page.mGame.imageLoader.load(UI.page.mGame.imageDir + 'stageName.png')
         self.scoreimage = UI.page.mGame.imageLoader.load(UI.page.mGame.imageDir + 'score.png')
+        self.itemimage = UI.page.mGame.imageLoader.load(UI.page.mGame.imageDir + 'Item/reinforce.png')
         self.digit_width = self.scoreimage.w // 10
         self.reset()
 
@@ -32,6 +33,7 @@ class UI:
         self.drawScore()
         self.drawLife()
         self.drawStage()
+        self.drawItem()
 
     def drawScore(self):
         x = self.right
@@ -74,3 +76,11 @@ class UI:
             x += self.digit_width
             self.scoreimage.clip_draw(sx, 0, self.digit_width, self.scoreimage.h, x, self.y)
 
+    def drawItem(self):
+        x = 30
+        y = 25
+        sx = 0
+        for item in UI.player.mHasItem:
+            if item:
+                self.itemimage.clip_draw(sx, 0, self.itemimage.w // 4, self.itemimage.h, x+sx, y)
+            sx += self.itemimage.w // 4

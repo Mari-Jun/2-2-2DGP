@@ -73,12 +73,13 @@ class Player:
 
             # 공격 발사
             if self.mAttackInput and self.mImageIndex == 1:
-                b = bubble.Bubble(Player.page)
+                bubbleSpeed = 350 + self.mHasItem[2] * 50
+                b = bubble.Bubble(Player.page, bubbleSpeed)
                 Player.page.addActor('bubble', b)
                 self.mAttackInput = False
 
             # 이동
-            xMove = self.mXDelta * self.mXSpeed * Player.page.mGame.deltaTime
+            xMove = self.mXDelta * (self.mXSpeed + 100 * self.mHasItem[0]) * Player.page.mGame.deltaTime
             yMove = self.mYDelta * self.mYSpeed / 2 * Player.page.mGame.deltaTime
 
             # 로딩중일 경우
@@ -146,18 +147,7 @@ class Player:
         for item in Player.page.mActors['item']:
             if physics.collidesBox(self, item):
                 if item.mReinForce:
-                    if item.mItem == 0 and not self.mHasItem[0]:
-                        self.mHasItem[0] = True
-                        self.mXSpeed += 100
-                    elif item.mItem == 1 and not self.mHasItem[1]:
-                        self.mHasItem[1] = True
-                        self.mAttackMaxDelay -= 0.1
-                    elif item.mItem == 2 and not self.mHasItem[2]:
-                        self.mHasItem[2] = True
-                        # self.mSpeed += 100
-                    elif item.mItem == 3 and not self.mHasItem[3]:
-                        self.mHasItem[3] = True
-                        # self.mSpeed += 100
+                    self.mHasItem[item.mItem] = True
                 item.unload()
 
     def draw(self):
@@ -174,7 +164,7 @@ class Player:
 
     def attack(self):
         if self.mAttackDelay == 0:
-            self.mAttackDelay = self.mAttackMaxDelay
+            self.mAttackDelay = 0.5 - self.mHasItem[1] * 0.2
             self.mTime = 0
             self.mImageIndex = 0
             self.mAction = 'Attack'
@@ -197,4 +187,6 @@ class Player:
             self.mJumpSound.play()
 
     def getBB(self):
-        return self.mXPos - self.mBB[0], self.mYPos - self.mBB[1], self.mXPos + self.mBB[0], self.mYPos + self.mBB[1]
+        b = self.mHasItem[3] * 5
+        return self.mXPos - self.mBB[0] + b, self.mYPos - self.mBB[1],\
+               self.mXPos + self.mBB[0] - b, self.mYPos + self.mBB[1] - b

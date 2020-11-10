@@ -11,17 +11,16 @@ class Bubble:
     imageIndexs = {'Attack': 7, 'Move': 1, 'Die': 1}
     images = { }
 
-    def __init__(self, page):
+    def __init__(self, page, speed):
         Bubble.page = page
         self.load()
         self.mImages = actorhelper.load_image(self, 'bubble')
         self.mBB = self.mImages['Move'].w // Bubble.imageIndexs['Move'] / 2 - 14, self.mImages['Move'].h / 2 - 13
-        player = page.mActors['player'][0]
         self.mXDelta = -1 if player.mFlip == 'h' else 1
         self.mYDelta = 1 if player.mYPos < 430 else -1
         self.mXPos = player.mXPos + self.mXDelta * (player.mBB[0] + self.mBB[0])
         self.mYPos = player.mYPos
-        self.mSpeed = 350
+        self.mSpeed = speed
         self.mAttack = True
         self.mTime = 0
         self.mImageIndex = 0
@@ -189,7 +188,6 @@ class Bubble:
             if rd == 10:
                 t = item.Item(Bubble.page, True)
                 Bubble.page.addActor('item', t)
-
 
         if self.mImageIndex >= Bubble.imageIndexs['Die']:
             Bubble.page.mUI.score += 10
