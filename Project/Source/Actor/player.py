@@ -171,12 +171,6 @@ class Player:
             self.mAttackInput = True
             self.mAttackSound.play()
 
-            # 일정 확률로 공격 보조 아이템 생성 여기는 임시
-            rd = random.randint(1, 20)
-            if rd <= 10:
-                t = item.Item(Player.page, True)
-                Player.page.addActor('item', t)
-
     def jump(self):
         if self.mAction != 'Jump' and self.mYDelta == 0:
             self.mTime = 0

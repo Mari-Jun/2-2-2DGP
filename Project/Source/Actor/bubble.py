@@ -16,6 +16,7 @@ class Bubble:
         self.load()
         self.mImages = actorhelper.load_image(self, 'bubble')
         self.mBB = self.mImages['Move'].w // Bubble.imageIndexs['Move'] / 2 - 14, self.mImages['Move'].h / 2 - 13
+        player = page.mActors['player'][0]
         self.mXDelta = -1 if player.mFlip == 'h' else 1
         self.mYDelta = 1 if player.mYPos < 430 else -1
         self.mXPos = player.mXPos + self.mXDelta * (player.mBB[0] + self.mBB[0])
@@ -183,7 +184,8 @@ class Bubble:
             self.mEnemy.mAction = 'Die'
             self.mEnemy.mYDelta = 3
             actorhelper.resetImageIndex(self.mEnemy)
-            #일정 확률로 공격 보조 아이템 생성
+            self.mEnemy = None
+            # 일정 확률로 공격 보조 아이템 생성
             rd = random.randint(1, 20)
             if rd == 10:
                 t = item.Item(Bubble.page, True)
