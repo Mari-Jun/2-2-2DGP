@@ -1,5 +1,7 @@
 from pico2d import *
+import random
 from Actor import actorhelper
+from Item import item
 import physics
 from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
@@ -182,6 +184,12 @@ class Bubble:
             self.mEnemy.mAction = 'Die'
             self.mEnemy.mYDelta = 3
             actorhelper.resetImageIndex(self.mEnemy)
+            #일정 확률로 공격 보조 아이템 생성
+            rd = random.randint(1, 20)
+            if rd == 10:
+                t = item.Item(Bubble.page, True)
+                Bubble.page.addActor('item', t)
+
 
         if self.mImageIndex >= Bubble.imageIndexs['Die']:
             Bubble.page.mUI.score += 10

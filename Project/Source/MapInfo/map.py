@@ -32,6 +32,10 @@ class Map:
             bubble.mAction = 'Die'
         self.moveX = (100 - Map.page.mActors['player'][0].mXPos)
         self.moveY = 100 - Map.page.mActors['player'][0].mYPos
+        self.mItemBlock = []
+        for block in Map.datas['block'][self.mStage - 1]:
+            if block[0] < 760 and block[1] < 500 and block[2] > 40:
+                self.mItemBlock.append(block)
 
     def loadImage(self, char):
         fileName = '%s/map/stage%s%s.png'

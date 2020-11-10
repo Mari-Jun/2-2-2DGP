@@ -21,7 +21,8 @@ class Invator:
         self.mYPos = yPos
         self.mYDelta = -1
         self.mFlip = ''
-        self.mSpeed = 100
+        self.mXSpeed = 100
+        self.mYSpeed = 100
         self.mTime = 0
         self.mImageIndex = 0
         self.mAction = 'Move'

@@ -81,7 +81,7 @@ def commonSetAttackDelay(actor):
     actor.mAttackDelay = max(0, actor.mAttackDelay - actor.page.mGame.deltaTime)
 
 def commonXMove(actor):
-    xMove = actor.mXDelta * actor.mSpeed * actor.page.mGame.deltaTime
+    xMove = actor.mXDelta * actor.mXSpeed * actor.page.mGame.deltaTime
     actor.mXPos += xMove
     for block in actor.page.map.getBlockData():
         if physics.collides(actor, block):
@@ -90,7 +90,7 @@ def commonXMove(actor):
             break
 
 def commonYMove(actor):
-    yMove = actor.mYDelta * actor.mSpeed / 2 * actor.page.mGame.deltaTime
+    yMove = actor.mYDelta * actor.mYSpeed / 2 * actor.page.mGame.deltaTime
 
     actor.mYPos += yMove
     collide = False
@@ -115,8 +115,8 @@ def commonYMove(actor):
 
 def commonDiagonalMove(actor):
     # 이동
-    xMove = actor.mXDelta * actor.mSpeed * actor.page.mGame.deltaTime
-    yMove = actor.mYDelta * actor.mSpeed * actor.page.mGame.deltaTime
+    xMove = actor.mXDelta * actor.mXSpeed * actor.page.mGame.deltaTime
+    yMove = actor.mYDelta * actor.mYSpeed * actor.page.mGame.deltaTime
 
     # 충돌 검사
     actor.mXPos += xMove
@@ -166,15 +166,22 @@ def commonJump(actor):
         return BehaviorTree.FAIL
 
     if actor.mSemiJump:
-        xMove = actor.mXDelta * actor.mSpeed * actor.page.mGame.deltaTime
+        xMove = actor.mXDelta * actor.mXSpeed * actor.page.mGame.deltaTime
         actor.mXPos += xMove
 
-    yMove = actor.mYDelta * actor.mSpeed / 2 * actor.page.mGame.deltaTime
+    yMove = actor.mYDelta * actor.mYSpeed / 2 * actor.page.mGame.deltaTime
+
+    #이미 충돌중인지 검사
+    jumpCol = False
+    for block in actor.page.map.getBlockData():
+        if physics.collidesBlock(actor.getBB(), block):
+            jumpCol = True
+            break
 
     # 충돌 검사
     actor.mYPos += yMove
     for block in actor.page.map.getBlockData():
-        if physics.collidesBlock(actor.getBB(), block) and actor.mYDelta < 0 or \
+        if physics.collidesBlock(actor.getBB(), block) and actor.mYDelta < 0 and not jumpCol or \
                 physics.collides(actor, actor.page.map.sideBlocks[0]) or \
                 physics.collides(actor, actor.page.map.sideBlocks[1]):
             actor.mYPos -= yMove
@@ -208,8 +215,8 @@ def commonDoDie(actor):
     if actor.mAction != 'Die':
         return BehaviorTree.FAIL
 
-    xMove = actor.mXDelta * actor.mSpeed * actor.page.mGame.deltaTime
-    yMove = actor.mYDelta * actor.mSpeed / 2 * actor.page.mGame.deltaTime
+    xMove = actor.mXDelta * actor.mXSpeed * actor.page.mGame.deltaTime
+    yMove = actor.mYDelta * actor.mYSpeed / 2 * actor.page.mGame.deltaTime
 
     actor.mXPos += xMove
     actor.mYPos += yMove

@@ -1,5 +1,7 @@
 from pico2d import *
 from Actor import actorhelper, bubble
+from Item import item
+import random
 import physics
 
 class Player:
@@ -27,7 +29,9 @@ class Player:
         self.mYPos = get_canvas_height() / 2
         self.mYDelta = -5
         self.mFlip = ''
-        self.mSpeed = 200
+        self.mXSpeed = 200
+        self.mYSpeed = 200
+        self.mAttackMaxDelay = 0.5
         self.mAttackDelay = 0
         self.mAttackInput = False
         self.mTime = 0
@@ -35,6 +39,7 @@ class Player:
         self.mAction = 'Stop'
         self.mLife = 2
         self.mNoHitTime = 0
+        self.mHasItem = [False, False, False, False]
 
     def __del__(self):
         pass
@@ -73,8 +78,8 @@ class Player:
                 self.mAttackInput = False
 
             # 이동
-            xMove = self.mXDelta * self.mSpeed * Player.page.mGame.deltaTime
-            yMove = self.mYDelta * self.mSpeed / 2 * Player.page.mGame.deltaTime
+            xMove = self.mXDelta * self.mXSpeed * Player.page.mGame.deltaTime
+            yMove = self.mYDelta * self.mYSpeed / 2 * Player.page.mGame.deltaTime
 
             # 로딩중일 경우
             if Player.page.map.mStageChange:
@@ -84,6 +89,7 @@ class Player:
             else:
                 self.mNoHitTime = max(0.0, self.mNoHitTime - Player.page.mGame.deltaTime)
                 self.collideBlock(xMove, yMove)
+                self.collideItem()
                 if self.mNoHitTime == 0.0:
                     self.collideEnemy()
         else:
@@ -104,7 +110,13 @@ class Player:
                 self.mXPos -= xMove
                 break
 
-        if self.mYDelta <= 0:
+        jumpCol = False
+        for block in Player.page.map.getBlockData():
+            if physics.collidesBlock(self.getBB(), block):
+                jumpCol = True
+                break
+
+        if self.mYDelta <= 0 and not jumpCol:
             for block in Player.page.map.getBlockData():
                 if physics.collidesBlock(self.getBB(), block):
                     self.mXPos -= xMove
@@ -112,7 +124,7 @@ class Player:
 
         self.mYPos += yMove
         for block in Player.page.map.getBlockData():
-            if physics.collidesBlock(self.getBB(), block) and self.mYDelta < 0:
+            if physics.collidesBlock(self.getBB(), block) and self.mYDelta < 0 and not jumpCol:
                 self.mYPos -= yMove
                 self.mYDelta = 0
                 if physics.collidesBlock(self.getBB(), block):
@@ -130,6 +142,24 @@ class Player:
                 self.mDieSound.play()
                 break
 
+    def collideItem(self):
+        for item in Player.page.mActors['item']:
+            if physics.collidesBox(self, item):
+                if item.mReinForce:
+                    if item.mItem == 0 and not self.mHasItem[0]:
+                        self.mHasItem[0] = True
+                        self.mXSpeed += 100
+                    elif item.mItem == 1 and not self.mHasItem[1]:
+                        self.mHasItem[1] = True
+                        self.mAttackMaxDelay -= 0.1
+                    elif item.mItem == 2 and not self.mHasItem[2]:
+                        self.mHasItem[2] = True
+                        # self.mSpeed += 100
+                    elif item.mItem == 3 and not self.mHasItem[3]:
+                        self.mHasItem[3] = True
+                        # self.mSpeed += 100
+                item.unload()
+
     def draw(self):
         actorhelper.commonDraw(self)
 
@@ -144,13 +174,18 @@ class Player:
 
     def attack(self):
         if self.mAttackDelay == 0:
-            self.mAttackDelay = 0.5
+            self.mAttackDelay = self.mAttackMaxDelay
             self.mTime = 0
             self.mImageIndex = 0
             self.mAction = 'Attack'
             self.mAttackInput = True
             self.mAttackSound.play()
 
+            # 일정 확률로 공격 보조 아이템 생성 여기는 임시
+            rd = random.randint(1, 20)
+            if rd <= 10:
+                t = item.Item(Player.page, True)
+                Player.page.addActor('item', t)
 
     def jump(self):
         if self.mAction != 'Jump' and self.mYDelta == 0:

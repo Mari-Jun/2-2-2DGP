@@ -17,7 +17,8 @@ class Banebou:
         self.mYPos = yPos
         self.mYDelta = -1
         self.mFlip = ''
-        self.mSpeed = 200
+        self.mXSpeed = 200
+        self.mYSpeed = 200
         self.mTime = 0
         self.mImageIndex = 0
         self.mAction = 'Move'
@@ -62,8 +63,8 @@ class Banebou:
             return BehaviorTree.FAIL
 
         # 이동
-        xMove = self.mXDelta * self.mSpeed * self.page.mGame.deltaTime
-        yMove = self.mYDelta * self.mSpeed * self.page.mGame.deltaTime
+        xMove = self.mXDelta * self.mXSpeed * self.page.mGame.deltaTime
+        yMove = self.mYDelta * self.mYSpeed * self.page.mGame.deltaTime
 
         # 충돌 검사
         self.mXPos += xMove
