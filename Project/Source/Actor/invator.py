@@ -69,7 +69,7 @@ class Invator:
             self.mAction = 'Attack'
             self.mAttackDelay = random.randint(5, 10) * 0.2
             fire = invatorAT.InvatorAT(Invator.page, self.mXPos, self.mYPos)
-            Invator.page.addActor('enemyAT', fire)
+            Invator.page.addActor('enemy', fire)
             actorhelper.resetImageIndex(self)
 
         return BehaviorTree.SUCCESS

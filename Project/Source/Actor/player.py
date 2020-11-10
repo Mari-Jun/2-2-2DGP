@@ -122,7 +122,7 @@ class Player:
                 break
 
     def collideEnemy(self):
-        for enemy in Player.page.mActors['enemy'] + Player.page.mActors['enemyAT']:
+        for enemy in Player.page.mActors['enemy']:
             if enemy.mAction != 'Die' and enemy.mAction != 'Inb' and physics.collidesBox(self, enemy):
                 self.mAction = 'Die'
                 self.mLife -= 1

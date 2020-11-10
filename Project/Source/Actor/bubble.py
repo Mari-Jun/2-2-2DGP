@@ -103,7 +103,8 @@ class Bubble:
 
     def collideEnemy(self):
         for enemy in Bubble.page.mActors['enemy']:
-            if physics.collides(self, enemy.getBB()) and self.mEnemy is None and enemy.mBubble is None:
+            if physics.collides(self, enemy.getBB()) and self.mEnemy is None and \
+                    hasattr(enemy, 'mBubble') and enemy.mBubble is None:
                 enemy.mAction = 'Inb'
                 enemy.mBubble = self
                 self.mEnemy = enemy
