@@ -209,6 +209,15 @@ def commonInBubble(actor):
     actor.mXPos = actor.mBubble.mXPos
     actor.mYPos = actor.mBubble.mYPos
 
+    actor.mBubTime -= actor.page.mGame.deltaTime;
+    if actor.mBubTime <= 0.0:
+        actor.mAction = 'Move'
+        actor.mBubble.mAction = 'Die'
+        actor.mBubble.mEnemy = None
+        resetImageIndex(actor.mBubble)
+        actor.mBubble = None
+        return BehaviorTree.FAIL
+
     return BehaviorTree.SUCCESS
 
 def commonDoDie(actor):

@@ -7,8 +7,8 @@ from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
 class Bubble:
     page = None
-    actions = ['Attack', 'Move', 'Die']
-    imageIndexs = {'Attack': 7, 'Move': 1, 'Die': 1}
+    actions = ['Attack', 'Move', 'Warning', 'Die']
+    imageIndexs = {'Attack': 7, 'Move': 1, 'Warning': 1, 'Die': 1}
     images = { }
 
     def __init__(self, page, speed):
@@ -84,7 +84,7 @@ class Bubble:
         count = 0
         for bub in Bubble.page.mActors['bubble']:
             if bub != self and bub.mAction != 'Attack' and physics.collidesBTB(self, bub):
-                if bub.mAction == 'Die' and bub.mTime < 0.2 and physics.collidesBox(self, bub):
+                if bub.mAction == 'Die' and bub.mTime < 0.4 and physics.collidesBox(self, bub):
                     count = 10
                 else:
                     self.mXPos -= xMove
@@ -109,6 +109,7 @@ class Bubble:
                     hasattr(enemy, 'mBubble') and enemy.mBubble is None:
                 enemy.mAction = 'Inb'
                 enemy.mBubble = self
+                enemy.mBubTime = 30
                 self.mEnemy = enemy
                 self.mAction = 'Move'
                 self.mSpeed = 100
@@ -146,6 +147,22 @@ class Bubble:
         if self.mAction != 'Move':
             return BehaviorTree.FAIL
 
+        self.commonMove()
+        if self.mEnemy is not None and self.mEnemy.mBubTime < 5.0:
+            self.mAction = 'Warning'
+            return BehaviorTree.FAIL
+
+        return BehaviorTree.SUCCESS
+
+    def doWarning(self):
+        if self.mAction != 'Warning':
+            return BehaviorTree.FAIL
+
+        self.commonMove()
+
+        return BehaviorTree.SUCCESS
+
+    def commonMove(self):
         xMove = self.mXDelta * self.mSpeed * Bubble.page.mGame.deltaTime
         yMove = self.mYDelta * self.mSpeed * Bubble.page.mGame.deltaTime
 
@@ -173,8 +190,6 @@ class Bubble:
         self.collideBlock(xMove)
         self.collideBubble(xMove, yMove)
         self.collidePlayer()
-
-        return BehaviorTree.SUCCESS
 
     def doDie(self):
         if self.mAction != 'Die':
@@ -211,6 +226,11 @@ class Bubble:
                     "class": LeafNode,
                     "name": "Move",
                     "function": self.doMove,
+                },
+                {
+                    "class": LeafNode,
+                    "name": "Warning",
+                    "function": self.doWarning,
                 },
                 {
                     "class": LeafNode,

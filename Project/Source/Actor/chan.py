@@ -28,6 +28,7 @@ class Chan:
         self.mJumpDelay = 0
         self.mSemiJump = False
         self.mBubble = None
+        self.mBubTime = 0
 
     def __del__(self):
         pass

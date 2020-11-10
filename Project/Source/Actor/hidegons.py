@@ -31,6 +31,7 @@ class Hidegons:
         self.mAttackDelay = 0
         self.mSemiJump = False
         self.mBubble = None
+        self.mBubTime = 0
 
     def __del__(self):
         pass

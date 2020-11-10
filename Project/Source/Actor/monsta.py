@@ -24,6 +24,7 @@ class Monsta:
         self.mImageIndex = 0
         self.mAction = 'Move'
         self.mBubble = None
+        self.mBubTime = 0
 
     def __del__(self):
         pass
