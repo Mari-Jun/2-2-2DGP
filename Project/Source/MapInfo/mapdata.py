@@ -17,7 +17,7 @@ def load(file, data, ldPos):
     elif data == 'enemy':
         return loadEnemy(dataList, file, ldPos)
 
-def loadDataPos(file):
+def loadDataPos(file, ldPos):
     global mapdatas
     if file in mapdatas:
         return mapdatas[file]
@@ -30,7 +30,7 @@ def loadDataPos(file):
     dataPos = []
 
     for data in dataList:
-        dataPos.append((data['px'], data['py'], data['by']))
+        dataPos.append((data['px'] + ldPos[0], data['py'] + ldPos[1], data['by'] + ldPos[0]))
 
     mapdatas[file] = dataPos
 

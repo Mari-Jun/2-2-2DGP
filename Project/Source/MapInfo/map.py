@@ -15,7 +15,7 @@ class Map:
 
     def __init__(self, page):
         self.mTime = 0.0
-        self.mStage = 1
+        self.mStage = 2
         self.mStageChange = True
         Map.page = page
         self.loadImage('front')
@@ -59,7 +59,7 @@ class Map:
 
         fn = fileName % Map.page.mGame.mapDir
         if os.path.isfile(fn):
-            Map.dataPos = mapdata.loadDataPos(fn)
+            Map.dataPos = mapdata.loadDataPos(fn, Map.ldPos)
 
     def loadMapData(self, data):
         fileName = '%s/stage%s%s.json'

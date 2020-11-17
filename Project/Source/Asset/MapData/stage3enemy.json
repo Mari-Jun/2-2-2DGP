@@ -1,12 +1,10 @@
 [
-  {"name": "monsta", "x": 100, "y": 100, "left": false},
-  {"name": "monsta", "x": 200, "y": 200, "left": false},
-  {"name": "monsta", "x": 300, "y": 300, "left": false},
-  {"name": "monsta", "x": 400, "y": 400, "left": false},
-  {"name": "monsta", "x": 400, "y": 420, "left": true},
-  {"name": "monsta", "x": 500, "y": 320, "left": true},
-  {"name": "monsta", "x": 600, "y": 220, "left": true},
-  {"name": "monsta", "x": 700, "y": 120, "left": true}
+  {"name": "monsta", "x": 150, "y": 400, "left": false},
+  {"name": "monsta", "x": 250, "y": 400, "left": false},
+  {"name": "monsta", "x": 350, "y": 400, "left": false},
+  {"name": "monsta", "x": 450, "y": 400, "left": true},
+  {"name": "monsta", "x": 550, "y": 400, "left": true},
+  {"name": "monsta", "x": 650, "y": 400, "left": true}
 ]
 
 

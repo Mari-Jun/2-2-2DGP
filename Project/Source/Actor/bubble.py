@@ -99,7 +99,7 @@ class Bubble:
                         self.mYDelta *= -1
                         bub.mYDelta *= -1
                 count += 1
-        if count >= 6 and (self.mEnemy is None or (self.mEnemy is not None and bub.mEnemy is not None)):
+        if count >= 6 and self.mEnemy is None:
             self.mAction = 'Die'
             self.sound.play()
             actorhelper.resetImageIndex(self)
@@ -169,8 +169,8 @@ class Bubble:
 
         self.mXPos += xMove
         self.mYPos += yMove
-        # 임시로 뭉쳐놓기
-        if 430 < self.mYPos < self.mgatherY + 10:
+
+        if self.mgatherY - 10 < self.mYPos < self.mgatherY + 10:
             if self.mXPos >= get_canvas_width() / 2 + 60:
                 self.mXDelta = -1
                 self.mYDelta = 0
