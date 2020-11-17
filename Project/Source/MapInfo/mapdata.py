@@ -17,6 +17,26 @@ def load(file, data, ldPos):
     elif data == 'enemy':
         return loadEnemy(dataList, file, ldPos)
 
+def loadDataPos(file):
+    global mapdatas
+    if file in mapdatas:
+        return mapdatas[file]
+
+    with open(file, 'r') as f:
+        dataList = json.load(f)
+
+    print('%s load complete' % file)
+
+    dataPos = []
+
+    for data in dataList:
+        dataPos.append((data['px'], data['py'], data['by']))
+
+    mapdatas[file] = dataPos
+
+    return dataPos
+
+
 def loadBlock(dataList, file, ldPos):
     blocks = []
 

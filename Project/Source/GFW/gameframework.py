@@ -13,6 +13,7 @@ class Game:
         self.deltaTime = 0.0
         self.imageDir = 'Asset/Image/'
         self.soundDir = 'Asset/Sound/'
+        self.mapDir = 'Asset/MapData'
         self.imageLoader = imageloader.ImageLoader()
 
     def quit(self):

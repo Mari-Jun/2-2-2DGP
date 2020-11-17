@@ -37,7 +37,7 @@ class Player:
         self.mTime = 0
         self.mImageIndex = 0
         self.mAction = 'Stop'
-        self.mLife = 2
+        self.mLife = 3
         self.mNoHitTime = 0
         self.mHasItem = [False, False, False, False]
 

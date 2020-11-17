@@ -9,15 +9,17 @@ class Map:
     imageName = ['front']
     images = {}
     datas = {}
+    dataPos = []
     ldPos = (0, 50)
     sideBlocks = [(0, 0, 40, 700), (760, 0, 800, 700)]
 
     def __init__(self, page):
         self.mTime = 0.0
-        self.mStage = 3
+        self.mStage = 1
         self.mStageChange = True
         Map.page = page
         self.loadImage('front')
+        self.loadPlayerPos()
         self.loadMapData('block')
         self.loadMapData('enemy')
         self.loadStage()
@@ -30,8 +32,8 @@ class Map:
             self.loadEnemy(enemy)
         for bubble in Map.page.mActors['bubble']:
             bubble.mAction = 'Die'
-        self.moveX = (100 - Map.page.mActors['player'][0].mXPos)
-        self.moveY = 100 - Map.page.mActors['player'][0].mYPos
+        self.moveX = Map.dataPos[self.mStage - 1][0] - Map.page.mActors['player'][0].mXPos
+        self.moveY = Map.dataPos[self.mStage - 1][1] - Map.page.mActors['player'][0].mYPos
         self.mItemBlock = []
         for block in Map.datas['block'][self.mStage - 1]:
             if block[0] < 760 and block[1] < 500 and block[2] > 40:
@@ -52,13 +54,20 @@ class Map:
 
         Map.images[char] = images
 
+    def loadPlayerPos(self):
+        fileName = '%s/datapos.json'
+
+        fn = fileName % Map.page.mGame.mapDir
+        if os.path.isfile(fn):
+            Map.dataPos = mapdata.loadDataPos(fn)
+
     def loadMapData(self, data):
-        fileName = '%s/map/stage%s%s.json'
+        fileName = '%s/stage%s%s.json'
 
         mapData = []
 
         for stage in range(0, Map.maxStage):
-            fn = fileName % (Map.page.mGame.imageDir, stage + 1, data)
+            fn = fileName % (Map.page.mGame.mapDir, stage + 1, data)
             if os.path.isfile(fn):
                 mapData.append(mapdata.load(fn, data, Map.ldPos))
 

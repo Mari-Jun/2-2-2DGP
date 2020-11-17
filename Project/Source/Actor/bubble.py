@@ -17,8 +17,9 @@ class Bubble:
         self.mImages = actorhelper.load_image(self, 'bubble')
         self.mBB = self.mImages['Move'].w // Bubble.imageIndexs['Move'] / 2 - 14, self.mImages['Move'].h / 2 - 13
         player = page.mActors['player'][0]
+        self.mgatherY = page.map.dataPos[page.map.mStage - 1][2]
         self.mXDelta = -1 if player.mFlip == 'h' else 1
-        self.mYDelta = 1 if player.mYPos < 430 else -1
+        self.mYDelta = 1 if player.mYPos < self.mgatherY else -1
         self.mXPos = player.mXPos + self.mXDelta * (player.mBB[0] + self.mBB[0])
         self.mYPos = player.mYPos
         self.mSpeed = speed
@@ -169,7 +170,7 @@ class Bubble:
         self.mXPos += xMove
         self.mYPos += yMove
         # 임시로 뭉쳐놓기
-        if 430 < self.mYPos < 450:
+        if 430 < self.mYPos < self.mgatherY + 10:
             if self.mXPos >= get_canvas_width() / 2 + 60:
                 self.mXDelta = -1
                 self.mYDelta = 0
@@ -179,7 +180,7 @@ class Bubble:
             else:
                 if self.mYDelta == 0:
                     self.mYDelta = 1
-        elif self.mYPos <= 430:
+        elif self.mYPos <= self.mgatherY - 10:
             self.mYDelta = 1
             self.mXDelta = 0
         else:
