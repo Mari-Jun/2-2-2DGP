@@ -25,6 +25,13 @@ def isCollideJumpCheck(a, b):
 	if a[3] < b[3]: return False
 	return True
 
+def isCollideXJump(a, b):
+	if a[0] > b[2]: return False
+	if a[2] < b[0]: return False
+	if a[1] > b[3]: return False
+	if a[3] < b[1]: return False
+
+
 def collides(actor, bb):
 	return isCollide(actor.getBB(), bb)
 

@@ -106,37 +106,32 @@ class Player:
 
     def collideBlock(self, xMove, yMove):
 
-        #현 상태에서 충돌중이라면 jumpCol을 True로 교체한다.
-        jumpCol = False
+        inBlock = False
         for block in Player.page.map.getBlockData():
-            if physics.collidesBlock(self.getBB(), block):
-                jumpCol = True
-
-        # 기본 X축 충돌 (블록의 높이가 25 초과인 블록만 충돌시킨다)
-        self.mXPos += xMove
-        for block in Player.page.map.getBlockData():
-            if block[3] - block[1] > 25 and physics.collides(self, block):
-                self.mXPos -= xMove
+            if physics.collides(self, block):
+                inBlock = True
+                colBlock = block
 
         self.mYPos += yMove
-
-        # 높이 25 초과에 부딪히는 경우
-        Col25 = False
         for block in Player.page.map.getBlockData():
-            if block[3] - block[1] > 25 and physics.collides(self, block):
-                Col25 = True
-
-        # 높이 25 이하에 부딪히는 경우
-        for block in Player.page.map.getBlockData():
-            if block[3] - block[1] <= 25 and not Col25 and \
-                    physics.collidesBlock(self.getBB(), block) and self.mYDelta < 0 and not jumpCol:
+            if physics.collides(self, block) and self.mYDelta < 0 and not inBlock:
                 self.mYPos -= yMove
                 self.mYDelta = 0
-                if physics.collidesBlock(self.getBB(), block):
-                    self.mXPos -= xMove
                 if self.mAction != 'Attack':
                     self.mAction = 'Stop' if self.mXDelta == 0 and 'Stop' in Player.actions else 'Move'
                 break
+
+        # # 기본 X축 충돌 (블록의 높이가 25 초과인 블록만 충돌시킨다)
+        self.mXPos += xMove
+        for block in Player.page.map.getBlockData():
+            if physics.collides(self, block):
+                if not inBlock:
+                    self.mXPos -= xMove
+                    break
+                else:
+                    if colBlock != block:
+                        self.mXPos -= xMove
+                        break
 
             
     def collideEnemy(self):
