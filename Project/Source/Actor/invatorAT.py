@@ -38,7 +38,7 @@ class InvatorAT:
 
         if self.mImageIndex == 0:
             for block in InvatorAT.page.map.getBlockData():
-                if physics.collidesBlock(self.getBB(), block):
+                if physics.collides(self, block):
                     self.mImageIndex = 1
                     self.mYDelta = 0
 

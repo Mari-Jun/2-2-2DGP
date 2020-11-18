@@ -92,10 +92,16 @@ def commonXMove(actor):
 def commonYMove(actor):
     yMove = actor.mYDelta * actor.mYSpeed / 2 * actor.page.mGame.deltaTime
 
+    inBlock = False
+    for block in actor.page.map.getBlockData():
+        if physics.collides(actor, block):
+            inBlock = True
+            break
+
     actor.mYPos += yMove
     collide = False
     for block in actor.page.map.getBlockData():
-        if physics.collidesBlock(actor.getBB(), block) and actor.mYDelta < 0:
+        if physics.collides(actor, block) and actor.mYDelta < 0:
             actor.mYPos -= yMove
             actor.mYDelta = 0
             if actor.mXDelta == 0:
@@ -165,25 +171,21 @@ def commonJump(actor):
     if actor.mAction != 'Jump':
         return BehaviorTree.FAIL
 
-    if actor.mSemiJump:
-        xMove = actor.mXDelta * actor.mXSpeed * actor.page.mGame.deltaTime
-        actor.mXPos += xMove
-
     yMove = actor.mYDelta * actor.mYSpeed / 2 * actor.page.mGame.deltaTime
 
     #이미 충돌중인지 검사
-    jumpCol = False
+    inBlock = False
     for block in actor.page.map.getBlockData():
-        if physics.collidesBlock(actor.getBB(), block):
-            jumpCol = True
+        if physics.collides(actor, block):
+            inBlock = True
+            colBlock = block
             break
 
     # 충돌 검사
     actor.mYPos += yMove
 
     for block in actor.page.map.getBlockData():
-        if physics.collidesBlock(actor.getBB(), block) and actor.mYDelta < 0 and not jumpCol or \
-            block[3] - block[1] > 25 and physics.collides(actor, block):
+        if physics.collides(actor, block) and actor.mYDelta < 0 and not inBlock:
             actor.mYPos -= yMove
             actor.mYDelta = 0
 
@@ -199,6 +201,20 @@ def commonJump(actor):
             actor.mSemiJump = False
             actor.mAction = 'Move'
             break
+
+    if actor.mSemiJump:
+        xMove = actor.mXDelta * actor.mXSpeed * actor.page.mGame.deltaTime
+        actor.mXPos += xMove
+        for block in actor.page.map.getBlockData():
+            if physics.collides(actor, block):
+                if not inBlock:
+                    actor.mXPos -= xMove
+                    break
+                else:
+                    if colBlock != block:
+                        actor.mXPos -= xMove
+                        break
+
 
     return BehaviorTree.SUCCESS
 

@@ -111,6 +111,7 @@ class Player:
             if physics.collides(self, block):
                 inBlock = True
                 colBlock = block
+                break
 
         self.mYPos += yMove
         for block in Player.page.map.getBlockData():
@@ -121,7 +122,6 @@ class Player:
                     self.mAction = 'Stop' if self.mXDelta == 0 and 'Stop' in Player.actions else 'Move'
                 break
 
-        # # 기본 X축 충돌 (블록의 높이가 25 초과인 블록만 충돌시킨다)
         self.mXPos += xMove
         for block in Player.page.map.getBlockData():
             if physics.collides(self, block):
@@ -132,7 +132,6 @@ class Player:
                     if colBlock != block:
                         self.mXPos -= xMove
                         break
-
             
     def collideEnemy(self):
         for enemy in Player.page.mActors['enemy']:

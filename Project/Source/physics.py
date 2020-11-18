@@ -7,15 +7,6 @@ def isCollide(a, b):
 	if a[3] < b[1]: return False
 	return True
 
-def isCollideBlock(a, b):
-	if a[0] > b[2]: return False
-	if a[2] < b[0]: return False
-	if a[1] > b[3]: return False
-	if a[3] < b[3]: return False
-	if b[1] < a[1] < b[3]:
-		return True
-	return False
-
 def isCollideJumpCheck(a, b):
 	if a[0] > b[2]: return False
 	if a[0] < b[0]: return False
@@ -25,18 +16,8 @@ def isCollideJumpCheck(a, b):
 	if a[3] < b[3]: return False
 	return True
 
-def isCollideXJump(a, b):
-	if a[0] > b[2]: return False
-	if a[2] < b[0]: return False
-	if a[1] > b[3]: return False
-	if a[3] < b[1]: return False
-
-
 def collides(actor, bb):
 	return isCollide(actor.getBB(), bb)
-
-def collidesBlock(bb, block):
-	return isCollideBlock(bb, block)
 
 def collidesJumpCheck(bb, block):
 	return isCollideJumpCheck(bb, block)
