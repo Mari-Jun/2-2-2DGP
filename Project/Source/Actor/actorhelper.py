@@ -101,7 +101,7 @@ def commonYMove(actor):
     actor.mYPos += yMove
     collide = False
     for block in actor.page.map.getBlockData():
-        if physics.collides(actor, block) and actor.mYDelta < 0:
+        if physics.collides(actor, block) and actor.mYDelta < 0 and not inBlock:
             actor.mYPos -= yMove
             actor.mYDelta = 0
             if actor.mXDelta == 0:
@@ -152,8 +152,8 @@ def commonCheckJump(actor, block):
 
 def commonCheckSemiJump(actor, block):
     # 세미 점프. 살짝 뛰는 방식이다.
-    if ((actor.mXDelta > 0 and block[2] - 20 < actor.mXPos < block[2] - 10) or \
-        (actor.mXDelta < 0 and block[0] + 10 < actor.mXPos < block[0] + 20)) and \
+    if ((actor.mXDelta > 0 and block[2] - 5 < actor.mXPos < block[2]) or \
+        (actor.mXDelta < 0 and block[0] < actor.mXPos < block[0] + 5)) and \
             actor.mYPos <= actor.player.mYPos + 10:
         # 바라보는 경우
         if (actor.player.mXPos - actor.mXPos) * actor.mXDelta > 0:

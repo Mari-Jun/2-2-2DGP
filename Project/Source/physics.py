@@ -16,11 +16,23 @@ def isCollideJumpCheck(a, b):
 	if a[3] < b[3]: return False
 	return True
 
+def isCollideBlock(a, b):
+	if a[0] > b[2]: return False
+	if a[2] < b[0]: return False
+	if a[1] > b[3]: return False
+	if a[3] < b[3]: return False
+	if b[1] < a[1] < b[3]:
+		return True
+	return False
+
 def collides(actor, bb):
 	return isCollide(actor.getBB(), bb)
 
 def collidesJumpCheck(bb, block):
 	return isCollideJumpCheck(bb, block)
+
+def collidesBlock(actor, bb):
+	return isCollideBlock(actor.getBB(), bb)
 
 def collidesBox(a, b):
 	return isCollide(a.getBB(), b.getBB())

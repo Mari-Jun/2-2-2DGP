@@ -14,7 +14,7 @@ class Map:
 
     def __init__(self, page):
         self.mTime = 0.0
-        self.mStage = 4
+        self.mStage = 10
         self.mStageChange = True
         Map.page = page
         self.loadImage('front')
