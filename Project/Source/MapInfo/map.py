@@ -5,13 +5,12 @@ import Actor
 class Map:
 
     page = None
-    maxStage = 3
+    maxStage = 9
     imageName = ['front']
     images = {}
     datas = {}
     dataPos = []
     ldPos = (0, 50)
-    sideBlocks = [(0, 0, 40, 700), (760, 0, 800, 700)]
 
     def __init__(self, page):
         self.mTime = 0.0

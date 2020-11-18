@@ -180,10 +180,10 @@ def commonJump(actor):
 
     # 충돌 검사
     actor.mYPos += yMove
+
     for block in actor.page.map.getBlockData():
         if physics.collidesBlock(actor.getBB(), block) and actor.mYDelta < 0 and not jumpCol or \
-                physics.collides(actor, actor.page.map.sideBlocks[0]) or \
-                physics.collides(actor, actor.page.map.sideBlocks[1]):
+            block[3] - block[1] > 25 and physics.collides(actor, block):
             actor.mYPos -= yMove
             actor.mYDelta = 0
 

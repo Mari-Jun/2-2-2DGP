@@ -18,7 +18,9 @@ def isCollideBlock(a, b):
 
 def isCollideJumpCheck(a, b):
 	if a[0] > b[2]: return False
+	if a[0] < b[0]: return False
 	if a[2] < b[0]: return False
+	if a[2] > b[2]: return False
 	if a[1] > b[3]: return False
 	if a[3] < b[3]: return False
 	return True
