@@ -30,7 +30,7 @@ def loadDataPos(file, ldPos):
     dataPos = []
 
     for data in dataList:
-        dataPos.append((data['px'] + ldPos[0], data['py'] + ldPos[1], data['by'] + ldPos[0]))
+        dataPos.append((data['px'] + ldPos[0], data['py'] + ldPos[1], data['by'] + ldPos[1]))
 
     mapdatas[file] = dataPos
 

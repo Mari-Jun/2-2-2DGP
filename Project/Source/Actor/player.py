@@ -111,14 +111,12 @@ class Player:
         for block in Player.page.map.getBlockData():
             if physics.collidesBlock(self.getBB(), block):
                 jumpCol = True
-                break
 
         # 기본 X축 충돌 (블록의 높이가 25 초과인 블록만 충돌시킨다)
         self.mXPos += xMove
         for block in Player.page.map.getBlockData():
             if block[3] - block[1] > 25 and physics.collides(self, block):
                 self.mXPos -= xMove
-                break
 
         self.mYPos += yMove
 
@@ -134,6 +132,8 @@ class Player:
                     physics.collidesBlock(self.getBB(), block) and self.mYDelta < 0 and not jumpCol:
                 self.mYPos -= yMove
                 self.mYDelta = 0
+                if physics.collidesBlock(self.getBB(), block):
+                    self.mXPos -= xMove
                 if self.mAction != 'Attack':
                     self.mAction = 'Stop' if self.mXDelta == 0 and 'Stop' in Player.actions else 'Move'
                 break
