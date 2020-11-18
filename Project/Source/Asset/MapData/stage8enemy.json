@@ -1,5 +1,10 @@
 [
-  {"name": "chan", "x": 300, "y":  450, "left": false}
+  {"name": "chan", "x": 400, "y":  130, "left": false},
+  {"name": "chan", "x": 300, "y":  470, "left": false},
+  {"name": "monsta", "x": 180, "y":  300, "left": true},
+  {"name": "monsta", "x": 620, "y":  300, "left": false},
+  {"name": "monsta", "x": 180, "y":  250, "left": true},
+  {"name": "monsta", "x": 620, "y":  350, "left": false}
 ]
 
 

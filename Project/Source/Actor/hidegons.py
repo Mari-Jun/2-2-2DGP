@@ -81,7 +81,7 @@ class Hidegons:
                 0 < self.mXDelta * (Hidegons.player.mXPos - self.mXPos) < 600 and \
                 self.mAttackDelay == 0.0:
             self.mAction = 'Attack'
-            self.mAttackDelay = 1.0
+            self.mAttackDelay = 3.0
             fire = hidegonsAT.HidegonsAT(Hidegons.page, self.mXPos, self.mYPos, self.mXDelta)
             Hidegons.page.addActor('enemy', fire)
             actorhelper.resetImageIndex(self)
