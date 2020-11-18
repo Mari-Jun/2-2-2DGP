@@ -185,7 +185,8 @@ def commonJump(actor):
     actor.mYPos += yMove
 
     for block in actor.page.map.getBlockData():
-        if physics.collides(actor, block) and actor.mYDelta < 0 and not inBlock:
+        if physics.collides(actor, block) and actor.mYDelta < 0 and \
+                (not inBlock or inBlock and colBlock != block):
             actor.mYPos -= yMove
             actor.mYDelta = 0
 
@@ -206,14 +207,10 @@ def commonJump(actor):
         xMove = actor.mXDelta * actor.mXSpeed * actor.page.mGame.deltaTime
         actor.mXPos += xMove
         for block in actor.page.map.getBlockData():
-            if physics.collides(actor, block):
-                if not inBlock:
-                    actor.mXPos -= xMove
-                    break
-                else:
-                    if colBlock != block:
-                        actor.mXPos -= xMove
-                        break
+            if physics.collidesBlock(actor, block) and \
+                    (not inBlock or inBlock and colBlock != block):
+                actor.mXPos -= xMove
+                break
 
 
     return BehaviorTree.SUCCESS
