@@ -80,44 +80,47 @@ def commonSetAttackDelay(actor):
     #공격 딜레이 설정
     actor.mAttackDelay = max(0, actor.mAttackDelay - actor.page.mGame.deltaTime)
 
-def commonXMove(actor):
-    xMove = actor.mXDelta * actor.mXSpeed * actor.page.mGame.deltaTime
-    actor.mXPos += xMove
+def commonMove(actor, x, y):
+    # 이미 충돌중인지 검사
+    inBlock = []
     for block in actor.page.map.getBlockData():
         if physics.collides(actor, block):
-            actor.mXPos -= xMove
-            actor.mXDelta *= -1
-            break
+            inBlock.append(block)
 
-def commonYMove(actor):
     yMove = actor.mYDelta * actor.mYSpeed / 2 * actor.page.mGame.deltaTime
 
-    inBlock = False
-    for block in actor.page.map.getBlockData():
-        if physics.collides(actor, block):
-            inBlock = True
-            break
+    if y:
+        actor.mYPos += yMove
+        collide = False
+        for block in actor.page.map.getBlockData():
+            if physics.collides(actor, block) and actor.mYDelta < 0 and \
+                    (len(inBlock) == 0 or inBlock.count(block) == 0):
+                actor.mYPos -= yMove
+                actor.mYDelta = 0
+                if actor.mXDelta == 0:
+                    actor.mXDelta = actor.mOXDelta
+                collide = True
 
-    actor.mYPos += yMove
-    collide = False
-    for block in actor.page.map.getBlockData():
-        if physics.collides(actor, block) and actor.mYDelta < 0 and not inBlock:
-            actor.mYPos -= yMove
-            actor.mYDelta = 0
-            if actor.mXDelta == 0:
-                actor.mXDelta = actor.mOXDelta
-            collide = True
+                commonCheckJump(actor, block)
+                commonCheckSemiJump(actor, block)
+                break
 
-            commonCheckJump(actor, block)
-            commonCheckSemiJump(actor, block)
-            break
+        # 그냥 떨어지는 경우
+        if not collide:
+            if actor.mXDelta != 0:
+                actor.mOXDelta = actor.mXDelta
+            actor.mXDelta = 0
+            actor.mJumpDelay = 0.5
 
-    # 그냥 떨어지는 경우
-    if not collide:
-        if actor.mXDelta != 0:
-            actor.mOXDelta = actor.mXDelta
-        actor.mXDelta = 0
-        actor.mJumpDelay = 0.5
+    if x:
+        xMove = actor.mXDelta * actor.mXSpeed * actor.page.mGame.deltaTime
+        actor.mXPos += xMove
+        for block in actor.page.map.getBlockData():
+            if physics.collidesBlock(actor, block) and \
+                    (len(inBlock) == 0 or inBlock.count(block) == 0):
+                actor.mXPos -= xMove
+                actor.mXDelta *= -1
+                break
 
 def commonDiagonalMove(actor):
     # 이동
@@ -152,15 +155,17 @@ def commonCheckJump(actor, block):
 
 def commonCheckSemiJump(actor, block):
     # 세미 점프. 살짝 뛰는 방식이다.
-    if ((actor.mXDelta > 0 and block[2] - 5 < actor.mXPos < block[2]) or \
-        (actor.mXDelta < 0 and block[0] < actor.mXPos < block[0] + 5)) and \
-            actor.mYPos <= actor.player.mYPos + 10:
-        # 바라보는 경우
-        if (actor.player.mXPos - actor.mXPos) * actor.mXDelta > 0:
+    if actor.mYPos <= actor.player.mYPos + 10 and \
+            (actor.mXDelta > 0 and block[2] - 5 < actor.mXPos < block[2]) or \
+            (actor.mXDelta < 0 and block[0] < actor.mXPos < block[0] + 5):
+
+        if actor.player.mXPos > actor.mXPos and actor.mXDelta > 0 or \
+                actor.player.mXPos < actor.mXPos and actor.mXDelta < 0:
             r = 0
-        # 바라보지 않는 경우
         else:
             r = random.randint(0, 4)
+
+        print(r)
         if r == 0:
             actor.mAction = 'Jump'
             actor.mYDelta = 3
@@ -174,19 +179,17 @@ def commonJump(actor):
     yMove = actor.mYDelta * actor.mYSpeed / 2 * actor.page.mGame.deltaTime
 
     #이미 충돌중인지 검사
-    inBlock = False
+    inBlock = []
     for block in actor.page.map.getBlockData():
         if physics.collides(actor, block):
-            inBlock = True
-            colBlock = block
-            break
+            inBlock.append(block)
 
     # 충돌 검사
     actor.mYPos += yMove
 
     for block in actor.page.map.getBlockData():
         if physics.collides(actor, block) and actor.mYDelta < 0 and \
-                (not inBlock or inBlock and colBlock != block):
+                (len(inBlock) == 0 or inBlock.count(block) == 0):
             actor.mYPos -= yMove
             actor.mYDelta = 0
 
@@ -208,7 +211,7 @@ def commonJump(actor):
         actor.mXPos += xMove
         for block in actor.page.map.getBlockData():
             if physics.collidesBlock(actor, block) and \
-                    (not inBlock or inBlock and colBlock != block):
+                    (len(inBlock) == 0 or inBlock.count(block) == 0):
                 actor.mXPos -= xMove
                 break
 

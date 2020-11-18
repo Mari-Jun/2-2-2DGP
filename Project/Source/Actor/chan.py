@@ -69,8 +69,7 @@ class Chan:
             return BehaviorTree.FAIL
 
         actorhelper.commonSetJumpDelay(self)
-        actorhelper.commonXMove(self)
-        actorhelper.commonYMove(self)
+        actorhelper.commonMove(self, True, True)
 
         return BehaviorTree.SUCCESS
 

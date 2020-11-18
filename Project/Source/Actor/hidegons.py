@@ -75,8 +75,7 @@ class Hidegons:
 
         actorhelper.commonSetJumpDelay(self)
         actorhelper.commonSetAttackDelay(self)
-        actorhelper.commonXMove(self)
-        actorhelper.commonYMove(self)
+        actorhelper.commonMove(self, True, True)
 
         if self.mYPos - 10 < Hidegons.player.mYPos < self.mYPos + 10 and \
                 0 < self.mXDelta * (Hidegons.player.mXPos - self.mXPos) < 600 and \

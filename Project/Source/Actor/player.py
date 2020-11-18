@@ -105,17 +105,15 @@ class Player:
                     self.mNoHitTime = 3.0
 
     def collideBlock(self, xMove, yMove):
-        inBlock = False
+        inBlock = []
         for block in Player.page.map.getBlockData():
             if physics.collides(self, block):
-                inBlock = True
-                colBlock = block
-                break
+                inBlock.append(block)
 
         self.mYPos += yMove
         for block in Player.page.map.getBlockData():
             if physics.collides(self, block) and self.mYDelta < 0 and \
-                    (not inBlock or inBlock and colBlock != block):
+                    (len(inBlock) == 0 or inBlock.count(block) == 0):
                 self.mYPos -= yMove
                 self.mYDelta = 0
                 if self.mAction != 'Attack':
@@ -125,7 +123,7 @@ class Player:
         self.mXPos += xMove
         for block in Player.page.map.getBlockData():
             if physics.collidesBlock(self, block) and \
-                    (not inBlock or inBlock and colBlock != block):
+                    (len(inBlock) == 0 or inBlock.count(block) == 0):
                 self.mXPos -= xMove
                 break
             
