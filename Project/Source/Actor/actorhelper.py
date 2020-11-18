@@ -156,8 +156,8 @@ def commonCheckJump(actor, block):
 def commonCheckSemiJump(actor, block):
     # 세미 점프. 살짝 뛰는 방식이다.
     if actor.mYPos <= actor.player.mYPos + 10 and \
-            (actor.mXDelta > 0 and block[2] - 5 < actor.mXPos < block[2]) or \
-            (actor.mXDelta < 0 and block[0] < actor.mXPos < block[0] + 5):
+            ((actor.mXDelta > 0 and block[2] - 5 < actor.mXPos < block[2]) or \
+            (actor.mXDelta < 0 and block[0] < actor.mXPos < block[0] + 5)):
 
         if actor.player.mXPos > actor.mXPos and actor.mXDelta > 0 or \
                 actor.player.mXPos < actor.mXPos and actor.mXDelta < 0:
@@ -165,7 +165,6 @@ def commonCheckSemiJump(actor, block):
         else:
             r = random.randint(0, 4)
 
-        print(r)
         if r == 0:
             actor.mAction = 'Jump'
             actor.mYDelta = 3
