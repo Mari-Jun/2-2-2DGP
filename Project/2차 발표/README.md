@@ -35,3 +35,20 @@ Item : 플레이어를 강화시키는 아이템이 있음
 ![week4](https://user-images.githubusercontent.com/34498116/99681937-0d4b6900-2ac2-11eb-92ac-8e244121c548.PNG)
 ![week5](https://user-images.githubusercontent.com/34498116/99681939-0d4b6900-2ac2-11eb-8547-435c4fe4075c.PNG)
 ![week6](https://user-images.githubusercontent.com/34498116/99681940-0d4b6900-2ac2-11eb-9d50-cad7bccc069a.PNG)            
+
+##
+## 게임 오브젝트들의 관계
+![클래스11](https://user-images.githubusercontent.com/34498116/99870392-f1f17280-2c15-11eb-870d-6268b5baf8bb.png)        
+![클래스2](https://user-images.githubusercontent.com/34498116/99870547-316c8e80-2c17-11eb-96fd-ffcd917f352e.png)
+![item 설명](https://user-images.githubusercontent.com/34498116/99870550-35001580-2c17-11eb-9cd8-441a6ed628bd.png)
+![Map 설명](https://user-images.githubusercontent.com/34498116/99870551-36314280-2c17-11eb-85eb-b1d9edeb824d.png)        
+![클래스3](https://user-images.githubusercontent.com/34498116/99870557-5234e400-2c17-11eb-8558-61a785c1342b.png)
+![Bubble 설명1](https://user-images.githubusercontent.com/34498116/99870852-87dacc80-2c19-11eb-8a37-3e329bf51bf8.png)
+![Bubble 설명2](https://user-images.githubusercontent.com/34498116/99870853-88736300-2c19-11eb-9010-20be0446d951.png)
+![Enemy 설명](https://user-images.githubusercontent.com/34498116/99870854-890bf980-2c19-11eb-9d01-c4412b56a1f0.png)
+![충돌 핵심](https://user-images.githubusercontent.com/34498116/99870855-890bf980-2c19-11eb-961c-dbf69316f55a.png)              
+
+##
+## 구현하면서 어려웠던(힘들었던) 부분
+### 충돌 구현에서 처음 1단계 맵에서는 문제가 없다가 다양한 맵들을 추가해 나가면서 발생하는 Enemy, Player의 Block 과의 충돌버그가 생겨서 그걸 해결하는데 시간을 많이 사용하였습니다. (처음부터 모든 예외사항을 고려하지 않고 1단계 맵에서의 예외 사항만 보았던 것이 이렇게 되었습니다 ㅋㅋ..) 
+충돌 부분은 이미 쿠키런, 다른 게임들에서 많이 다루어주셨기 때문에 수업시간에 추가적으로 다뤄주실 필요는 없습니다!
