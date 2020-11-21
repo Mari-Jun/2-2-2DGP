@@ -24,13 +24,14 @@ class Map:
         self.loadStage()
 
     def loadStage(self):
-        # blocks는 벽돌들로 스테이지 넘어갈때 로딩하게 구현원함
         for enemy in Map.page.mActors['enemy']:
             enemy.mAction = 'Die'
         for enemy in Map.datas['enemy'][self.mStage - 1]:
             self.loadEnemy(enemy)
         for bubble in Map.page.mActors['bubble']:
             bubble.mAction = 'Die'
+        for item in Map.page.mActors['item']:
+            item.mTime = 0
         self.moveX = Map.dataPos[self.mStage - 1][0] - Map.page.mActors['player'][0].mXPos
         self.moveY = Map.dataPos[self.mStage - 1][1] - Map.page.mActors['player'][0].mYPos
         self.mItemBlock = []
