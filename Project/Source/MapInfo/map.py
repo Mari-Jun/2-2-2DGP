@@ -14,7 +14,7 @@ class Map:
 
     def __init__(self, page):
         self.mTime = 0.0
-        self.mStage = 10
+        self.mStage = 1
         self.mStageChange = True
         Map.page = page
         self.loadImage('front')
@@ -36,7 +36,7 @@ class Map:
         self.moveY = Map.dataPos[self.mStage - 1][1] - Map.page.mActors['player'][0].mYPos
         self.mItemBlock = []
         for block in Map.datas['block'][self.mStage - 1]:
-            if block[0] < 760 and block[1] < 500 and block[2] > 40:
+            if block[0] < 760 and block[1] < 500 and block[2] > 40 and block[2] - block[0] > 40:
                 self.mItemBlock.append(block)
 
     def loadImage(self, char):

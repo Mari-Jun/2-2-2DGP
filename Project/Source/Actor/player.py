@@ -132,6 +132,7 @@ class Player:
             if enemy.mAction != 'Die' and enemy.mAction != 'Inb' and physics.collidesBox(self, enemy):
                 self.mAction = 'Die'
                 self.mLife -= 1
+                self.mHasItem = [False for _ in range(4)]
                 actorhelper.resetImageIndex(self)
                 self.mDieSound.play()
                 break
@@ -139,6 +140,8 @@ class Player:
     def collideItem(self):
         for item in Player.page.mActors['item']:
             if physics.collidesBox(self, item):
+                self.sound = load_wav(Player.page.mGame.soundDir + 'eat.wav')
+                self.sound.play()
                 if item.mReinForce:
                     self.mHasItem[item.mItem] = True
                 item.unload()
