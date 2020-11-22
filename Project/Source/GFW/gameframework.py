@@ -1,6 +1,6 @@
 import time
 from pico2d import *
-from GFW import imageloader
+from GFW import imageloader, fontloader
 
 canvasWidth = 800
 canvasHeight = 650
@@ -14,7 +14,9 @@ class Game:
         self.imageDir = 'Asset/Image/'
         self.soundDir = 'Asset/Sound/'
         self.mapDir = 'Asset/MapData'
+        self.fontDir = 'Asset/font/'
         self.imageLoader = imageloader.ImageLoader()
+        self.fontLoader = fontloader.FontLoader()
 
     def quit(self):
         if hasattr(self.pageStack[-1], 'mBgm'):
