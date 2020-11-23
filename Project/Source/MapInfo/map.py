@@ -48,7 +48,6 @@ class Map:
             fn = fileName % (Map.page.mGame.imageDir, stage + 1, char)
             if os.path.isfile(fn):
                 images.append(Map.page.mGame.imageLoader.load(fn))
-                print('Map %s load complete' % stage)
             else:
                 break
 
