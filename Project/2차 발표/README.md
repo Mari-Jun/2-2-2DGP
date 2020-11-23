@@ -42,12 +42,17 @@ Item : 플레이어를 강화시키는 아이템이 있음
 ## 게임 오브젝트들의 관계
 ![클래스11](https://user-images.githubusercontent.com/34498116/99870392-f1f17280-2c15-11eb-870d-6268b5baf8bb.png)        
 ![클래스2](https://user-images.githubusercontent.com/34498116/99870547-316c8e80-2c17-11eb-96fd-ffcd917f352e.png)
+### Item 핵심 코드      
 ![item 설명](https://user-images.githubusercontent.com/34498116/99870550-35001580-2c17-11eb-9cd8-441a6ed628bd.png)
+### Map 핵심 코드     
 ![Map 설명](https://user-images.githubusercontent.com/34498116/99870551-36314280-2c17-11eb-85eb-b1d9edeb824d.png)        
 ![클래스3](https://user-images.githubusercontent.com/34498116/99870557-5234e400-2c17-11eb-8558-61a785c1342b.png)
+### Bubble 핵심 코드      
 ![Bubble 설명1](https://user-images.githubusercontent.com/34498116/99870852-87dacc80-2c19-11eb-8a37-3e329bf51bf8.png)
 ![Bubble 설명2](https://user-images.githubusercontent.com/34498116/99870853-88736300-2c19-11eb-9010-20be0446d951.png)
+### Enemy 핵심 코드       
 ![Enemy 설명](https://user-images.githubusercontent.com/34498116/99870854-890bf980-2c19-11eb-9d01-c4412b56a1f0.png)
+### 충돌 핵심 코드        
 ![충돌 핵심](https://user-images.githubusercontent.com/34498116/99870855-890bf980-2c19-11eb-961c-dbf69316f55a.png)              
 
 ##
