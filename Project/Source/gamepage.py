@@ -4,7 +4,9 @@ import Actor
 import MapInfo
 import ui
 import pausepage
+import rankpage
 import physics
+import highscore
 
 class GamePage:
     def __init__(self, game):
@@ -45,6 +47,8 @@ class GamePage:
 
         if self.mEndGame:
             self.mGame.popPage()
+            highscore.add(self.map.mStage, self.mUI.score)
+            self.mGame.pushPage(rankpage.RankPage(self.mGame))
 
     def draw(self):
         self.mBKImage.draw(gameframework.canvasWidth / 2, gameframework.canvasHeight / 2)

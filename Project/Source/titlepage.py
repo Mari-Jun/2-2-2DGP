@@ -2,6 +2,7 @@ from pico2d import *
 from GFW import gameframework
 import gamepage
 import helppage
+import rankpage
 import selecter
 
 
@@ -39,6 +40,8 @@ class TitlePage:
                 self.mGame.pushPage(gamepage.GamePage(self.mGame))
             elif self.mSelecter.mSelect == 1:
                 self.mGame.pushPage(helppage.HelpPage(self.mGame))
+            elif self.mSelecter.mSelect == 2:
+                self.mGame.pushPage(rankpage.RankPage(self.mGame))
             elif self.mSelecter.mSelect == 3:
                 self.mBgm.stop()
                 self.mGame.quit()

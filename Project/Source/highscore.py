@@ -1,21 +1,23 @@
 import pickle
 from pico2d import *
 import time
-import gfw
+from GFW import gameframework
 
-FILENAME = 'data.pickle'
+FILENAME = 'rankingdata.pickle'
 scores = []
 MAX_SCORE_COUNT = 5
 last_rank = -1
 
 class Entry:
-    def __init__(self, score):
+    def __init__(self, stage, score):
+        self.stage = stage
         self.score = score
         self.time = time.time()
 
-def load():
+def load(game):
     global font, image
-    font = gfw.font.load('res/ConsolaMalgun.ttf', 30)
+
+    font = game.fontLoader.load(game.fontDir + "ConsolaMalgun.ttf", 30)
 
     global scores
     try:
@@ -31,9 +33,9 @@ def save():
     pickle.dump(scores, f)
     f.close()
 
-def add(score):
+def add(stage, score):
     global scores, last_rank
-    entry = Entry(score)
+    entry = Entry(stage, score)
     inserted = False
     for i in range(len(scores)):
         e = scores[i]
@@ -54,9 +56,9 @@ def add(score):
 def draw():
     global font, last_rank
     no = 1
-    y = 170
+    y = get_canvas_height() - 100
     for e in scores:
-        str = "{:2d} {:7.1f}".format(no, e.score)
+        str = "{:2d} {:02d} {:7d}".format(no, e.stage, e.score)
         color = (255, 255, 128) if no == last_rank else (223, 255, 223)
         font.draw(70, y, str, color)
         font.draw(320, y, time.asctime(time.localtime(e.time)), color)

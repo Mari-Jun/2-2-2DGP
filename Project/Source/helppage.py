@@ -1,10 +1,6 @@
 from pico2d import *
 from GFW import gameframework
 import selecter
-from ext_pico2d import *
-
-from Project.Source.ext_pico2d import draw_centered_text
-
 
 class HelpPage:
     def __init__(self, game):
@@ -44,8 +40,6 @@ class HelpPage:
         self.font.draw(x - 200, y - 120, "공격 속도 증가", color)
         self.font.draw(x - 200, y - 180, "버블 공격 사정거리 증가", color)
         self.font.draw(x - 200, y - 240, "플레이어 충돌 범위 감소", color)
-
-
 
     def processInput(self, key):
         if key.type == SDL_QUIT:
