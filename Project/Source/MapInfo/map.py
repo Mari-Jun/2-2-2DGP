@@ -40,12 +40,12 @@ class Map:
                 self.mItemBlock.append(block)
 
     def loadImage(self, char):
-        fileName = '%s/map/stage%s%s.png'
+        fileName = 'map/stage%s%s.png'
 
         images = []
 
         for stage in range(0, Map.maxStage):
-            fn = fileName % (Map.page.mGame.imageDir, stage + 1, char)
+            fn = Map.page.mGame.imageDir + fileName % (stage + 1, char)
             if os.path.isfile(fn):
                 images.append(Map.page.mGame.imageLoader.load(fn))
             else:
@@ -54,19 +54,17 @@ class Map:
         Map.images[char] = images
 
     def loadPlayerPos(self):
-        fileName = '%s/datapos.json'
-
-        fn = fileName % Map.page.mGame.mapDir
+        fn = Map.page.mGame.mapDir + 'datapos.json'
         if os.path.isfile(fn):
             Map.dataPos = mapdata.loadDataPos(fn, Map.ldPos)
 
     def loadMapData(self, data):
-        fileName = '%s/stage%s%s.json'
+        fileName = 'stage%s%s.json'
 
         mapData = []
 
         for stage in range(0, Map.maxStage):
-            fn = fileName % (Map.page.mGame.mapDir, stage + 1, data)
+            fn = Map.page.mGame.mapDir + fileName % (stage + 1, data)
             if os.path.isfile(fn):
                 mapData.append(mapdata.load(fn, data, Map.ldPos))
 

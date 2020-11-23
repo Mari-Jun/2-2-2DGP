@@ -1,6 +1,5 @@
 from pico2d import *
 import random
-from Actor import player
 import math
 import physics
 from behaviortree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
@@ -11,10 +10,10 @@ def load_image(actor, char):
 
     images = {}
 
-    fileName = '%s/actor/%s/%s.png'
+    fileName = 'actor/%s/%s.png'
 
     for action in actor.actions:
-        fn = fileName % (actor.page.mGame.imageDir, char, action)
+        fn = actor.page.mGame.imageDir + fileName % (char, action)
         if os.path.isfile(fn):
             action_image = actor.page.mGame.imageLoader.load(fn)
         else:
@@ -22,8 +21,7 @@ def load_image(actor, char):
         images[action] = action_image
 
     actor.images[char] = images
-
-    print('actor %s load complete' % char)
+    
     return images
 
 def commonUpdate(actor):

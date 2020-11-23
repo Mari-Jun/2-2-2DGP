@@ -13,7 +13,7 @@ class Game:
         self.deltaTime = 0.0
         self.imageDir = 'Asset/Image/'
         self.soundDir = 'Asset/Sound/'
-        self.mapDir = 'Asset/MapData'
+        self.mapDir = 'Asset/MapData/'
         self.fontDir = 'Asset/font/'
         self.imageLoader = imageloader.ImageLoader()
         self.fontLoader = fontloader.FontLoader()
