@@ -8,11 +8,11 @@ def get_text_extent(font, text):
     pico2d.TTF_SizeText(font.font, text.encode('utf-8'), ctypes.byref(w), ctypes.byref(h))
     return w.value, h.value
 
-def draw_centered_text(font, text, l, b, w, h):
+def draw_centered_text(font, text, l, b, w, h, color):
     tw, th = get_text_extent(font, text)
     tx = l + (w - tw) // 2
     ty = b + h // 2
-    font.draw(tx, ty, text)
+    font.draw(tx, ty, text, color)
 
 # def clear_with_color(rgb):
 #     r = (rgb >> 16) & 0xFF
