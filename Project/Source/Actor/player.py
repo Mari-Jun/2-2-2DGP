@@ -135,7 +135,7 @@ class Player:
                 self.mHasItem = [False for _ in range(4)]
                 actorhelper.resetImageIndex(self)
                 self.mDieSound.play()
-                break
+                return
 
     def collideItem(self):
         for item in Player.page.mActors['item']:

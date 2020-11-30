@@ -1,0 +1,11 @@
+[
+  {"name": "hidegons", "x": 110, "y":  260, "left": false},
+  {"name": "hidegons", "x": 690, "y":  260, "left": true},
+  {"name": "banebou", "x": 320, "y":  160, "left": false},
+  {"name": "banebou", "x": 480, "y":  160, "left": true},
+  {"name": "monsta", "x": 340, "y":  450, "left": false},
+  {"name": "monsta", "x": 460, "y":  450, "left": true}
+]
+
+
+

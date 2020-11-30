@@ -5,7 +5,7 @@ import Actor
 class Map:
 
     page = None
-    maxStage = 10
+    maxStage = 20
     imageName = ['front']
     images = {}
     datas = {}
@@ -14,7 +14,7 @@ class Map:
 
     def __init__(self, page):
         self.mTime = 0.0
-        self.mStage = 1
+        self.mStage = 20
         self.mStageChange = True
         Map.page = page
         self.loadImage('front')

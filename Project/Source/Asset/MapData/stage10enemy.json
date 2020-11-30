@@ -1,9 +1,9 @@
 [
   {"name": "chan", "x": 260, "y":  450, "left": false},
   {"name": "chan", "x": 540, "y":  450, "left": true},
-  {"name": "monsta", "x": 250, "y":  220, "left": false},
-  {"name": "monsta", "x": 400, "y":  220, "left": false},
-  {"name": "monsta", "x": 550, "y":  220, "left": false}
+  {"name": "banebou", "x": 250, "y":  220, "left": false},
+  {"name": "banebou", "x": 400, "y":  220, "left": false},
+  {"name": "banebou", "x": 550, "y":  220, "left": false}
 
 
 

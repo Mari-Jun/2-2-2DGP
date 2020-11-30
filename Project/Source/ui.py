@@ -16,9 +16,12 @@ class UI:
     def reset(self):
         self.score = 0
         self.display = 0
+        self.lifeUp = 0
 
     def update(self):
         if self.display < self.score:
+            before = self.display
+
             dt = self.score - self.display
             if 10000 <= dt:
                 self.display += 1000
@@ -28,6 +31,10 @@ class UI:
                 self.display += 10
             else:
                 self.display += 1
+
+            if before // 20000 != self.display // 20000 and before // 20000 == self.lifeUp:
+                self.lifeUp += 1
+                UI.player.mLife += 1
 
     def draw(self):
         self.drawScore()

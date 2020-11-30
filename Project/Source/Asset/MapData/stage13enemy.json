@@ -1,0 +1,12 @@
+[
+  {"name": "invator", "x": 400, "y":  470, "left": false},
+  {"name": "hidegons", "x": 400, "y":  370, "left": true},
+  {"name": "chan", "x": 200, "y":  370, "left": false},
+  {"name": "hidegons", "x": 200, "y":  270, "left": false},
+  {"name": "chan", "x": 600, "y":  270, "left": true},
+  {"name": "hidegons", "x": 200, "y":  170, "left": true},
+  {"name": "chan", "x": 400, "y":  170, "left": false}
+]
+
+
+

@@ -1,0 +1,11 @@
+[
+  {"name": "hidegons", "x": 120, "y":  180, "left": false},
+  {"name": "hidegons", "x": 680, "y":  180, "left": true},
+  {"name": "hidegons", "x": 250, "y":  320, "left": false},
+  {"name": "hidegons", "x": 550, "y":  320, "left": true},
+  {"name": "hidegons", "x": 360, "y":  460, "left": false},
+  {"name": "hidegons", "x": 440, "y":  460, "left": true}
+]
+
+
+

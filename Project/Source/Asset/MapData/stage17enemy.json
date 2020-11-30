@@ -1,0 +1,8 @@
+[
+  {"name": "monsta", "x": 100, "y":  450, "left": false},
+  {"name": "monsta", "x": 700, "y":  450, "left": true},
+  {"name": "invator", "x": 200, "y":  350, "left": false},
+  {"name": "invator", "x": 600, "y":  350, "left": true},
+  {"name": "hidegons", "x": 260, "y":  250, "left": false},
+  {"name": "hidegons", "x": 540, "y":  250, "left": true}
+]

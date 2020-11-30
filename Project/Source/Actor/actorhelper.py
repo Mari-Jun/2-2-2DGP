@@ -141,7 +141,7 @@ def commonDiagonalMove(actor):
             break
 
 def commonCheckJump(actor, block):
-    if actor.mYPos < actor.player.mYPos - 80 and actor.mJumpDelay == 0:
+    if actor.mYPos < actor.player.mYPos - 60 and actor.mJumpDelay == 0:
         jumpSize = actor.getBB()
         upSize = jumpSize[-1] + 80
         jumpSize = jumpSize[0], jumpSize[1], jumpSize[2], upSize;
@@ -154,12 +154,15 @@ def commonCheckJump(actor, block):
 def commonCheckSemiJump(actor, block):
     # 세미 점프. 살짝 뛰는 방식이다.
     if actor.mYPos <= actor.player.mYPos + 10 and \
-            ((actor.mXDelta > 0 and block[2] - 5 < actor.mXPos < block[2]) or \
-            (actor.mXDelta < 0 and block[0] < actor.mXPos < block[0] + 5)):
+            ((actor.mXDelta > 0 and block[2] - 1 < actor.mXPos < block[2]) or \
+            (actor.mXDelta < 0 and block[0] < actor.mXPos < block[0] + 1)):
 
         if actor.player.mXPos > actor.mXPos and actor.mXDelta > 0 or \
                 actor.player.mXPos < actor.mXPos and actor.mXDelta < 0:
-            r = 0
+            if actor.mYPos < 60:
+                r = 1
+            else:
+                r = 0
         else:
             r = random.randint(0, 4)
 

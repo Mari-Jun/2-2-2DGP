@@ -1,0 +1,22 @@
+[
+  {"name": "invator", "x": 150, "y":  350, "left": false},
+  {"name": "invator", "x": 250, "y":  350, "left": false},
+  {"name": "invator", "x": 350, "y":  350, "left": false},
+  {"name": "invator", "x": 450, "y":  350, "left": false},
+  {"name": "invator", "x": 550, "y":  350, "left": false},
+  {"name": "invator", "x": 650, "y":  350, "left": false},
+  {"name": "banebou", "x": 150, "y":  250, "left": false},
+  {"name": "banebou", "x": 250, "y":  250, "left": false},
+  {"name": "banebou", "x": 350, "y":  250, "left": false},
+  {"name": "hidegons", "x": 450, "y":  250, "left": true},
+  {"name": "hidegons", "x": 550, "y":  250, "left": true},
+  {"name": "hidegons", "x": 650, "y":  250, "left": true},
+  {"name": "chan", "x": 650, "y":  50, "left": true},
+  {"name": "chan", "x": 550, "y":  50, "left": true},
+  {"name": "chan", "x": 450, "y":  50, "left": true},
+  {"name": "chan", "x": 350, "y":  50, "left": true},
+  {"name": "chan", "x": 250, "y":  50, "left": true}
+]
+
+
+
