@@ -14,7 +14,7 @@ class Map:
 
     def __init__(self, page):
         self.mTime = 0.0
-        self.mStage = 20
+        self.mStage = 1
         self.mStageChange = True
         Map.page = page
         self.loadImage('front')
@@ -124,9 +124,9 @@ class Map:
             image = Map.images['front'][self.mStage - 1]
             image.draw_to_origin(0, 50)
 
-        #충돌 박스 그리기
-        for block in self.getBlockData():
-            draw_rectangle(*block)
+        # #충돌 박스 그리기
+        # for block in self.getBlockData():
+        #     draw_rectangle(*block)
 
     def getBlockData(self):
         return Map.datas['block'][self.mStage - 1]

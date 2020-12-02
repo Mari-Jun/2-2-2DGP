@@ -55,7 +55,7 @@ class GamePage:
         self.map.draw()
         for name in self.mActorName:
             for actor in self.mActors[name]:
-                physics.drawCollisionBox(actor)
+                # physics.drawCollisionBox(actor)
                 actor.draw()
 
     def processInput(self, key):

@@ -72,7 +72,7 @@ class Player:
                 self.mAttackDelay = max(0, self.mAttackDelay - Player.page.mGame.deltaTime)
 
             # 공격 발사
-            if self.mAttackInput and self.mImageIndex == 1:
+            if self.mAttackInput and self.mImageIndex == 1 and not Player.page.map.mStageChange:
                 bubbleSpeed = 350 + self.mHasItem[2] * 50
                 b = bubble.Bubble(Player.page, bubbleSpeed)
                 Player.page.addActor('bubble', b)
@@ -86,6 +86,7 @@ class Player:
             if Player.page.map.mStageChange:
                 xMove = 0
                 yMove = 0
+                self.mAttackInput = False
                 self.mAction = 'Move'
             else:
                 self.mNoHitTime = max(0.0, self.mNoHitTime - Player.page.mGame.deltaTime)
@@ -129,7 +130,8 @@ class Player:
             
     def collideEnemy(self):
         for enemy in Player.page.mActors['enemy']:
-            if enemy.mAction != 'Die' and enemy.mAction != 'Inb' and physics.collidesBox(self, enemy):
+            if self.mAction != 'Die' and enemy.mAction != 'Die' and \
+                    enemy.mAction != 'Inb' and physics.collidesBox(self, enemy):
                 self.mAction = 'Die'
                 self.mLife -= 1
                 self.mHasItem = [False for _ in range(4)]

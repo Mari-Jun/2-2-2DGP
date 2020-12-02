@@ -79,7 +79,8 @@ class Bubble:
                     break
                 else:
                     self.mXDelta = player.mXDelta
-                    self.mYDelta = (self.mYPos - player.mYPos) / abs(self.mYPos - player.mYPos)
+                    if abs(self.mYPos - player.mYPos) != 0:
+                        self.mYDelta = (self.mYPos - player.mYPos) / abs(self.mYPos - player.mYPos)
 
     def collideBubble(self, xMove, yMove):
         count = 0
