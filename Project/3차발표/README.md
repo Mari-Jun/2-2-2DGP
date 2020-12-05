@@ -11,6 +11,8 @@
 ## 개발 진척도
 ![Volume](https://user-images.githubusercontent.com/34498116/101229167-44389600-36e2-11eb-9a8f-340b91750315.PNG)  
 2차 발표때 변경점을 적용한 게임 볼륨             
+![진행률](https://user-images.githubusercontent.com/34498116/101231343-e611b000-36ed-11eb-9999-2aec0db557c8.png)
+
 
 ##
 ## 커밋 현황          
