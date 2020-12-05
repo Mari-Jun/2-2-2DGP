@@ -20,7 +20,7 @@ class Game:
 
     def quit(self):
         if hasattr(self.pageStack[-1], 'mBgm'):
-           del self.pageStack[-1].mBgm
+            self.pageStack[-1].mBgm.stop()
         self.running = False
 
     def run(self, page):
