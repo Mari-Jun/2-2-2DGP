@@ -20,7 +20,7 @@ class Chan:
         self.mYPos = yPos
         self.mYDelta = -5
         self.mFlip = ''
-        self.mXSpeed = 200
+        self.mXSpeed = 180
         self.mYSpeed = 200
         self.mTime = 0
         self.mImageIndex = 0

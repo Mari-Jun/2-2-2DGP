@@ -18,7 +18,7 @@ class Monsta:
         self.mYPos = yPos
         self.mYDelta = -1
         self.mFlip = ''
-        self.mXSpeed = 200
+        self.mXSpeed = 180
         self.mYSpeed = 200
         self.mTime = 0
         self.mImageIndex = 0

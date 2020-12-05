@@ -204,7 +204,7 @@ class Bubble:
             self.mEnemy = None
             # 일정 확률로 공격 보조 아이템 생성
             rd = random.randint(1, 20)
-            if rd == 10:
+            if rd <= 2:
                 t = item.Item(Bubble.page, True)
                 Bubble.page.addActor('item', t)
 

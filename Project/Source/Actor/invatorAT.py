@@ -42,6 +42,9 @@ class InvatorAT:
                     self.mImageIndex = 1
                     self.mYDelta = 0
 
+        if self.mYPos < -100:
+            self.unLoad()
+
     def draw(self):
         if self.mImageIndex > 0:
             self.mTime += self.page.mGame.deltaTime

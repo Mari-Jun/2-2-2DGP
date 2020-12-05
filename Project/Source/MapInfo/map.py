@@ -14,7 +14,7 @@ class Map:
 
     def __init__(self, page):
         self.mTime = 0.0
-        self.mStage = 1
+        self.mStage = 15
         self.mStageChange = True
         Map.page = page
         self.loadImage('front')
@@ -90,7 +90,7 @@ class Map:
     def update(self):
         if len(Map.page.mActors['enemy']) == 0:
             self.mTime += Map.page.mGame.deltaTime
-            if self.mTime > 5.0:
+            if self.mTime > 8.0:
                 if self.mStage == Map.maxStage:
                     Map.page.mEndGame = True
                 else:
