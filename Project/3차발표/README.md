@@ -17,8 +17,8 @@
 ##
 ## 커밋 현황          
 ![image](https://user-images.githubusercontent.com/34498116/101231414-751ec800-36ee-11eb-8654-2598f557503d.png)
-![image](https://user-images.githubusercontent.com/34498116/101231433-9b446800-36ee-11eb-8477-52d5aceb891f.png)
-<12월 05일 토요일 기준 커밋 현황입니다>
+![image](https://user-images.githubusercontent.com/34498116/101231433-9b446800-36ee-11eb-8477-52d5aceb891f.png)           
+<12월 05일 토요일 기준 커밋 현황입니다>         
 ![week1](https://user-images.githubusercontent.com/34498116/99681933-0c1a3c00-2ac2-11eb-9764-dcf892b494cc.PNG)
 ![week2](https://user-images.githubusercontent.com/34498116/99681935-0c1a3c00-2ac2-11eb-8308-ba56ae906d74.PNG)
 ![week3](https://user-images.githubusercontent.com/34498116/99681936-0cb2d280-2ac2-11eb-9ad5-963b6c1b30e1.PNG)
@@ -26,7 +26,7 @@
 ![week5](https://user-images.githubusercontent.com/34498116/99681939-0d4b6900-2ac2-11eb-8547-435c4fe4075c.PNG)
 ![image](https://user-images.githubusercontent.com/34498116/101229461-caa1a780-36e3-11eb-801c-712fa3da7536.png)
 ![image](https://user-images.githubusercontent.com/34498116/101229469-d3927900-36e3-11eb-9167-901980cd37b9.png)
-
+![image](https://user-images.githubusercontent.com/34498116/101231453-bfa04480-36ee-11eb-9e92-5e62ec46b562.png)
 
 ## 플레이 영상 및 지인 인터뷰 링크
 
