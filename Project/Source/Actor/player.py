@@ -161,7 +161,7 @@ class Player:
             self.jump()
 
     def attack(self):
-        if self.mAttackDelay == 0:
+        if self.mAttackDelay == 0 and self.mAction != 'Die':
             self.mAttackDelay = 0.5 - self.mHasItem[1] * 0.2
             self.mTime = 0
             self.mImageIndex = 0
