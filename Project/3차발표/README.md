@@ -28,7 +28,17 @@
 ![image](https://user-images.githubusercontent.com/34498116/101229469-d3927900-36e3-11eb-9167-901980cd37b9.png)
 ![image](https://user-images.githubusercontent.com/34498116/101231453-bfa04480-36ee-11eb-9e92-5e62ec46b562.png)
 
-## 플레이 영상 및 지인 인터뷰 링크
+## 3차 발표 영상 링크
+https://youtu.be/RP2ZdXsZFAk
+
+## 1차, 2차 발표 영상 링크, Read Me
+1차 영상 : https://youtu.be/cSXBTrgbuLg      
+1차 ReadMe : https://github.com/Mari-Jun/2-2-2DGP/blob/master/Project/1%EC%B0%A8%20%EB%B0%9C%ED%91%9C/README.md      
+2차 영상 : https://youtu.be/TGxxURmApnU        
+2차 ReadMe : https://github.com/Mari-Jun/2-2-2DGP/blob/master/Project/2%EC%B0%A8%20%EB%B0%9C%ED%91%9C/README.md          
+
+## 지인의 평가 
+![image](https://user-images.githubusercontent.com/34498116/101313499-98d24180-3899-11eb-9da4-8da3b4d49bc3.png)         
 
 ## 업데이트 예정
 지인이 플레이 해본 결과 : 아이템 드랍 확률이 너무 적고, 스테이지가 넘어가는 속도가 너무 빨라 아이템을 먹기 힘들고, 몬스터의 이동속도가 플레이어랑 똑같아서 난이도가 어렵다는 평이 있었습니다.   
